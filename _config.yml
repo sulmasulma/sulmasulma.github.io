@@ -2,7 +2,7 @@
 baseurl: ""
 url: "https://sulmasulma.github.io"
 title: Matthew's Blog # site's title
-# description: #"A website with blog posts and pages" # used by search engines
+description: "for Data Analysis" # used by search engines
 
 defaults:
   - 
