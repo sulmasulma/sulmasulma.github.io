@@ -1,0 +1,20 @@
+---
+layout: post
+title: Git 처음 세팅하기
+tags: [A Tag, Test, Lorem, Ipsum]
+author-id: matthew
+excerpt_separator: <!--more-->
+---
+
+## Git과 Github 처음 세팅하기
+(Windows에 Git 설치는 생략)
+
+1. Github에 repository 생성
+2. **git clone <해당 repository의 주소 clone>** : remote 저장소의 내용을 로컬 저장소로 복사
+- git remote add <별명> <repository 주소>
+- git remote -v: 추가된 remote 저장소 확인
+3. Git Bash에서 cd <clone된 폴더>로 이동한 후, git pull <별명> <branch 이름>
+- git pull은 git merge(Github remote 저장소와 로컬 저장소를 통합한 것) + git fetch를 합친 역할을 한다.
+4. git add
+- 폴더 내의 전체 파일
+
