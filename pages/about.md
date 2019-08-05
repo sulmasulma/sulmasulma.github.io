@@ -6,9 +6,5 @@ feature-img: "assets/img/pexels/circuit.jpeg"
 tags: [About, Archive]
 ---
 
-Type on Strap is based on Type Theme, a free and open-source theme for [Jekyll](http://jekyllrb.com/), licensed under the MIT License.
-
-Head over to the [theme's documentation](https://github.io/sylhare/Type-on-Strap) for much more information about Type on Strap or to install this theme on your own Jekyll site.
-
-This file is an example of a page in Jekyll, that automatically shows up in the header navigation, you can delete or modify this file freely.
- 
+> 데이터 처리 및 분석에 대해서 공부하고 있는 이마태 입니다.
+> 요즘 관심 있는 분야는 온라인 쇼핑몰 매출 예측 / 개인화 및 추천 시스템을 통한 마케팅입니다.
