@@ -2,8 +2,8 @@
 layout: post
 title: Dacon 
 img: "assets/img/portfolio/ninja.png"
-date: April, 08 2014
-tags: [Lorem]
+date: August, 06 2019
+tags: [Dacon]
 ---
 
 ![image]({{ page.img | relative_url }})
