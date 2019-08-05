@@ -1,6 +1,6 @@
 # SITE CONFIGURATION
-baseurl: "/Type-on-Strap"
-url: "https://sylhare.github.io"
+baseurl: ""
+url: "https://sulmasulma.github.io"
 title: Type on Strap # site's title
 description: "A website with blog posts and pages" # used by search engines
 
@@ -19,14 +19,14 @@ theme_settings:
   favicon: assets/favicon.ico
 
   # Header and footer text
-  header_text: Change header text in <code>_config.yml</code>
+  header_text: Welcome to Matthew's Blog
   header_feature_image: assets/img/pexels/triangular.jpeg
   footer_text: >
-    Powered by <a href="https://jekyllrb.com/">Jekyll</a> with <a href="https://github.com/sylhare/Type-on-Strap">Type on Strap</a>
+    Powered by <a href="https://jekyllrb.com/">Jekyll</a> with <a href="https://github.com/sulmasulma/sulmasulma.github.io">Type on Strap</a>
 
   # Icons
   rss: true  # Make sure you created a feed.xml with feed.xml layout
-  email_address: # Full email address, e.g. "sam@example.com"
+  email_address: dlakxo93@gmail.com
   behance:
   bitbucket:
   dribbble:
@@ -37,7 +37,7 @@ theme_settings:
   google_plus:
   instagram:
   keybase:
-  linkedin:  # Full URL
+  linkedin: https://www.linkedin.com/in/matthew-lee-21497715a/
   pinterest:
   reddit:
   soundcloud:
