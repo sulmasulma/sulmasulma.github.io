@@ -1,7 +1,7 @@
 # SITE CONFIGURATION
 baseurl: ""
 url: "https://sulmasulma.github.io"
-title: Type on Strap # site's title
+title: Matthew's Blog # site's title
 description: "A website with blog posts and pages" # used by search engines
 
 defaults:
