@@ -5,7 +5,7 @@ layout: default
   <header id="main" style="">
     {% unless page.hide_title %}
       <h1 id="{{ page.title | cgi_escape }}" class="title">{{ page.title }}</h1>
-      {% include post_info.html post=page %}
+      {% include post_info_post.html post=page %}
     {% endunless %}
   </header>
   <section class="post-content">
