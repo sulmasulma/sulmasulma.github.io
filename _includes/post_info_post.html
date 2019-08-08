@@ -10,7 +10,7 @@
   {%- assign render_url = false -%}
 {% endif %}
 
-<div class="post-info">
+<div class="post-info-post">
   {%- if render_url -%}<a href="{{ author_url | relative_url }}" target="_blank">{%- endif -%}
     {% if avatar %}
       <img src="{{ avatar | relative_url }}">
