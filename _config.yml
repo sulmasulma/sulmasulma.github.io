@@ -21,7 +21,7 @@ theme_settings:
   # Header and footer text
   header_text: Matthew의 데이터 분석 블로그
   header_feature_image: assets/img/pexels/triangular.jpeg
-  footer_text: 나답지 않은 모습으로 사랑받을 바에는 본연의 내 모습 때문에 미움받는 게 낫다. - 커트 코베인
+  footer_text: 나답지 않은 모습으로 사랑받을 바에는 본연의 내 모습 때문에 미움받는 게 낫다 - 커트 코베인
   
   # Icons
   rss: true  # Make sure you created a feed.xml with feed.xml layout
