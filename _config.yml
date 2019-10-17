@@ -56,7 +56,7 @@ theme_settings:
     pinterest:
     pocket:
     reddit:
-    linkedin: true
+    linkedin:
     wordpress:
     email: true
 
