@@ -52,7 +52,8 @@ $ jupyter lab --generate-config
 그리고 이제 터미널에서 `jupyter lab`을 실행하면, 앱으로 실행된다.
 다만 앱 아이콘이 주피터가 아니고 크롬으로 나와서, Dock에서 구분이 되지 않는 단점은 있다. 최적의 ipython IDE를 찾기 위한 노력은 계속된다..
 - 여기에 추가로 앱을 생성하여 실행하는 방법이 있다.
-- [Running JupyterLab as a desktop application on Linux](https://blog.aldomann.com/jupyterlab-desktop-on-linux/) 리눅스 환경에서 작업했는데, 맥에서 하는 방법도 알아보자.
+- [Running JupyterLab as a desktop application on Linux](https://blog.aldomann.com/jupyterlab-desktop-on-linux/): for linux
+- [How to run Jupyterlab as a desktop app on Mac OSX](https://gist.github.com/xiaolai/697ec3ea1607994440abf574c0f017e5): for Mac
 
 
 - 참고 문서
