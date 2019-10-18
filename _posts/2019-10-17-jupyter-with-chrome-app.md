@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Jupyter Lab을 Chrome App에서 사용하기
+title: Jupyter Lab을 브라우저가 아닌 Desktop App에서 사용하기
 tags: [jupyter, jupyter-lab, chrome]
 author-id: matthew
 excerpt_separator: <!--more-->
