@@ -58,6 +58,8 @@ $ jupyter lab --generate-config
 그래서 앱을 생성하여 실행하는 방법이 있다.
 - Linux: [Running JupyterLab as a desktop application on Linux](https://blog.aldomann.com/jupyterlab-desktop-on-linux/)
 - Mac OS: [How to run Jupyterlab as a desktop app on Mac OSX](https://gist.github.com/xiaolai/697ec3ea1607994440abf574c0f017e5)
+- Windows: [Running JupyterLab as a Desktop Application in Windows 10
+](https://stackoverflow.com/questions/51036132/running-jupyterlab-as-a-desktop-application-in-windows-10)
 
 ---
 - 참고 문서
