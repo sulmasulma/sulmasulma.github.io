@@ -13,7 +13,7 @@ Jupyter Lab은 기본적으로 Chrome browser 위에서 구동된다. 하지만 
 $ jupyter lab --no-browser
 ```
 
-그러면 아래와 같이 메시지가 나온다.
+그러면 아래와 같은 메시지가 나온다.
 ```
 [C 21:21:23.257 LabApp]
 
