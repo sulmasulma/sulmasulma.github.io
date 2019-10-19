@@ -38,6 +38,7 @@ http://localhost:8888/?token=a735772a647a3fffb2e140424d8906b92f51b7162d735b2d
 
 하지만 매번 이렇게 여는 것은 번거롭다. 그래서 Default로 앱에서 작동하게 하는 방법이 있다. 아래 python 파일을 연다.
 * 참고로 맥 터미널에서 특정 디렉토리를 여는 것은 `open {디렉토리 주소}`로 하면 된다. 맥 처음 사용할 때에는 윈도우와 같이 탐색기에서 주소로 못 가서 좀 애먹었다.. (되는데 내가 아직 모를지도?)
+
 ```
 ~/.jupyter/jupyter_notebook_config.py
 ```
@@ -57,6 +58,8 @@ $ jupyter lab --generate-config
 그래서 앱을 생성하여 실행하는 방법이 있다.
 - Linux: [Running JupyterLab as a desktop application on Linux](https://blog.aldomann.com/jupyterlab-desktop-on-linux/)
 - Mac OS: [How to run Jupyterlab as a desktop app on Mac OSX](https://gist.github.com/xiaolai/697ec3ea1607994440abf574c0f017e5)
+- Windows: [Running JupyterLab as a Desktop Application in Windows 10
+](https://stackoverflow.com/questions/51036132/running-jupyterlab-as-a-desktop-application-in-windows-10)
 
 ---
 - 참고 문서
