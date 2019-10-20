@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 데이터야놀자 강의내용
+title: 데이터야 놀자 강의내용
 tags: [seminar, datayanolja, note, memo]
 author-id: matthew
 excerpt_separator: <!--more-->
