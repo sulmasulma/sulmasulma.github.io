@@ -317,7 +317,7 @@ excerpt_separator: <!--more-->
 - 심슨의 역설을 표, 벡터, 2차원 산점도 등 다양한 방법으로 소개
 - 데이터 분석시 '혹시 여기에도 심슨이!' 하고 데이터를 쪼개보도록 하기
 <br>
-- Pearl, Judea. Statistician -> 심슨의 역설 논문
+- [Pearl, Judea. Statistician](https://ftp.cs.ucla.edu/pub/stat_ser/r414.pdf) -> 심슨의 역설 논문
 - 예시 2가지로 심슨의 역설 소개
   1. 신장결석 치료법 비교
   2. 야구 타율 데이터
