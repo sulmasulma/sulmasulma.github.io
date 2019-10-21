@@ -7,10 +7,10 @@ excerpt_separator: <!--more-->
 ---
 2019년 10월 19일 (토) 광화문 MS 사옥에서 진행된 [데이터야 놀자](https://datayanolja.github.io)에서 듣고 메모한 내용을 적어 보았습니다. <!--more-->
 
-### 1. 데놀: Serverless에서 유저 컨텐츠 추천 서비스 in 빙글
+### 1. Serverless에서 유저 컨텐츠 추천 서비스 in 빙글
 - 추천 시스템의 정의? -> 좋아할 만한, 관심 있을 만한 아이템 자동 제공
 - '읽지 않았던' 컨텐츠를 자동으로 제공해 주는 것. 컨텐츠 간의 유사도를 매겨야 함
-  - Euclidean, jaccard, cosine similarity(여기서 많이 사용. 크기가 아닌 **각도** 사용)
+  - Euclidean, Jaccard, cosine similarity(여기서 많이 사용. 크기가 아닌 **각도** 사용)
 - 유저 추천: user-based vs contents-based
   - user-based
     - 유저들이 좋아하는 항목(예: [1,1,0,0,1])들의 코사인 거리 계산
