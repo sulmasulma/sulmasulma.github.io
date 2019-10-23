@@ -196,7 +196,7 @@ excerpt_separator: <!--more-->
     - 메타 데이터를 관리해야 하는 인프라 비용이 많이 들게 됨
     - 서비스 유지보수도 해야 함
     - 게임 수명이 짧기 때문에, 이런 데이터 나오기 전에 서비스 종료되는 게임도 있음
-- [넥슨 오픈 API](https://developers.nexon.com)도 있음!!
+- [넥슨 오픈 API](https:/developers.nexon.com)도 있음!!
   - 피파는 운영 중. 카트는 예정
 
 ---
