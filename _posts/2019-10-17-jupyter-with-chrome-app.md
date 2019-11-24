@@ -77,8 +77,8 @@ c.NotebookApp.token = ''
 ```
 
 (3) Nativefier를 이용하여 Build Desktop Application
-* Nativefier github 주소: https://github.com/jiahaog/nativefier
-터미널에 아래와 같이 입력한다. npm(nodejs project manager)이 이미 설치되어 있을 경우 첫 줄은 생략하면 된다.
+- Nativefier github 주소: [https://github.com/jiahaog/nativefier](https://github.com/jiahaog/nativefier)
+- 터미널에 아래와 같이 입력한다. npm(node.js project manager)이 이미 설치되어 있을 경우 첫 줄은 생략하면 된다.
 
 ```
 # in case you idn't install node:
