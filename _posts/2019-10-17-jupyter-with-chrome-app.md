@@ -55,7 +55,8 @@ $ jupyter lab --generate-config
 그리고 이제 터미널에서 `jupyter lab`을 실행하면, 앱으로 실행된다.
 다만 완전히 독립된 주피터 앱이 아니고 크롬으로서 작동하는 방식이다. 그래서 Dock(작업 표시줄)에서 구분이 되지 않는 단점이 있으며 터미널에서 `jupyter lab` 명령어를 매번 쳐야 한다.
 그래서 앱을 생성하여 실행하는 방법이 있다. 필자는 Mac OS X를 사용하므로 맥의 경우를 소개하는데, Linux나 Windows의 경우 이 글 맨 밑에 있는 링크를 참고하면 된다.
-1. Mac용 Anaconda 설치<br>
+
+(1) Mac용 Anaconda 설치<br>
 터미널에 아래와 같이 입력한다. 이미 설치되어 있다면 다음으로 넘어가면 된다. 다만 아래 명령어는 2018년 12월 업데이트된 버전으로 보인다(최신 버전의 Anaconda를 원한다면 수정 필요).
 
 ```
@@ -63,7 +64,7 @@ wget https://repo.anaconda.com/archive/Anaconda3-2018.12-MacOSX-x86_64.sh
 bash /Download/Anaconda3-2018.12-MacOSX-x86_64.sh
 ```
 
-2. jupyter lab configure file 생성<br>
+(2) jupyter lab configure file 생성<br>
 터미널에 아래와 같이 입력한다.
 
 ```
@@ -75,12 +76,11 @@ jupyter-lab --generate-config
 c.NotebookApp.token = ''
 ```
 
-3. Nativefier를 이용하여 Build Desktop Application<br>
+(3) Nativefier를 이용하여 Build Desktop Application<br>
 * Nativefier github 주소: https://github.com/jiahaog/nativefier
 터미널에 아래와 같이 입력한다. npm(nodejs project manager)이 이미 설치되어 있을 경우 첫 줄은 생략하면 된다.
 
 ```
-터미널에 아래와 같이 입력한다. npm(nodejs project manager)이 이미 설치되어 있을 경우 첫 줄은 생략하면 된다.
 # in case you idn't install node:
 # conda install -c conda-forge nodejs
 
@@ -95,7 +95,7 @@ nativefier "http://localhost:8888"
 
 필자는 Jupyter Lab을 선호하는데, Jupyter Notebook을 선호한다면 위에서 `nativefier "http://localhost:8888"` 대신 `nativefier "http://localhost:8888/tree"` 를 실행하면 된다.
 
-4. Jupyter Lab을 서비스로 실행
+(4) Jupyter Lab을 서비스로 실행
 
 i) 아래 코드를 `~/Library/LaunchAgents/com.jupyter.lab.plist`라는 파일로 저장한다. `your_username`을 여러분의 맥 사용자 이름에 맞게 고쳐주면 된다.
 ```xml
