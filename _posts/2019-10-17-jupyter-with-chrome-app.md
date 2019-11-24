@@ -57,6 +57,7 @@ $ jupyter lab --generate-config
 그래서 앱을 생성하여 실행하는 방법이 있다. 필자는 Mac OS X를 사용하므로 맥의 경우를 소개하는데, Linux나 Windows의 경우 이 글 맨 밑에 있는 링크를 참고하면 된다.
 1. Mac용 Anaconda 설치<br>
 터미널에 아래와 같이 입력한다. 이미 설치되어 있다면 다음으로 넘어가면 된다. 다만 아래 명령어는 2018년 12월 업데이트된 버전으로 보인다(최신 버전의 Anaconda를 원한다면 수정 필요).
+
 ```
 wget https://repo.anaconda.com/archive/Anaconda3-2018.12-MacOSX-x86_64.sh
 bash /Download/Anaconda3-2018.12-MacOSX-x86_64.sh
@@ -64,17 +65,20 @@ bash /Download/Anaconda3-2018.12-MacOSX-x86_64.sh
 
 2. jupyter lab configure file 생성<br>
 터미널에 아래와 같이 입력한다.
+
 ```
 jupyter-lab --generate-config
 ```
 그리고 앞에서 만든 `~/.jupyter/jupyter_notebook_config.py` 파일을 수정한다. 아래의 행을 추가한다. Desktop App을 만들고, 실행시 token 입력을 생략하기 위한 절차이다.
+
 ```python
 c.NotebookApp.token = ''
 ```
 
 3. Nativefier를 이용하여 Build Desktop Application<br>
-** Nativefier github 주소: https://github.com/jiahaog/nativefier
+* Nativefier github 주소: https://github.com/jiahaog/nativefier
 터미널에 아래와 같이 입력한다. npm(nodejs project manager)이 이미 설치되어 있을 경우 첫 줄은 생략하면 된다.
+
 ```
 # in case you didn't install node:
 # conda install -c conda-forge nodejs
