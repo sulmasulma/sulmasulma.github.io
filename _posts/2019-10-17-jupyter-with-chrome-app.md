@@ -80,18 +80,20 @@ c.NotebookApp.token = ''
 터미널에 아래와 같이 입력한다. npm(nodejs project manager)이 이미 설치되어 있을 경우 첫 줄은 생략하면 된다.
 
 ```
-# in case you didn't install node:
+터미널에 아래와 같이 입력한다. npm(nodejs project manager)이 이미 설치되어 있을 경우 첫 줄은 생략하면 된다.
+# in case you idn't install node:
 # conda install -c conda-forge nodejs
 
 npm install nativefier -g
 cd ~/Applications
 nativefier "http://localhost:8888"
 ```
-위 명령어는 `~/Applicatons` 폴더에 'Jupyter Notebook'이라는 앱을 생성하게 된다. 이름은 Notebook이지만, 터미널에서 JupyterLab, JupyterNotebook 중 어느 명령을 실행할지에 따라 Lab 또는 Notebook이 실행된다.
-> - `jupyter lab --no-browser --notebook-dir=~/`
-> - `jupyter notebook --no-browser --notebook-dir=~/`
+위 명령어는 `~/Applicatons` 폴더에 'Jupyter Notebook'이라는 앱을 생성하게 된다. 실행하면 이 작업 전에 터미널에 `http://localhost:8888`을 실행하던 것과 똑같이 브라우저에서 jupyter lab이 실행된다. 테스트 용도이므로, 이 터미널과 해당 브라우저 창은 닫아주고 진행하면 된다.
+참고로 App의 이름은 Notebook이지만, 터미널에서 jupyter lab, jupyter notebook 중 어느 명령을 실행했는지에 따라 아래 둘 중 하나의 명령이 실행된다.
+- `jupyter lab --no-browser --notebook-dir=~/`
+- `jupyter notebook --no-browser --notebook-dir=~/`
 
-필자는 JupyterLab을 선호하는데, Jupyter Notebook을 선호한다면 위에서 `nativefier "http://localhost:8888"` 대신 `nativefier "http://localhost:8888/tree"` 를 실행하면 된다.
+필자는 Jupyter Lab을 선호하는데, Jupyter Notebook을 선호한다면 위에서 `nativefier "http://localhost:8888"` 대신 `nativefier "http://localhost:8888/tree"` 를 실행하면 된다.
 
 4. Jupyter Lab을 서비스로 실행
 
@@ -126,7 +128,7 @@ launchctl load ~/Library/LaunchAgents/com.jupyter.lab.plist
 ```
 여기까지 완료하면, 앱 실행시 `jupyter lab --no-browser --notebook-dir=~/` 명령이 실행될 것이다!!
 
-이 서비스를 다시 시작(restart)하고 싶다면, 터미널에 아래와 같이 입력하면 된다.
+이 서비스를 다시 시작(**restart**)하고 싶다면, 터미널에 아래와 같이 입력하면 된다.
 ```
 launchctl unload ~/Library/LaunchAgents/com.jupyter.lab.plist
 launchctl load ~/Library/LaunchAgents/com.jupyter.lab.plist
