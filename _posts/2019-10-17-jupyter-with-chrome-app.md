@@ -76,7 +76,7 @@ jupyter-lab --generate-config
 c.NotebookApp.token = ''
 ```
 
-(3) Nativefier를 이용하여 Build Desktop Application<br>
+(3) Nativefier를 이용하여 Build Desktop Application
 * Nativefier github 주소: https://github.com/jiahaog/nativefier
 터미널에 아래와 같이 입력한다. npm(nodejs project manager)이 이미 설치되어 있을 경우 첫 줄은 생략하면 된다.
 
@@ -97,7 +97,7 @@ nativefier "http://localhost:8888"
 
 (4) Jupyter Lab을 서비스로 실행
 
-i) 아래 코드를 `~/Library/LaunchAgents/com.jupyter.lab.plist`라는 파일로 저장한다. `your_username`을 여러분의 맥 사용자 이름에 맞게 고쳐주면 된다.
+i) 아래 코드를 `~/Library/LaunchAgents/com.jupyter.lab.plist`라는 파일로 저장한다. `your_username`을 여러분의 맥 사용자 이름에 맞게 고쳐주면 된다. `--notebook-dir`은 Jupyter App 시작 디렉토리에 해당한다. 본인이 원하는 경로로 지정해 주면 된다.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
