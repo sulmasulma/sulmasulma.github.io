@@ -17,7 +17,7 @@ $ jupyter lab --no-browser
 [C 21:21:23.257 LabApp]
 
     To access the notebook, open this file in a browser:
-        file:///Users/qpdev/Library/Jupyter/runtime/nbserver-16530-open.html
+        file:///Users/your_username/Library/Jupyter/runtime/nbserver-16530-open.html
     Or copy and paste one of these URLs:
         http://localhost:8888/?token=a735772a647a3fffb2e140424d8906b92f51b7162d735b2d
      or http://127.0.0.1:8888/?token=a735772a647a3fffb2e140424d8906b92f51b7162d735b2d
