@@ -18,7 +18,7 @@ excerpt_separator: <!--more-->
     - 컨텐츠 특성들의 코사인 거리 계산
 
 - 빙글의 Serverless Architecture
-  - S3, 아테나 등: aws 항목들인가?
+  - AWS S3, Athenna 등 사용
   - id별 similarity 데이터를 json 형태로 저장하여 SQL 쿼리만 날리면 가져올 수 있게 함
 
 - 인스타그램 Tag 이용!
