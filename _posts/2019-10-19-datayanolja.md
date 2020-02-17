@@ -1,11 +1,11 @@
 ---
 layout: post
-title: 데이터야 놀자 강의내용
+title: 데이터야놀자 2019 정리
 tags: [seminar, datayanolja, note, memo]
 author-id: matthew
 excerpt_separator: <!--more-->
 ---
-2019년 10월 19일 (토) 광화문 MS 사옥에서 진행된 [데이터야 놀자](https://datayanolja.github.io)에서 듣고 메모한 내용을 적어 보았습니다. <!--more-->
+2019년 10월 19일 (토) 광화문 MS 사옥에서 진행된 [데이터야놀자](https://datayanolja.github.io)에서 듣고 메모한 내용을 적어 보았습니다. <!--more-->
 
 ### 1. Serverless에서 유저 컨텐츠 추천 서비스 in 빙글
 - 추천 시스템의 정의? -> 좋아할 만한, 관심 있을 만한 아이템 자동 제공
