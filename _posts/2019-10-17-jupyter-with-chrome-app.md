@@ -5,7 +5,7 @@ tags: [jupyter, jupyter-lab, jupyter lab, chrome, 주피터랩, 주피터, 앱, 
 author-id: matthew
 excerpt_separator: <!--more-->
 ---
-Jupyter Lab은 기본적으로 Web browser 위에서 구동된다. 하지만 이러면 개발 작업과 웹서핑 작업하는 앱이 겹쳐서 불편한 점이 있다. 그래서 브라우저가 아닌 Desktop App에서 사용하는 방법이 있다.<!--more-->
+Jupyter Lab은 기본적으로 Web browser 위에서 구동된다. 하지만 이러면 개발 작업과 웹서핑 작업하는 앱이 겹쳐서 불편한 점이 있다. 그래서 브라우저가 아닌 Desktop App에서 사용하는 방법을 소개하고자 한다.<!--more-->
 
 (Mac 기준) 터미널을 켜고 아래와 같이 입력한다.
 ```
