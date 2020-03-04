@@ -5,9 +5,9 @@ tags: [jupyter, jupyter-lab, jupyter lab, chrome, 주피터랩, 주피터, 앱, 
 author-id: matthew
 excerpt_separator: <!--more-->
 ---
-Jupyter Lab은 기본적으로 Web browser 위에서 구동된다. 하지만 이러면 개발 작업과 웹서핑 작업하는 앱이 겹쳐서 불편한 점이 있다. 그래서 브라우저가 아닌 Desktop App에서 사용하는 방법을 소개하고자 한다.<!--more-->
+Jupyter Lab은 기본적으로 Web browser 위에서 구동된다. 하지만 이러면 개발 작업과 웹서핑 작업하는 앱이 겹쳐서 불편한 점이 있다. 그래서 브라우저가 아닌 Desktop App에서 사용하는 방법을 소개하고자 한다. 문서는 Mac OS 기준으로 작성하였다.<!--more-->
 
-(Mac 기준) 터미널을 켜고 아래와 같이 입력한다.
+먼저 터미널을 켜고 아래와 같이 입력한다.
 ```
 $ jupyter lab --no-browser
 ```
@@ -57,7 +57,7 @@ $ jupyter lab --generate-config
 그래서 앱을 생성하여 실행하는 방법이 있다. 필자는 Mac OS X를 사용하므로 맥의 경우를 소개하는데, Linux나 Windows의 경우 이 글 맨 밑에 있는 링크를 참고하면 된다.
 
 ### 1. Mac용 Anaconda 설치
-터미널에 아래와 같이 입력한다. 이미 설치되어 있다면 다음으로 넘어가면 된다. 다만 아래 명령어는 2018년 12월 업데이트된 버전으로 보인다(최신 버전의 Anaconda를 원한다면 수정 필요).
+터미널에 아래와 같이 입력한다. 이미 설치되어 있다면 다음으로 넘어가면 된다. 2018년 12월 Mac OS용 버전으로 나와 있는데, 다른 버전을 원하거나 다른 OS에 설치를 원한다면 [https://repo.anaconda.com/archive/](https://repo.anaconda.com/archive/)에서 버전/OS에 맞는 파일 이름을 입력하면 된다.
 
 ```
 wget https://repo.anaconda.com/archive/Anaconda3-2018.12-MacOSX-x86_64.sh
