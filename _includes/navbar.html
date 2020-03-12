@@ -23,10 +23,19 @@
     <ul class="hide">
         {% assign name_page = "" %}
 						<!-- Categories -->
-						<li>
-								<a href="#">Sample</a>
+						{% assign pages_list = site.pages %}
+    				{% for node in pages_list %}
+      			{% if node.title != null %}
+        		{% if node.layout == "category" %}
+						<li class="separator"> | </li>
+          	<li>
+								<a class="category-link {% if page.url == node.url %} active{% endif %}"
+								href="{{ site.baseurl }}{{ node.url }}">{{ node.title }}
+								</a>
 						</li>
-
+        		{% endif %}
+      			{% endif %}
+    				{% endfor %}
 
         {% for page in site.pages %}
             {% unless page.title == null or page.hide or name_page contains page.title %}
