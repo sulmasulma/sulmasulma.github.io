@@ -2,6 +2,7 @@
 layout: post
 title: 데이터야놀자 2019 정리
 tags: [seminar, datayanolja, note, memo]
+categories: [Etc]
 excerpt_separator: <!--more-->
 ---
 2019년 10월 19일 (토) 광화문 MS 사옥에서 진행된 [데이터야놀자](https://datayanolja.github.io)에서 듣고 메모한 내용을 적어 보았습니다. <!--more-->

@@ -2,6 +2,7 @@
 layout: post
 title: "Markup: Syntax Highlighting"
 tags: [code]
+categories: [Legacy]
 ---
 
 From Michael's Rose [Minimal Mistakes](https://mmistakes.github.io/minimal-mistakes/markup-syntax-highlighting).
