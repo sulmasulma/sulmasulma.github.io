@@ -68,7 +68,7 @@ excerpt_separator: <!--more-->
   2. Transform - 데이터를 최종적으로 사용 가능한 형식으로 변환
   3. Load - data warehouse로 데이터 저장
 - MPP data warehouse가 출현하면서, **ETL** 접근법이 **ELT** 로 바뀌고 있음
-  - Extract: DW로 직접 데이터 저장(Transform 없이)
+  - Extract & Load: raw data 추출하여 DW로 직접 데이터 저장 (Transform 없이)
   - Transform: 데이터가 저장되면 분석가들이 SQL로 데이터를 최종적으로 적절한 형태로 변환
   - 데이터 변환 과정이 SQL로 가능하기 때문에, SQL 기반 data modeling 적용
 - `Holistics`와 같은 Tool들이 `Looker`의 SQL 기반 data modeling 접근법 이용
