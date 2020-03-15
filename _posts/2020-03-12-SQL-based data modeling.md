@@ -25,8 +25,8 @@ excerpt_separator: <!--more-->
 - 대신 SQL은 거의 모든 데이터 분석가들이 친숙한, 범용성 있는 언어
 - Google Spanner (MPP data management system)에 따르면,
 
-> Spanner의 NoSQL API는 point lookup, range scan과 같은 메소드들을 제공하며, simple retrieval scenario에는 적합합니다. 다만 SQL은 더 복잡한 데이터 접근 패턴을 표현함으로 추가적인 value들을 산출할 수 있습니다.
-<br>
+> Spanner의 NoSQL API는 `point lookup`, `range scan`과 같은 메소드들을 제공하며, simple retrieval scenario에는 적합합니다. 다만 SQL은 더 복잡한 데이터 접근 패턴을 표현함으로 추가적인 value들을 산출할 수 있습니다.
+<pre>
 Spanner의 SQL 엔진은 Standard SQL을 사용하여 Google의 내부 시스템인 `F1`, `Dremel`과 외부 시스템인 `BigQuery`와도 호환이 가능합니다. 이 호환성은 구글 사용자들이 시스템 간의 벽을 자유롭게 넘나들 수 있도록 해 줍니다.
 
 - 클라우드 기반 MPP data warehouse가 각광받으면서, `Mode Analytics`, `Periscope Data`, `Redash`와 같은 스타트업들이 인기를 얻음
