@@ -5,7 +5,7 @@ tags: [Data Engineering, Data Modeling, SQL, NoSQL, DataOps, Data Pipeline]
 categories: [Readings]
 excerpt_separator: <!--more-->
 ---
- Medium에서 데이터 모델링 관련 글: [The rise of SQL-based data modeling and DataOps](https://towardsdatascience.com/the-rise-of-sql-based-data-modeling-and-dataops-5b8e3270e101) 정리 <!--more-->
+ Medium에서 데이터 모델링 관련 글: [The rise of SQL-based data modeling and DataOps](https://towardsdatascience.com/the-rise-of-sql-based-data-modeling-and-dataops-5b8e3270e101) 을 정리한 내용입니다. <!--more-->
 
 ### SQL 기반 RDBMS의 부활 (resurgence)
 - 최근 수 년간 데이터의 양 증가
@@ -97,4 +97,4 @@ excerpt_separator: <!--more-->
 ### 새로운 분석 패러다임
 - SQL, data modeling, DevOps 각각은 서로 관련성이 별로 없는 오래 된 컨셉
 - 그러나 이 셋이 결합되면 새로운 패러다임이 만들어짐 -> `DataOps paradigm`
-- `Holistics` - 통합 분석 플랫폼. 저자가 2년 이상 개발 중
+- [Holistics](https://www.holistics.io/) - 통합 분석 플랫폼. 저자가 2년 이상 개발 중
