@@ -26,10 +26,10 @@ excerpt_separator: <!--more-->
 - Google Spanner (MPP data management system)에 따르면,
 
 > Spanner의 NoSQL API는 `point lookup`, `range scan`과 같은 메소드들을 제공하며, simple retrieval scenario에는 적합합니다. 다만 SQL은 더 복잡한 데이터 접근 패턴을 표현함으로 추가적인 value들을 산출할 수 있습니다.
-> 
+>
 > Spanner의 SQL 엔진은 Standard SQL을 사용하여 Google의 내부 시스템인 `F1`, `Dremel`과 외부 시스템인 `BigQuery`와도 호환이 가능합니다. 이 호환성은 구글 사용자들이 시스템 간의 벽을 자유롭게 넘나들 수 있도록 해 줍니다.
 
-- 클라우드 기반 MPP data warehouse가 각광받으면서, `Mode Analytics`, `Periscope Data`, `Redash`와 같은 스타트업들이 인기를 얻음
+- 클라우드 기반 MPP data warehouse가 각광받으면서 `Mode Analytics`, `Periscope Data`, `Redash`와 같은 스타트업들이 인기를 얻음
 - SQL에 능숙한 분석가들은 이런 최신 클라우드 DW를 사용하여, 다른 언어나 tool을 배울 필요 없이 효과적인 차트와 대시보드를 구성할 수 있음
 - 또한 SQL 코드는 단순한 text이기 때문에 관리하기도 쉬움
 
@@ -37,17 +37,17 @@ excerpt_separator: <!--more-->
 > 진입 장벽과 복잡성
 
 - SQL이 장점만 가지고 있는 것은 아님
-- SQL에 많이 의존하고 있는 tool들은 정적인 차트와 대시보드 이상의 것을 원하지만, SQL을 모른다는 장벽이 있음
-- 이로 인해 business user들은 과거에 Excel로 raw data를 가져와 분석하던 방식으로 돌아갈 수 밖에 없게 만들고, 이로 인해 계산의 accuracy와 consistency가 떨어지게 됨
+- 정적인 차트와 대시보드 이상을 원하는 사용자들은 SQL을 모른다는 장벽 때문에 SQL에 많이 의존하고 있는 Tool들을 사용할 수 없음
+- 이로 인해 business user들은 과거에 `Excel`로 raw data를 가져와 분석하던 방식으로 돌아갈 수 밖에 없고, 이로 인해 계산의 accuracy와 consistency가 떨어지게 됨
 - 테이블 간의 join이 많아져 데이터 구조가 복잡해지게 되면, SQL 구문도 복잡해지고 쿼리를 작성할 때마다 상황에 맞는 적절한 join 관계를 찾아야 함
 - 이는 SQL이 재사용 불가하다는 것을 말하며, 매번 비슷한 코드를 가지고 조금씩 다른 로직을 작성해야 하는 현상이 반복
 
 ### 전통적인 data modeling
 - BI를 사용하는 전통적인 구조는 다음과 같음
-- 분석가가 raw data를 가공하여 비즈니스 유저(기술 직군 X)에게 데이터를 제공
-- 비즈니스 유저는 드래그앤 드롭 인터페이스로 BI 기능을 사용
-- SQL 같은 query languague 없이 데이터 탐색 가능
-- 대표적인 BI Tool: `Sisense`, `Tableau`, `PowerBI`
+  - 분석가가 raw data를 가공하여 비즈니스 유저(기술 직군 X)에게 데이터를 제공
+  - 비즈니스 유저는 드래그앤 드롭 인터페이스로 BI 기능을 사용
+  - SQL 같은 query languague 없이 데이터 탐색 가능
+  - 대표적인 BI Tool: `Sisense`, `Tableau`, `PowerBI`
 - **그러나 이런 Tool들은 현대의 DW에 맞게 설계되지 않음**
   1. 현대의 강력한 MPP DW는 데이터를 복제하여 여러 소스에서 사용하는데, 전통적인 DW 시스템에 맞춰 설계된 이런 BI Tool들은 가공되지 않은 raw data와 연결되어 있음
   2. data modeling 과정이 대부분 GUI 기반 -> 재사용하기 쉽지 않고, `git` 같은 version control 시스템의 이점을 누릴 수 없는 구조
@@ -56,23 +56,23 @@ excerpt_separator: <!--more-->
 > SQL의 파워 + data modeling의 이점을 결합할 수 있어야 함
 
 - `Looker`가 이런 접근법의 선구자 역할을 함
-- data modeling language인 'LookML' 사용 -> database의 abstraction layer 역할을 함
+- data modeling language인 `LookML` 사용 -> database의 abstraction layer 역할을 함
 - 기술 직군이 아닌 사람도 데이터를 탐색할 수 있게 **modeling input을 SQL query로** 변환해 주고, 이 query를 DB에 보냄
 - SQL을 모르는 사용자도 현대식 MPP data Warehouse를 이용할 수 있게 해 줌
 - 텍스트 기반 modeling language를 사용하는 것의 또 다른 장점은 modeling layer가 version control 가능하다는 것. 이로 인해 이슈 발생시 변경 사항을 추적할 수 있음
 
 ### SQL 기반 end-to-end data pipeline
-- SQL 기반 data model approach는 빙산의 일각과 같음
-- ETL 과정은 다음과 같음
+- SQL 기반 data model approach는 빙산의 일각에 불과!
+- ETL 과정
   1. Extract - data source에서 데이터 추출
   2. Transform - 데이터를 최종적으로 사용 가능한 형식으로 변환
   3. Load - data warehouse로 데이터 저장
-- MPP data warehouse가 출현하면서, **ETL** 접근법이 **ETL** 로 바뀌고 있음
-  - 데이터 추출 -> DW로 직접 데이터 저장(Transform 없이)
-  - 데이터가 저장되면 분석가들이 SQL로 데이터를 최종적으로 적절한 형태로 변환
-  - 데이터 변환 과정이 SQL로 가능하기 때문에, SQL 기반 data modeling 방법 적용
-- `Holistics`와 같은 Tool들이 `Looker`의 SQL 기반 data modeling 접근법 적용
-  - 이에 L(Load), T(Transform) layer까지 나아감으로 end-to-end 분석 파이프라인이 완성됨
+- MPP data warehouse가 출현하면서, **ETL** 접근법이 **ELT** 로 바뀌고 있음
+  - Extract: DW로 직접 데이터 저장(Transform 없이)
+  - Transform: 데이터가 저장되면 분석가들이 SQL로 데이터를 최종적으로 적절한 형태로 변환
+  - 데이터 변환 과정이 SQL로 가능하기 때문에, SQL 기반 data modeling 적용
+- `Holistics`와 같은 Tool들이 `Looker`의 SQL 기반 data modeling 접근법 이용
+  - **L(Load)**, **T(Transform)** layer까지 나아감으로 end-to-end 분석 파이프라인이 완성됨
 - 정리하면, 이와 같은 SQL 기반 data modeling의 장점은 3가지로 요약할 수 있음
   1. 데이터 분석가들이 end-to-end 데이터 분석 파이프라인을 형성할 수 있음
     - 업무에 필요한 SQL 지식은 그대로 유지하면서, 인사이트 형성을 위한 시간을 줄여줌
@@ -97,4 +97,4 @@ excerpt_separator: <!--more-->
 ### 새로운 분석 패러다임
 - SQL, data modeling, DevOps 각각은 서로 관련성이 별로 없는 오래 된 컨셉
 - 그러나 이 셋이 결합되면 새로운 패러다임이 만들어짐 -> `DataOps paradigm`
-- `Holistics` -> 통합 분석 플랫폼. 저자가 2년 이상 개발 중
+- `Holistics` - 통합 분석 플랫폼. 저자가 2년 이상 개발 중
