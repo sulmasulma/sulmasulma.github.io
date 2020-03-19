@@ -25,9 +25,9 @@
 
 				<!-- pages들과 categories 구분하고, 특히 categories는 순서를 정해야 함 -->
         <!-- {% for page in site.pages %} -->
-				{% for page in site.category_list %}
+				{% for page in site.category_list %} <!-- 이렇게 해도 변화가 없음 -->
             {% unless page.title == null or page.hide or name_page contains page.title %}
-            <li class="separator"> | </li> 
+            <li class="separator"> | </li>
             <li>
                 <a class="clear" aria-label="{{ page.title }}" title="{{ page.title }}" href="{{ page.url | relative_url }}">
                     {% if page.icon %} <i class="fa {{ page.icon }}" aria-hidden="true"></i>
