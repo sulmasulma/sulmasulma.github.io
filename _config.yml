@@ -91,10 +91,6 @@ paginate_path: "blog/page:num"
 
 # AUTHORS
 authors:
-  mhagnumdw: # author-id
-    name: MhagnumDw
-    avatar: "assets/img/avatars/mhagnumdw_avatar.jpg"
-    url:
   sylhare:
     name: Sylhare
     avatar: "assets/img/avatars/sylhare_avatar.png"
