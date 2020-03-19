@@ -3,6 +3,7 @@ baseurl: ""
 url: "https://sulmasulma.github.io"
 title: Matthew's Blog # site's title
 description: "for Data Analysis" # used by search engines
+category_list: [ Data, Readings, Github Pages, Etc ]
 
 defaults:
   -
@@ -113,4 +114,3 @@ exclude: [".jekyll-cache", "Gemfile", "Gemfile.lock", "type-on-strap.gemspec", "
           "LICENSE", "README.md", "screenshot.png", "assets/package.json", "assets/node_modules", "assets/gulpfile.js"]
 # theme: type-on-strap # Uncomment if using the theme as a jekyll theme gem
 remote_theme: sylhare/Type-on-Strap # If using as a remote_theme in github
-category_list: [ Data, Readings, Github Pages, Etc ]
