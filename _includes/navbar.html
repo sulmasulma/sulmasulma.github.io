@@ -25,7 +25,6 @@
 
 				<!-- pages들과 categories 구분하고, 특히 categories는 순서를 정해야 함 -->
         {% for page in site.pages %}
-				<!-- {% for page in site.category_list %} -->
             {% unless page.title == null or page.hide or name_page contains page.title %}
             <li class="separator"> | </li>
             <li>
