@@ -24,6 +24,7 @@
         {% assign name_page = "" %}
 
 				<!-- pages들과 categories 구분하고, 특히 categories는 순서를 정해야 함 -->
+				<!-- 아래 js 코드들 사이엔 주석 넣으면 안 됨. build failure 오류 남 -->
         {% for page in site.pages %}
             {% unless page.title == null or page.hide or name_page contains page.title %}
             <li class="separator"> | </li>
