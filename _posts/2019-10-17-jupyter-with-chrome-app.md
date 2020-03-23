@@ -55,7 +55,7 @@ c.LabApp.browser = '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chro
 그리고 나서 터미널에서 `jupyter lab`을 실행하면, 앱으로 실행된다.
 다만 완전히 독립된 주피터 앱이 아니고 `Chrome`으로서 작동하는 방식이다. 그래서 Dock(작업 표시줄)에서 구분이 되지 않는 단점이 있으며, 실행할 때마다 터미널에서 `jupyter lab` 명령어를 매번 쳐야 한다.
 
-그래서 앱을 생성하여 실행하는 방법이 있다. 필자는 Mac OS를 사용하므로 맥의 경우를 소개하는데, Linux나 Windows의 경우 이 글 맨 밑에 있는 링크를 참고하면 된다.
+그래서 **앱을 생성하여 실행하는 방법이 있다.** 필자는 Mac OS를 사용하므로 맥의 경우를 소개하는데, Linux나 Windows의 경우 이 글 맨 밑에 있는 링크를 참고하면 된다.
 
 ### 1. Mac용 Anaconda 설치
 터미널에 아래와 같이 입력한다. 이미 설치되어 있다면 다음으로 넘어가면 된다. 2018년 12월 Mac OS용 버전으로 나와 있는데, 다른 버전을 원하거나 다른 OS에 설치를 원한다면 [https://repo.anaconda.com/archive/](https://repo.anaconda.com/archive/)에서 버전/OS에 맞는 파일 이름을 입력하면 된다.
@@ -80,7 +80,7 @@ c.NotebookApp.token = ''
 
 ### 3. Nativefier를 이용하여 Desktop Application 빌드
 - Nativefier github 주소: [https://github.com/jiahaog/nativefier](https://github.com/jiahaog/nativefier)
-- `nativefier`(웹 페이지를 브라우저에서 열지 않고 앱으로 생성해 주는 라이브러리)를 이용하여 Desktop App을 만드는 과정이다.
+- `nativefier`(웹 페이지를 브라우저에서 열지 않고 앱으로 생성해 주는 패키지)를 이용하여 Desktop App을 만드는 과정이다.
 - 터미널에 아래 4개의 행을 차례로 입력한다. nodejs 패키지가 이미 설치되어 있을 경우 첫 줄은 생략하면 된다.
 
 ```
@@ -92,11 +92,11 @@ cd ~/Applications
 nativefier -n "Jupyter Lab" -i "~/Desktop/jupyter.icns" "http://localhost:8888"
 ```
 
-위 명령어는 `~/Applicatons` 폴더에 'Jupyter Lab'이라는 이름(**-n**)으로, '~/Desktop/jupyter.icns' 아이콘 파일의 이미지로(**-i**) 앱을 생성하는 과정이다.
-아이콘 파일들은 anaconda3 폴더 안의 `/pkgs/notebook-6.0.3-py37_0/info/recipe/`에 있다. Windows는 jupyter.ico, Linux는 jupyter.png 파일을 사용하면 된다. Mac OS의 경우는 .ico 파일을 .icns 파일로 변환해야 한다.
+위 명령어는 `~/Applicatons` 폴더에 'Jupyter Lab'이라는 이름(**-n**)으로, '~/Desktop/jupyter.icns' 아이콘 파일의 이미지로(**-i**) 앱을 생성하는 과정이다.<br>
+아이콘 파일들은 anaconda3 폴더 안의 `/pkgs/notebook-6.0.3-py37_0/info/recipe/`에 있다. Windows는 jupyter.ico, Linux는 jupyter.png 파일을 사용하면 된다. Mac OS의 경우는 jupyter.ico 파일을 .icns 파일로 변환해야 한다.
 
 명령어를 실행하면 이 작업 전에 터미널에 `http://localhost:8888`을 실행하던 것과 똑같이 브라우저에서 jupyter lab이 실행된다. 테스트 용도이므로, 이 터미널과 해당 브라우저 창은 닫아주고 진행하면 된다.
-참고로 App의 이름은 Jupyter Lab이지만, 터미널에서 jupyter lab, jupyter notebook 중 어느 명령을 실행했는지에 따라 아래 둘 중 하나의 명령이 실행된다.
+참고로 App의 이름을 Jupyter Lab으로 지정했지만, 터미널에서 jupyter lab, jupyter notebook 중 어느 명령을 실행했는지에 따라 아래 둘 중 하나의 명령이 실행된다.
 - `jupyter lab --no-browser --notebook-dir=~/`
 - `jupyter notebook --no-browser --notebook-dir=~/`
 
@@ -106,7 +106,8 @@ nativefier -n "Jupyter Lab" -i "~/Desktop/jupyter.icns" "http://localhost:8888"
 
 i) 아래 코드를 `~/Library/LaunchAgents/com.jupyter.lab.plist`라는 파일로 저장한다. `your_username`을 여러분의 맥 사용자 이름에 맞게 고쳐주면 된다. `--notebook-dir`은 Jupyter App 시작 디렉토리에 해당한다. 본인이 원하는 경로로 지정해 주면 된다.
 
-(2020.03.24 수정사항) `/Users/your_username/anaconda3/bin/jupyter` 부분은 anaconda3를 [Anaconda 설치 페이지](https://www.anaconda.com/distribution/)에서 Graphical Installer로 설치했을 때 자동으로 지정되는 경로인데, 다시 설치해 보니 경로가 `/opt/anaconda3/bin/python3`으로 **바뀌어 있다!!** 터미널에서 `which python3`를 입력하면 anaconda3 경로가 나오는데, 이에 맞춰서 알맞게 입력하길 바란다.
+(2020.03.24 수정사항) `/Users/your_username/anaconda3/bin/jupyter` 부분은 anaconda3를 [Anaconda 설치 페이지](https://www.anaconda.com/distribution/)에서 Graphical Installer로 설치했을 때 자동으로 지정되는 경로인데, 다시 설치해 보니 경로가 `/opt/anaconda3/bin/python3`으로 **바뀌어 있다!!**
+터미널에서 `which python3`를 입력하면 anaconda3 경로가 나오는데, 이에 맞춰서 알맞게 입력하길 바란다.
 설치할 때 이 경로를 지정하고 싶다면, Graphical Installer가 아닌 Command Line Installer로 설치하면 된다.
 
 ```xml
