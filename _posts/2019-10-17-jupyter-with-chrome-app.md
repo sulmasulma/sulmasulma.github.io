@@ -10,7 +10,7 @@ Jupyter Lab을 브라우저가 아닌 Desktop App으로 사용하는 방법을 �
 Jupyter Lab은 기본적으로 Web browser 위에서 구동되지만, 이러면 개발 작업과 웹서핑 작업하는 앱이 겹쳐서 불편한 점이 있다. 그래서 브라우저가 아닌 Desktop App에서 사용하는 방법을 소개하고자 한다. 문서는 Mac OS 기준으로 작성하였다.
 
 먼저 터미널을 켜고 아래와 같이 입력한다.
-```
+```bash
 $ jupyter lab --no-browser
 ```
 
@@ -37,13 +37,17 @@ http://localhost:8888/?token=a735772a647a3fffb2e140424d8906b92f51b7162d735b2d
 
 ![스크린샷 2019-10-18 오후 2.06.45](https://i.imgur.com/UI9hTxJ.png)
 
-하지만 매번 이렇게 여는 것은 번거롭다. 그래서 Default로 앱에서 작동하게 하는 방법이 있다. 아래 python 파일을 연다.
+하지만 매번 이렇게 여는 것은 번거롭다. 그래서 Default로 앱에서 작동하게 하는 방법이 있다. 우선 터미널에 아래와 같이 입력한다. Jupyter Lab의 configure 파일을 생성하는 과정이다.
 ```
-~/.jupyter/jupyter_notebook_config.py
+$ jupyter lab --generate-config
 ```
-* 참고로 맥 터미널에서 특정 디렉토리를 Finder에서 여는 것은 `open {디렉토리 주소}`로 하면 된다. 맥을 처음 사용할 때에는 윈도우와 같이 탐색기에서 주소를 입력할 수가 없어서 좀 애먹었다.. (되는데 내가 아직 모를지도?)
 
-그리고 아무 위치에 아래와 같이 추가한다. App 생성시 브라우저 기반으로 동작하는 것인데, 어느 브라우저를 대상으로 할지 설정하는 절차이다.
+그럼 `~/.jupyter/jupyter_notebook_config.py` 파일이 생성된다. 이 파일을 열열기 위해서, 터미널에 아래와 같이 입력한다.
+```
+open ~/.jupyter/jupyter_notebook_config.py
+```
+
+파일을 열었으면, 아무 위치에 아래와 같이 추가한다. App 생성시 브라우저 기반으로 동작하는 것인데, 어느 브라우저를 대상으로 할지 설정하는 절차이다. 필자는 `Chrome`을 메인 브라우저로 쓰기 때문에 아래와 같이 입력했다.
 ```python
 c.LabApp.browser = '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --app=%s'
 ```
@@ -53,9 +57,12 @@ c.LabApp.browser = '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chro
 $ jupyter lab --generate-config
 ```
 
-그리고 이제 터미널에서 `jupyter lab`을 실행하면, 앱으로 실행된다.
-다만 완전히 독립된 주피터 앱이 아니고 크롬으로서 작동하는 방식이다. 그래서 Dock(작업 표시줄)에서 구분이 되지 않는 단점이 있으며 터미널에서 `jupyter lab` 명령어를 매번 쳐야 한다.
-그래서 앱을 생성하여 실행하는 방법이 있다. 필자는 Mac OS X를 사용하므로 맥의 경우를 소개하는데, Linux나 Windows의 경우 이 글 맨 밑에 있는 링크를 참고하면 된다.
+입력하면 overwrite 할 것이냐고 물어보는데, 여기서 y라고 하면 위에서 입력한 것이 초기화된다. **n을 입력해 주면 된다.**
+
+그리고 나서 터미널에서 `jupyter lab`을 실행하면, 앱으로 실행된다.
+다만 완전히 독립된 주피터 앱이 아니고 `Chrome`으로서 작동하는 방식이다. 그래서 Dock(작업 표시줄)에서 구분이 되지 않는 단점이 있으며, 실행할 때마다 터미널에서 `jupyter lab` 명령어를 매번 쳐야 한다.
+
+그래서 앱을 생성하여 실행하는 방법이 있다. 필자는 Mac OS를 사용하므로 맥의 경우를 소개하는데, Linux나 Windows의 경우 이 글 맨 밑에 있는 링크를 참고하면 된다.
 
 ### 1. Mac용 Anaconda 설치
 터미널에 아래와 같이 입력한다. 이미 설치되어 있다면 다음으로 넘어가면 된다. 2018년 12월 Mac OS용 버전으로 나와 있는데, 다른 버전을 원하거나 다른 OS에 설치를 원한다면 [https://repo.anaconda.com/archive/](https://repo.anaconda.com/archive/)에서 버전/OS에 맞는 파일 이름을 입력하면 된다.
@@ -66,12 +73,13 @@ bash /Download/Anaconda3-2018.12-MacOSX-x86_64.sh
 ```
 
 ### 2. jupyter lab configure file 생성
-터미널에 아래와 같이 입력한다.
+터미널에 아래와 같이 입력한다. 위 과정(Chrome 기반 앱 생성)을 통해 이미 configure file을 생성했다면, 이 단계는 넘어가면 된다.
 
 ```
 jupyter-lab --generate-config
 ```
-그리고 앞에서 만든 `~/.jupyter/jupyter_notebook_config.py` 파일을 수정한다. 아래의 행을 추가한다. Desktop App을 만들고, 실행시 token 입력을 생략하기 위한 절차이다.
+
+이제 `~/.jupyter/jupyter_notebook_config.py` 파일을 수정한다. 아래의 행을 추가한다. Desktop App을 만들면 실행시 token 입력 과정이 필요한데, 이를 생략하기 위한 절차이다.
 
 ```python
 c.NotebookApp.token = ''
@@ -138,6 +146,21 @@ launchctl load ~/Library/LaunchAgents/com.jupyter.lab.plist
 이 앱을 몇 달간 사용해본 결과, 앱을 종료해도 `http://localhost:8888` 서버가 종료되지 않는다. 이렇게 장기간 서버를 켜 놓을 경우 가끔씩 서버 에러가 발생하여 컴퓨터를 재시동 해야 하는 경우가 있었다.
 `launchctl unload`, `launchctl load`를 하면 서버를 재시동하는 것이다. 주기적으로나 매일 작업 종료 후 이 과정을 반복하는 것을 추천한다.
 
+위 과정을 한 줄의 명령으로 통합하는 함수. 재시동해야 적용됨
+```
+function lctl {
+    COMMAND=$1
+    PLIST_FILE=$2
+    if [ "$COMMAND" = "reload" ] && [ -n "$PLIST_FILE" ]
+      then
+        echo "reloading ${PLIST_FILE}.."
+        launchctl unload ${PLIST_FILE}
+        launchctl load ${PLIST_FILE}
+      else
+        echo "either command not specified or plist file is not defined"
+    fi
+}
+```
 
 ---
 - 참고 문서
