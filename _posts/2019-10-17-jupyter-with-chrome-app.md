@@ -10,7 +10,7 @@ Jupyter Lab을 브라우저가 아닌 Desktop App으로 사용하는 방법을 �
 Jupyter Lab은 기본적으로 Web browser 위에서 구동되지만, 이러면 개발 작업과 웹서핑 작업하는 앱이 겹쳐서 불편한 점이 있다. 그래서 브라우저가 아닌 Desktop App에서 사용하는 방법을 소개하고자 한다. 문서는 Mac OS 기준으로 작성하였다.
 
 먼저 터미널을 켜고 아래와 같이 입력한다.
-```bash
+```
 $ jupyter lab --no-browser
 ```
 
@@ -52,13 +52,6 @@ open ~/.jupyter/jupyter_notebook_config.py
 c.LabApp.browser = '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --app=%s'
 ```
 
-다시 터미널을 열고 아래와 같이 입력한다.
-```
-$ jupyter lab --generate-config
-```
-
-입력하면 overwrite 할 것이냐고 물어보는데, 여기서 y라고 하면 위에서 입력한 것이 초기화된다. **n을 입력해 주면 된다.**
-
 그리고 나서 터미널에서 `jupyter lab`을 실행하면, 앱으로 실행된다.
 다만 완전히 독립된 주피터 앱이 아니고 `Chrome`으로서 작동하는 방식이다. 그래서 Dock(작업 표시줄)에서 구분이 되지 않는 단점이 있으며, 실행할 때마다 터미널에서 `jupyter lab` 명령어를 매번 쳐야 한다.
 
@@ -79,26 +72,31 @@ bash /Download/Anaconda3-2018.12-MacOSX-x86_64.sh
 jupyter-lab --generate-config
 ```
 
-이제 `~/.jupyter/jupyter_notebook_config.py` 파일을 수정한다. 아래의 행을 추가한다. Desktop App을 만들면 실행시 token 입력 과정이 필요한데, 이를 생략하기 위한 절차이다.
+이제 `~/.jupyter/jupyter_notebook_config.py` 파일을 열고 아래의 행을 추가한다. Desktop App을 만들면 실행시 token 입력 과정이 필요한데, 이를 생략하기 위한 절차이다.
 
 ```python
 c.NotebookApp.token = ''
 ```
 
-### 3. Nativefier를 이용하여 Build Desktop Application
+### 3. Nativefier를 이용하여 Desktop Application 빌드
 - Nativefier github 주소: [https://github.com/jiahaog/nativefier](https://github.com/jiahaog/nativefier)
-- 터미널에 아래와 같이 입력한다. npm(node.js project manager)이 이미 설치되어 있을 경우 첫 줄은 생략하면 된다.
+- `nativefier`(웹 페이지를 브라우저에서 열지 않고 앱으로 생성해 주는 라이브러리)를 이용하여 Desktop App을 만드는 과정이다.
+- 터미널에 아래 4개의 행을 차례로 입력한다. nodejs 패키지가 이미 설치되어 있을 경우 첫 줄은 생략하면 된다.
 
 ```
 # in case you didn't install node:
-# conda install -c conda-forge nodejs
+conda install -c conda-forge nodejs
 
 npm install nativefier -g
 cd ~/Applications
-nativefier "http://localhost:8888"
+nativefier -n "Jupyter Lab" -i "~/Desktop/jupyter.icns" "http://localhost:8888"
 ```
-위 명령어는 `~/Applicatons` 폴더에 'Jupyter Notebook'이라는 앱을 생성하게 된다. 실행하면 이 작업 전에 터미널에 `http://localhost:8888`을 실행하던 것과 똑같이 브라우저에서 jupyter lab이 실행된다. 테스트 용도이므로, 이 터미널과 해당 브라우저 창은 닫아주고 진행하면 된다.
-참고로 App의 이름은 Notebook이지만, 터미널에서 jupyter lab, jupyter notebook 중 어느 명령을 실행했는지에 따라 아래 둘 중 하나의 명령이 실행된다.
+
+위 명령어는 `~/Applicatons` 폴더에 'Jupyter Lab'이라는 이름(**-n**)으로, '~/Desktop/jupyter.icns' 아이콘 파일의 이미지로(**-i**) 앱을 생성하는 과정이다.
+아이콘 파일들은 anaconda3 폴더 안의 `/pkgs/notebook-6.0.3-py37_0/info/recipe/`에 있다. Windows는 jupyter.ico, Linux는 jupyter.png 파일을 사용하면 된다. Mac OS의 경우는 .ico 파일을 .icns 파일로 변환해야 한다.
+
+명령어를 실행하면 이 작업 전에 터미널에 `http://localhost:8888`을 실행하던 것과 똑같이 브라우저에서 jupyter lab이 실행된다. 테스트 용도이므로, 이 터미널과 해당 브라우저 창은 닫아주고 진행하면 된다.
+참고로 App의 이름은 Jupyter Lab이지만, 터미널에서 jupyter lab, jupyter notebook 중 어느 명령을 실행했는지에 따라 아래 둘 중 하나의 명령이 실행된다.
 - `jupyter lab --no-browser --notebook-dir=~/`
 - `jupyter notebook --no-browser --notebook-dir=~/`
 
@@ -107,6 +105,10 @@ nativefier "http://localhost:8888"
 ### 4. Jupyter Lab을 서비스로 실행
 
 i) 아래 코드를 `~/Library/LaunchAgents/com.jupyter.lab.plist`라는 파일로 저장한다. `your_username`을 여러분의 맥 사용자 이름에 맞게 고쳐주면 된다. `--notebook-dir`은 Jupyter App 시작 디렉토리에 해당한다. 본인이 원하는 경로로 지정해 주면 된다.
+
+(2020.03.24 수정사항) `/Users/your_username/anaconda3/bin/jupyter` 부분은 anaconda3를 [Anaconda 설치 페이지](https://www.anaconda.com/distribution/)에서 Graphical Installer로 설치했을 때 자동으로 지정되는 경로인데, 다시 설치해 보니 경로가 `/opt/anaconda3/bin/python3`으로 **바뀌어 있다!!** 터미널에서 `which python3`를 입력하면 anaconda3 경로가 나오는데, 이에 맞춰서 알맞게 입력하길 바란다.
+설치할 때 이 경로를 지정하고 싶다면, Graphical Installer가 아닌 Command Line Installer로 설치하면 된다.
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -135,7 +137,7 @@ ii) 터미널에 아래와 같이 입력한다.
 ```
 launchctl load ~/Library/LaunchAgents/com.jupyter.lab.plist
 ```
-여기까지 완료하면, 앱 실행시 `jupyter lab --no-browser --notebook-dir=~/` 명령이 실행될 것이다!!
+여기까지 완료하면, 앱 실행시 `jupyter lab --no-browser --notebook-dir=~/` 명령이 실행되는 것이다.
 
 이 서비스를 다시 시작(**restart**)하고 싶다면, 터미널에 아래와 같이 입력하면 된다.
 ```
@@ -143,10 +145,8 @@ launchctl unload ~/Library/LaunchAgents/com.jupyter.lab.plist
 launchctl load ~/Library/LaunchAgents/com.jupyter.lab.plist
 ```
 
-이 앱을 몇 달간 사용해본 결과, 앱을 종료해도 `http://localhost:8888` 서버가 종료되지 않는다. 이렇게 장기간 서버를 켜 놓을 경우 가끔씩 서버 에러가 발생하여 컴퓨터를 재시동 해야 하는 경우가 있었다.
-`launchctl unload`, `launchctl load`를 하면 서버를 재시동하는 것이다. 주기적으로나 매일 작업 종료 후 이 과정을 반복하는 것을 추천한다.
+위 과정을 한 줄의 명령으로 실행하는 함수를 만들어 사용할 수 있다. 터미널에 `vim ~./bash_profile`을 입력하여 bash_profile 파일에 아래 코드를 추가하면 된다. 변경 사항은 Mac을 재시동해야 적용된다.
 
-위 과정을 한 줄의 명령으로 통합하는 함수. 재시동해야 적용됨
 ```
 function lctl {
     COMMAND=$1
@@ -162,6 +162,14 @@ function lctl {
 }
 ```
 
+함수를 만들고 터미널에 아래와 같이 입력하면, 서비스가 다시 시작된다. **Jupyter 실행 결과도 모두 초기화되니 주의해서 사용하기 바란다.**
+
+```
+lctl reload ~/Library/LaunchAgents/com.jupyter.lab.plist
+```
+
+이 앱을 몇 달간 사용해본 결과, 앱을 종료해도 `http://localhost:8888` 서버가 종료되지 않는다. 이렇게 장기간 서버를 켜 놓을 경우 가끔씩 서버 에러가 발생하여 컴퓨터를 재시동 해야 하는 경우가 있었다. 그래서 주기적으로나 매일 작업 종료 후 재시작 과정을 반복하는 것을 추천한다.
+
 ---
 - 참고 문서
   - [Running Jupyter Lab as a Desktop Application](http://christopherroach.com/articles/jupyterlab-desktop-app/)
@@ -169,3 +177,5 @@ function lctl {
   - Linux: [Running JupyterLab as a desktop application on Linux](https://blog.aldomann.com/jupyterlab-desktop-on-linux/)
   - Windows: [Running JupyterLab as a Desktop Application in Windows 10
   ](https://stackoverflow.com/questions/51036132/running-jupyterlab-as-a-desktop-application-in-windows-10)
+  - [Nativefier](https://github.com/jiahaog/nativefier/)
+  - [Nativefier Icons](https://github.com/jiahaog/nativefier-icons)
