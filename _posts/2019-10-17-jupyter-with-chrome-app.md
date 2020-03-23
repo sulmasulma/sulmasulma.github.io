@@ -104,11 +104,10 @@ nativefier -n "Jupyter Lab" -i "~/Desktop/jupyter.icns" "http://localhost:8888"
 
 ### 4. Jupyter Lab을 서비스로 실행
 
-i) 아래 코드를 `~/Library/LaunchAgents/com.jupyter.lab.plist`라는 파일로 저장한다. `your_username`을 여러분의 맥 사용자 이름에 맞게 고쳐주면 된다. `--notebook-dir`은 Jupyter App 시작 디렉토리에 해당한다. 본인이 원하는 경로로 지정해 주면 된다.
+**i)** 아래 코드를 `~/Library/LaunchAgents/com.jupyter.lab.plist`라는 파일로 저장한다. `your_username`을 여러분의 맥 사용자 이름에 맞게 고쳐주면 된다. `--notebook-dir`은 Jupyter App 시작 디렉토리에 해당한다. 본인이 원하는 경로로 지정해 주면 된다.
 
-(2020.03.24 수정사항) `/Users/your_username/anaconda3/bin/jupyter` 부분은 anaconda3를 [Anaconda 설치 페이지](https://www.anaconda.com/distribution/)에서 Graphical Installer로 설치했을 때 자동으로 지정되는 경로인데, 다시 설치해 보니 경로가 `/opt/anaconda3/bin/python3`으로 **바뀌어 있다!!**
-터미널에서 `which python3`를 입력하면 anaconda3 경로가 나오는데, 이에 맞춰서 알맞게 입력하길 바란다.
-설치할 때 이 경로를 지정하고 싶다면, Graphical Installer가 아닌 Command Line Installer로 설치하면 된다.
+(2020.03.24 수정사항) `/Users/your_username/anaconda3/bin/jupyter` 부분은 anaconda3를 [Anaconda 설치 페이지](https://www.anaconda.com/distribution/)에서 Graphical Installer로 설치했을 때 자동으로 지정되는 경로인데, 다시 설치해 보니 경로가 `/opt/anaconda3/bin/python3`으로 **바뀌어 있다!!**<br>
+터미널에서 `which python3`를 입력하면 anaconda3 경로가 나오는데, 이에 맞춰서 알맞게 입력하길 바란다. 설치할 때 이 경로를 지정하고 싶다면, Graphical Installer가 아닌 Command Line Installer로 설치하면 된다.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -134,7 +133,7 @@ i) 아래 코드를 `~/Library/LaunchAgents/com.jupyter.lab.plist`라는 파일�
 </plist>
 ```
 
-ii) 터미널에 아래와 같이 입력한다.
+**ii)** 터미널에 아래와 같이 입력한다.
 ```
 launchctl load ~/Library/LaunchAgents/com.jupyter.lab.plist
 ```
