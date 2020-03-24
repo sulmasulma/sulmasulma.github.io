@@ -42,7 +42,7 @@ http://localhost:8888/?token=a735772a647a3fffb2e140424d8906b92f51b7162d735b2d
 $ jupyter lab --generate-config
 ```
 
-그럼 `~/.jupyter/jupyter_notebook_config.py` 파일이 생성된다. 이 파일을 열열기 위해서, 터미널에 아래와 같이 입력한다.
+그럼 `~/.jupyter/jupyter_notebook_config.py` 파일이 생성된다. 이 파일을 열기 위해서, 터미널에 아래와 같이 입력한다.
 ```
 open ~/.jupyter/jupyter_notebook_config.py
 ```
@@ -58,7 +58,7 @@ c.LabApp.browser = '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chro
 그래서 **앱을 생성하여 실행하는 방법이 있다.** 필자는 Mac OS를 사용하므로 맥의 경우를 소개하는데, Linux나 Windows의 경우 이 글 맨 밑에 있는 링크를 참고하면 된다.
 
 ### 1. Mac용 Anaconda 설치
-터미널에 아래와 같이 입력한다. 이미 설치되어 있다면 다음으로 넘어가면 된다. 2018년 12월 Mac OS용 버전으로 나와 있는데, 다른 버전을 원하거나 다른 OS에 설치를 원한다면 [https://repo.anaconda.com/archive/](https://repo.anaconda.com/archive/)에서 버전/OS에 맞는 파일 이름을 입력하면 된다.
+터미널에 아래와 같이 입력한다. 이미 설치되어 있다면 다음으로 넘어가면 된다. 2018년 12월 Mac OS용 버전으로 나와 있는데, 다른 버전을 원하거나 다른 OS에 설치를 원한다면 [https://repo.anaconda.com/archive/](https://repo.anaconda.com/archive/)에서 버전, OS에 맞는 파일 이름을 입력하면 된다.
 
 ```
 wget https://repo.anaconda.com/archive/Anaconda3-2018.12-MacOSX-x86_64.sh
@@ -106,8 +106,8 @@ nativefier -n "Jupyter Lab" -i "~/Desktop/jupyter.icns" "http://localhost:8888"
 
 **i)** 아래 코드를 `~/Library/LaunchAgents/com.jupyter.lab.plist`라는 파일로 저장한다. `your_username`을 여러분의 맥 사용자 이름에 맞게 고쳐주면 된다. `--notebook-dir`은 Jupyter App 시작 디렉토리에 해당한다. 본인이 원하는 경로로 지정해 주면 된다.
 
-(2020.03.24 수정사항) `/Users/your_username/anaconda3/bin/jupyter` 부분은 anaconda3를 [Anaconda 설치 페이지](https://www.anaconda.com/distribution/)에서 Graphical Installer로 설치했을 때 자동으로 지정되는 경로인데, 다시 설치해 보니 경로가 `/opt/anaconda3/bin/python3`으로 **바뀌어 있다!!**<br>
-터미널에서 `which python3`를 입력하면 anaconda3 경로가 나오는데, 이에 맞춰서 알맞게 입력하길 바란다. 설치할 때 이 경로를 지정하고 싶다면, Graphical Installer가 아닌 Command Line Installer로 설치하면 된다.
+(2020.03.24 수정사항) `/Users/your_username/anaconda3/bin/jupyter` 부분은 anaconda3를 [Anaconda 설치 페이지](https://www.anaconda.com/distribution/)에서 Graphical Installer로 설치했을 때 자동으로 지정되는 jupyter의 경로인데, 다시 설치해 보니 경로가 `/opt/anaconda3/bin/jupyter`으로 **바뀌어 있다!!**<br>
+터미널에서 `which jupyter`를 입력하면 jupyter의 경로가 나오는데, 이에 맞춰서 알맞게 입력하길 바란다. 설치할 때 이 경로를 지정하고 싶다면, Graphical Installer가 아닌 Command Line Installer로 설치하면 된다.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -162,7 +162,7 @@ function lctl {
 }
 ```
 
-함수를 만들고 터미널에 아래와 같이 입력하면, 서비스가 다시 시작된다. **Jupyter 실행 결과도 모두 초기화되니 주의해서 사용하기 바란다.**
+재시동 후 터미널에 아래와 같이 입력하면, 서비스가 다시 시작된다. **Jupyter 실행 결과도 모두 초기화되니 주의해서 사용하기 바란다.**
 
 ```
 lctl reload ~/Library/LaunchAgents/com.jupyter.lab.plist
