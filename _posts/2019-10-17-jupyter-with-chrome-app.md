@@ -89,10 +89,10 @@ conda install -c conda-forge nodejs
 
 npm install nativefier -g
 cd ~/Applications
-nativefier -n "Jupyter Lab" -i "~/Desktop/jupyter.icns" "http://localhost:8888"
+nativefier -n "Jupyter Lab" -i ~/Desktop/jupyter.icns "http://localhost:8888"
 ```
 
-위 명령어는 `~/Applicatons` 폴더에 'Jupyter Lab'이라는 이름(**-n**)으로, '~/Desktop/jupyter.icns' 아이콘 파일의 이미지로(**-i**) 앱을 생성하는 과정이다.<br>
+위 명령어는 `~/Applicatons` 폴더에 'Jupyter Lab'이라는 이름(**-n**)으로, ~/Desktop/jupyter.icns 아이콘 파일의 이미지로(**-i**) 앱을 생성하는 과정이다.<br>
 아이콘 파일들은 anaconda3 폴더 안의 `/pkgs/notebook-6.0.3-py37_0/info/recipe/`에 있다. Windows는 jupyter.ico, Linux는 jupyter.png 파일을 사용하면 된다. Mac OS의 경우는 jupyter.ico 파일을 .icns 파일로 변환해야 한다.
 
 명령어를 실행하면 이 작업 전에 터미널에 `http://localhost:8888`을 실행하던 것과 똑같이 브라우저에서 jupyter lab이 실행된다. 테스트 용도이므로, 이 터미널과 해당 브라우저 창은 닫아주고 진행하면 된다.
