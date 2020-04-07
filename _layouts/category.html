@@ -2,14 +2,15 @@
 layout: default
 ---
 <div align="center">
-{% for post in site.categories[page.category] %}
+{% assign category = page.category | default: page.title %}
+{% for post in site.categories[category] %}
    <div style="width:75%;">
    <p class="meta" align="left" style="line-height:0px;">
               {{ post.date | date: "%B %-d, %Y" }}
         </p>
     <h3 align="left">
         <a href="{{ post.url | absolute_url }}" style="text-decoration:none;">
-        [ Git ] {{ post.title }}
+        [ {{category}} ] {{ post.title }}
         </a>
     </h3>
     </div>
