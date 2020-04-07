@@ -1,6 +1,7 @@
 ---
 layout: default
 ---
+<header id="main" style="background-image: url('{{ page.feature-img | relative_url }}')">
 <div align="center">
 {% assign category = page.category | default: page.title %}
 {% for post in site.categories[category] %}
