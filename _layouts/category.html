@@ -13,6 +13,7 @@ layout: default
     {% endif %}
 
   </header>
+  <section class="post-content">
   <div align="center">
   {% assign category = page.category | default: page.title %}
   {% for post in site.categories[category] %}
@@ -29,6 +30,7 @@ layout: default
       <hr/>
   {% endfor %}
   </div>
+  </section>
 
   <br/>
 </article>
