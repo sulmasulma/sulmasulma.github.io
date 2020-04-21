@@ -5,7 +5,7 @@ tags: [Big Data, Trends]
 categories: [Readings]
 excerpt_separator: <!--more-->
 ---
- 2020년이 벌써 1/3이 지나가지만, 2020년 빅데이터 트렌드에 관한 글: [These are the Big Data Trends 2020.](https://towardsdatascience.com/these-are-the-big-data-trends-2020-49c4db330ba1) 을 정리해 보았습니다. <!--more-->
+ 2020년이 벌써 1/3 정도 지나가고 있지만, 2020년 빅데이터 트렌드에 관한 글: [These are the Big Data Trends 2020](https://towardsdatascience.com/these-are-the-big-data-trends-2020-49c4db330ba1)을 정리해 보았습니다. <!--more-->
 
 ### 빅데이터는 Wide Data가 되고 있다
 - 클라우드의 보급으로 인해 회사에서 로컬 IT 인프라 구축의 한계가 사라지고 있음
