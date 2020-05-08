@@ -5,7 +5,7 @@ tags: [Algorithm, Stack, Queue]
 categories: [Algorithm]
 excerpt_separator: <!--more-->
 ---
-스택은 FIFO (First In First Out), 큐는 FILO (First In Last Out) 구조로 데이터를 저장하는 자료구조이다. 스택과 큐 알고리즘에 대한 예를 정리해 보았다.<!--more-->
+스택(Stack)은 한 쪽으로만 입출력이 가능한 FILO (First In Last Out), 큐(Queue)는 한 쪽에선 입력, 한 쪽에선 출력되는 FIFO (First In First Out) 구조로 데이터를 저장하는 자료구조이다. 스택과 큐 알고리즘에 대한 예를 정리해 보았다.<!--more-->
 
 ### 1. 탑
 > 수평 직선에 탑 N대를 세웠습니다. 모든 탑의 꼭대기에는 신호를 송/수신하는 장치를 설치했습니다. 발사한 신호는 신호를 보낸 탑보다 높은 탑에서만 수신합니다. 또한, 한 번 수신된 신호는 다른 탑으로 송신되지 않습니다. heights는 길이 2 이상 100 이하인 정수 배열이며, 신호를 수신하는 탑이 없으면 0으로 표시합니다.
