@@ -56,7 +56,7 @@ print(names_dict)
 defaultdict(<class 'list'>, {'Bob': 1, 'Katie': 2, 'Sara': []})
 ```
 
-- 마찬가지로 기본 형식으로 `dict`로 지정하면 "Sara"의 값은 {}가 된다.
+- 마찬가지로, 기본 형식으로 `dict`로 지정하면 "Sara"의 값은 {}가 된다.
 <br>
 <br>
 
@@ -128,6 +128,9 @@ print(queue)
 # >>> deque([3, 4, 5, 6, 7, 8, 9, 10])
 ```
 
+여기까지 `collections` 라이브러리의 기본적인 사용법을 정리해 보았다. `dictionary` 처럼 key - value 구조를 가지는 `tuple`인 `namedtuple`이라는 타입도 있지만, 활용할 필요성을 찾지 못해 이 글에는 추가하지 않았다.
+
+python에서 `stack`, `queue`를 구현하는 추가적인 방법이나 활용성에 대해서 추가적인 것들이 있으면 이후 추가하도록 하겠다.
 
 
 <br>
