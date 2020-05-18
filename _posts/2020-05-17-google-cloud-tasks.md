@@ -13,16 +13,16 @@ excerpt_separator: <!--more-->
 
 목차는 아래와 같다.
 
-1. [cloud tasks 개요](#cloud-tasks-개요)
-2. [google cloud platform에서 cloud tasks 설정]()
-3. [http target task 만들기]()
-4. [mongodb atlas 계정 및 cluster 생성]()
+1. [Cloud Tasks 개요](#cloud-tasks-개요)
+2. [Google Cloud Platform에서 Cloud Tasks 설정]()
+3. [HTTP Target Task 만들기]()
+4. [MongoDB Atlas 계정 및 Cluster 생성]()
 5. [API 데이터 요청, MongoDB 및 GCP에서 상태 확인]()
 6. [최종 데이터 확인, BigQuery에 Load]()
 
 - ~~실제 데이터 요청시 로컬 머신 vs Cloud Tasks 소요 시간까지 비교해 보기~~
 
-### cloud tasks 개요
+### Cloud Tasks 개요
 
 태스크들은 기본적으로 클라우드 상의 큐(Queue)에 추가되고, 태스크가 성공적으로 실행될 때까지 큐는 태스크를 지속한다.
 
