@@ -20,10 +20,10 @@ Cloud Tasks는 기본적으로 태스크들이 클라우드 상의 큐(Queue)에
 목차는 아래와 같다.
 
 1. [Google Cloud Platform에서 Cloud Tasks 설정](#google-cloud-platform에서-cloud-tasks-설정)
-2. [HTTP Target Task 만들기](http-target-task-만들기)
-3. [MongoDB Atlas 계정 및 Cluster 생성](mongodb-atlas-계정-및-cluster-생성)
-4. [API 데이터 요청, MongoDB 및 GCP에서 상태 확인](api-데이터-요청,-mongodb-및-gcp에서-상태-확인)
-5. [최종 데이터 확인, BigQuery에 Load](최종-데이터-확인,-bigquery에-load)
+2. [HTTP Target Task 만들기](#http-target-task-만들기)
+3. [MongoDB Atlas 계정 및 Cluster 생성](#mongodb-atlas-계정-및-cluster-생성)
+4. [API 데이터 요청, MongoDB 및 GCP에서 상태 확인](#api-데이터-요청,-mongodb-및-gcp에서-상태-확인)
+5. [최종 데이터 확인, BigQuery에 Load](#최종-데이터-확인,-bigquery에-load)
 
 - ~~실제 데이터 요청시 로컬 머신 vs Cloud Tasks 소요 시간까지 비교해 보기~~
 
@@ -165,12 +165,23 @@ def create_task(project, queue, location, payload=None, in_seconds=None):
 ### MongoDB Atlas 계정 및 Cluster 생성
 
 
+<br>
+<br>
+
+
 
 ### API 데이터 요청, MongoDB 및 GCP에서 상태 확인
+
+<br>
+<br>
 
 
 
 ### 최종 데이터 확인, BigQuery에 Load
+
+
+<br>
+<br>
 
 
 ---
