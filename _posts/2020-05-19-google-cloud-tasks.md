@@ -251,7 +251,8 @@ dnspython
 ```
 
 - 페이지 하단에 **배포** 버튼을 클릭하면, **테스트** 탭에서 실행해 볼 수 있다. API 요청시 parameter로 들어갈 `name`을 넣어 테스트 하면 된다.
-![test](https://i.imgur.com/iXBGgbl.png)
+
+![test 복사본](https://i.imgur.com/OEeHtwc.png)
 
 이제 비동기 태스크 처리 작업을 진행한다. 위에서 모든 탑승객의 이름을 저장한 `user_list`를 가지고 `dispatch_task` 함수를 실행하면 된다.
 
