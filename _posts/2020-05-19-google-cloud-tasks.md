@@ -39,16 +39,12 @@ Cloud Tasks는 기본적으로 태스크들이 클라우드 상의 큐(Queue)에
 ![스크린샷 2020-05-18 오후 4.13.16](https://i.imgur.com/YlVArXn.png)
 
 이제 [Cloud Tasks 큐 빠른 시작](https://cloud.google.com/tasks/docs/quickstart-appengine) 문서를 따라 진행해야 한다. **Cloud Tasks 큐 만들기** 단계까지만 진행하면 된다. 그 밑에 **Cloud Tasks 큐에 태스크 추가** 단계도 있는데, 다른 태스크(API 쿼리 요청)를 추가할 것이므로 일단 넘어가도 된다.
-
-먼저 App Engine 페이지로 이동하여 프로젝트를 만들고, 애플리케이션의 리전을 선택하면 된다. 어느 리전을 선택해도 큰 상관은 없는데, 필자는 `us-central`(이 경우 Cloud Tasks 명령어에서는 `us-central1`으로 사용할 수 있다)을 선택했다.
-
-**시작하기** 버튼이 나오면 언어와 환경 설정이 나오는데, 이 글에서는 `python`으로 실습할 것이므로 python을 선택하고(물론 선호하는 언어가 있다면 변경 가능), `표준` Environment를 선택한다.
-
-다음은 Cloud SDK를 다운로드하고 컴퓨터 환경에 적용하는 과정이다. [연결되는 링크](https://cloud.google.com/sdk/docs/quickstarts)에서 OS에 맞게 진행하면 된다.
-- 터미널에서 `gcloud` 명령어를 실행하려면, `pip install gcloud` 설치 후 터미널을 재시작하면 된다. 이후 `gcloud init`으로 문서에 맞게 자신의 계정 정보를 입력하면 된다.
-
-4-a 단계에서는 서비스 계정을 만들어야 한다.
-- [서비스 계정 만들기 페이지](https://cloud.google.com/docs/authentication/getting-started#creating_a_service_account)에서 아래와 같은 코드를 실행하라고 나오는데, `pip install google-cloud-storage` 설치 후 진행하면 된다.
+- 먼저 App Engine 페이지로 이동하여 프로젝트를 만들고, 애플리케이션의 리전을 선택하면 된다. 어느 리전을 선택해도 큰 상관은 없는데, 필자는 `us-central`(이 경우 Cloud Tasks 명령어에서는 `us-central1`으로 사용할 수 있다)을 선택했다.
+- **시작하기** 버튼이 나오면 언어와 환경 설정이 나오는데, 이 글에서는 `python`으로 실습할 것이므로 python을 선택하고(물론 선호하는 언어가 있다면 변경 가능), `표준` Environment를 선택한다.
+- 다음은 Cloud SDK를 다운로드하고 컴퓨터 환경에 적용하는 과정이다. [연결되는 링크](https://cloud.google.com/sdk/docs/quickstarts)에서 OS에 맞게 진행하면 된다.
+  - 터미널에서 `gcloud` 명령어를 실행하려면, `pip install gcloud` 설치 후 터미널을 재시작하면 된다. 이후 `gcloud init`으로 문서에 맞게 자신의 계정 정보를 입력하면 된다.
+- 4-a 단계에서는 서비스 계정을 만들어야 한다.
+  - [서비스 계정 만들기 페이지](https://cloud.google.com/docs/authentication/getting-started#creating_a_service_account)에서 아래와 같은 코드를 실행하라고 나오는데, `pip install google-cloud-storage` 설치 후 진행하면 된다.
 
 ```py
 def implicit():
