@@ -12,8 +12,8 @@ excerpt_separator: <!--more-->
 서론이 길었는데, 오늘 내용은 이렇게 로컬 머신에서 반복해서 API 쿼리를 요청하는 대신 **Google Cloud에서 분산처리** 를 통해 데이터를 저장하는 것이다. 애플리케이션 외부에서 독립적인 태스크들을 비동기식으로 처리하기 때문에 같은 작업을 반복하는 것보다 작업 시간을 큰 폭으로 줄일 수 있는 내용이다.
 
 각 태스크에서는 API 서버에서 데이터를 받아 `MongoDB`에 쌓고, 최종적으로 쌓인 데이터는 `BigQuery`에 적재할 것이다. 이유는 다음과 같다.
-- `MongoDB`는 document 단위로 데이터가 적재되며, 동시다발적인 레코드 추가 속도가 빠른 편
-- `BigQuery`는 대용량 데이터 Load에 최적화된 Data Warehouse이기 때문에, 여러 레코드 추가보다는 하나의 큰 데이터에 적합함
+- `MongoDB`는 document 단위로 데이터가 저장되어, 추가 속도가 빠른 편
+- `BigQuery`는 여러 레코드 추가보다는 하나의 큰 데이터에 Load에 적합한 Data Warehouse
 
 Cloud Tasks는 기본적으로 태스크들이 클라우드 상의 큐(Queue)에 추가되고, 태스크가 성공적으로 실행될 때까지 큐가 태스크를 지속하는 구조이다. Cloud Tasks 개요에 대해서는 [Google Cloud 공식 문서](https://cloud.google.com/tasks/docs/dual-overview)에 정리가 잘 되어 있어서, 해당 글을 보는 것을 추천한다. **이 글에서는 실제 사용 방법에 대해서** 소개하고자 한다.
 
@@ -45,7 +45,6 @@ Cloud Tasks는 기본적으로 태스크들이 클라우드 상의 큐(Queue)에
   - 터미널에서 `gcloud` 명령어를 실행하려면, `pip install gcloud` 설치 후 터미널을 재시작하면 된다. 이후 `gcloud init`으로 문서에 맞게 자신의 계정 정보를 입력하면 된다.
 - 4-a 단계에서는 서비스 계정을 만들어야 한다.
   - [서비스 계정 만들기 페이지](https://cloud.google.com/docs/authentication/getting-started#creating_a_service_account)에서 아래와 같은 코드를 실행하라고 나오는데, `pip install google-cloud-storage` 설치 후 진행하면 된다.
-
 ```py
 def implicit():
     from google.cloud import storage
@@ -144,9 +143,9 @@ def create_task(project, queue, location, payload=None, in_seconds=None):
 2. 환경변수 설정
   - 환경변수 `GOOGLE_APPLICATION_CREDENTIALS`로 키 파일을 설정하는 과정이다.
   - OS에 따라 다른데, Mac OS의 경우는 다음과 같다.
-  - `vi ~/.bash_profile`
-  - 빈 곳에 `export GOOGLE_APPLICATION_CREDENTIALS=키 파일 주소` 입력
-  - `source ~/.bash_profile`
+    - `vi ~/.bash_profile`: 에디터 열기
+    - 빈 곳에 `export GOOGLE_APPLICATION_CREDENTIALS=키 파일 주소` 입력
+    - `source ~/.bash_profile`: 변경사항 적용
 
 이제 위 코드를 다시 실행하면 된다.
 <br>
@@ -165,7 +164,7 @@ def create_task(project, queue, location, payload=None, in_seconds=None):
 - 이제 python에서 MongoDB를 연결 후 컨트롤(데이터 추가, 삭제 등)하기 위해 `pymongo` 라는 라이브러리를 이용할 것이다. 위 단계에서 확인한 MongoDB Connection String이 필요하다. 아래와 같은 형식의 주소이다.
   - `mongodb+srv://matthew:<password>@cluster0-ulk38.gcp.mongodb.net/test?retryWrites=true&w=majority`
 - 터미널에서 `pip install pymongo`, `pip install dnspython`을 실행하여 필요한 라이브러리를 설치한다.
-- 아래 코드를 실행하여 정상적으로 연결이 되는지 확인한다. 코드에서 `titanic`은 collection의 이름이며, 자유롭게 설정해도 된다.
+- 아래 코드를 실행하여 정상적으로 연결이 되는지 확인한다. 코드에서 `titanic`은 collection(테이블)의 이름이며, 자유롭게 설정해도 된다.
 ```py
 from pymongo import MongoClient
 
@@ -173,6 +172,8 @@ client = MongoClient('mongodb+srv://matthew:1234@cluster0-ulk38.gcp.mongodb.net/
 db = client.test
 print(db.titanic)
 ```
+
+
 
 
 
