@@ -78,14 +78,10 @@ implicit()
 ### HTTP Target Task 만들기
 
 각 작업을 실행하는 `태스크 핸들러`를 생성하는 과정이다. API 쿼리를 300번 요청한다고 하면, 300개의 독립적인 태스크를 만들어 Google Cloud에서 컨트롤할 수 있도록 매핑해 주어야 한다.
-
-먼저 GCP [Cloud Functions](https://console.cloud.google.com/functions/)에서 **함수 만들기** 로 들어가 함수를 생성한다.
-
-함수 이름은 자유롭게, 할당 메모리는 기본값인 256MiB, 트리거 역시 기본값인 HTTP를 선택한다. 이 때 주의해야 할 점은, **인증되지 않은 호출 허용 옵션** 을 설정하여 추가적인 인증 없이 빠르게 태스크를 진행할 수 있게 한다.
-
+- 먼저 GCP [Cloud Functions](https://console.cloud.google.com/functions/)에서 **함수 만들기** 로 들어가 함수를 생성한다.
+- 함수 이름은 자유롭게, 할당 메모리는 기본값인 256MiB, 트리거 역시 기본값인 HTTP를 선택한다. 이 때 주의해야 할 점은, **인증되지 않은 호출 허용 옵션** 을 설정하여 추가적인 인증 없이 빠르게 태스크를 진행할 수 있게 한다.
 ![스크린샷 2020-05-18 오후 5.11.07](https://i.imgur.com/gc8ZMI5.png)
-
-소스 코드는 인라인 편집기, 런타임은 `Python 3.7`, 실행할 함수는 `hello_world`로 그대로 둔다.
+- 소스 코드는 인라인 편집기, 런타임은 `Python 3.7`, 실행할 함수는 `hello_world`로 그대로 둔다.
 
 cloud function을 생성했으면, 생성한 함수와의 dispatch 작업을 위해 아래 코드를 실행한다. 몇몇 부분을 본인의 설정 사항에 따라서 변경해야 한다.
 - `dispatch_task` 함수
@@ -172,7 +168,16 @@ def create_task(project, queue, location, payload=None, in_seconds=None):
   - 그리고 `0.0.0.0/0`을 입력하면 모든 네트워크에서 접근 가능하다.
   ![스크린샷 2020-05-19 오후 12.51.16](https://i.imgur.com/T5zPBG4.png)<br>
 
-- 이제 python에서 MongoDB를 연결 후 컨트롤(데이터 추가, 삭제 등)하기 위해 `pymongo` 라는 라이브러리를 이용할 것이다.
+- 이제 python에서 MongoDB를 연결 후 컨트롤(데이터 추가, 삭제 등)하기 위해 `pymongo` 라는 라이브러리를 이용할 것이다. 위 단계에서 확인한 MongoDB Connection String이 필요하다. 아래와 같은 형식의 주소이다.
+  - `mongodb+srv://matthew:<password>@cluster0-ulk38.gcp.mongodb.net/test?retryWrites=true&w=majority`
+
+```py
+from pymongo import MongoClient
+
+client = MongoClient('mongodb+srv://matthew:1234@cluster0-ulk38.gcp.mongodb.net/test?retryWrites=true&w=majority')
+db = client.test
+print(db.titanic)
+```
 
 
 
