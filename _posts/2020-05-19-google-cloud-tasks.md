@@ -163,18 +163,24 @@ def create_task(project, queue, location, payload=None, in_seconds=None):
   ![스크린샷 2020-05-19 오후 12.51.16](https://i.imgur.com/T5zPBG4.png)<br>
 
 - 이제 python에서 MongoDB를 연결 후 컨트롤(데이터 추가, 삭제 등)하기 위해 `pymongo` 라는 라이브러리를 이용할 것이다. 위 단계에서 확인한 MongoDB Connection String이 필요하다. 아래와 같은 형식의 주소이다.
-  - `mongodb+srv://matthew:<password>@cluster0-ulk38.gcp.mongodb.net/test?retryWrites=true&w=majority`
+  - `mongodb+srv://<id>:<password>@cluster0-ulk38.gcp.mongodb.net/test?retryWrites=true&w=majority`
 - 터미널에서 `pip install pymongo`, `pip install dnspython`을 실행하여 필요한 라이브러리를 설치한다.
 - 아래 코드를 실행하여 정상적으로 연결이 되는지 확인한다. 코드에서 `titanic`은 collection(테이블)의 이름이며, 자유롭게 설정해도 된다.
 
 ```py
 from pymongo import MongoClient
 
-client = MongoClient('mongodb+srv://matthew:1234@cluster0-ulk38.gcp.mongodb.net/test?retryWrites=true&w=majority')
+client = MongoClient('mongodb+srv://<id>:<password>@cluster0-ulk38.gcp.mongodb.net/test?retryWrites=true&w=majority')
 db = client.test
 print(db.titanic)
 ```
 
+<br>
+<br>
+
+
+
+### API 데이터 요청 및 진행 상태 확인
 - 준비된 API 데이터는 다음과 같다. 유명한 titanic 데이터를 바탕으로 한다. `get_user_list`는 모든 탑승객의 이름을 얻는 함수이고, `get_user_by_name`은 parameter로 탑승객의 이름을 주면 해당 탑승객의 데이터(row)를 얻을 수 있다.
 
 ```py
@@ -203,53 +209,47 @@ len(user_list)
 ```
 
 - 이제 각 이름별로 쿼리하는 Cloud Task를 만들어 비동기식으로 데이터를 저장한다. 이 작업은 **클라우드** 에서 처리한다.
-  - 위에서 생성한 cloud function으로 들어가 **소스** 탭으로 이동한다. `main.py`는 작업을 실행할 코드가 들어갈 부분이고, `requirements.txt`는 실행에 필요한 라이브러리들을 명시해 주는 부분이다. 클라우드 환경에서는 로컬 환경과 달리 표준 라이브러리 외의 라이브러리가 없기 때문이다.
-  - 상단 메뉴에서 **수정** 으로 들어간다.
-  - `main.py` 코드는 다음과 같다.
-  ```py
-  from pymongo import MongoClient
-  import ast
-  import requests
+- 위에서 생성한 cloud function으로 들어가 **소스** 탭으로 이동한다. `main.py`는 작업을 실행할 코드가 들어갈 부분이고, `requirements.txt`는 실행에 필요한 라이브러리들을 명시해 주는 부분이다. 클라우드 환경에서는 로컬 환경과 달리 표준 라이브러리 외의 라이브러리가 없기 때문이다.
+- 상단 메뉴에서 **수정** 으로 들어간다.
+- `main.py` 코드는 다음과 같다.
 
-  client = MongoClient('mongodb+srv://matthew:1234@cluster0-ulk38.gcp.mongodb.net/test?retryWrites=true&w=majority')
-  db = client.test
+```py
+from pymongo import MongoClient
+import ast
+import requests
 
-  def hello_world(request):
-      """Responds to any HTTP request.
-      Args:
-          request (flask.Request): HTTP request object.
-      Returns:
-          The response text or any set of values that can be turned into a
-          Response object using
-          `make_response <http://flask.pocoo.org/docs/1.0/api/#flask.Flask.make_response>`.
-      """
-      payload = request.get_data(as_text=True)
-      request_json = ast.literal_eval(payload)
+client = MongoClient('mongodb+srv://<id>:<password>@cluster0-ulk38.gcp.mongodb.net/test?retryWrites=true&w=majority')
+db = client.test
 
-      r = requests.post(url = "https://us-central1-contxtsio-267105.cloudfunctions.net/get_user_by_name",
-      json=request_json)
+def hello_world(request):
+    """Responds to any HTTP request.
+    Args:
+        request (flask.Request): HTTP request object.
+    Returns:
+        The response text or any set of values that can be turned into a
+        Response object using
+        `make_response <http://flask.pocoo.org/docs/1.0/api/#flask.Flask.make_response>`.
+    """
+    payload = request.get_data(as_text=True)
+    request_json = ast.literal_eval(payload)
 
-      db.users.insert_one(r.json())
+    r = requests.post(url = "https://us-central1-contxtsio-267105.cloudfunctions.net/get_user_by_name",
+    json=request_json)
 
-      return "Success"
-  ```
-  - `requirements.txt`는 위 코드에서 필요한 라이브러리들을 써 주면 된다.
-    ```
-    pymongo
-    ast
-    requests
-    ```
-- ff
+    db.titanic.insert_one(r.json())
 
+    return "Success"
+```
 
+- `requirements.txt`는 위 코드 실행에 필요한 라이브러리들을 써 주면 된다. `ast`는 표준 라이브러리이므로 생략해도 된다. MongoDB 연결시 필요했던 `dnspython`도 써 준다.
+```
+pymongo
+requests
+dnspython
+```
 
-<br>
-<br>
-
-
-
-### API 데이터 요청 및 진행 상태 확인
-- MongoDB, GCP에서 큐 진행 상태 확인
+- 페이지 하단에 **배포** 버튼을 클릭하면, **테스트** 탭에서 실행해 볼 수 있다. API 요청시 parameter로 들어갈 `name`을 넣어 테스트 하면 된다.
+![스크린샷 2020-05-19 오후 2.54.55](https://i.imgur.com/XnIMC94.png)
 
 
 <br>
