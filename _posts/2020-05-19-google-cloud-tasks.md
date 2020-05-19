@@ -6,7 +6,7 @@ categories: [Data]
 image: "assets/img/tasks.jpg"
 excerpt_separator: <!--more-->
 ---
-클라우드 상에서 API 쿼리를 분산처리하는 방법 중 하나인 [Google Cloud Tasks](https://cloud.google.com/tasks/docs/dual-overview)를 소개한다.<!--more-->
+클라우드에서 비동기식 분산처리하는 방법 중 하나인 [Google Cloud Tasks](https://cloud.google.com/tasks/docs/dual-overview)를 소개한다.<!--more-->
 
 광고회사에서 데이터 분석을 할 때, YouTube Analytics API에서 데이터를 일별/영상별로 쿼리하여 2년 간의 데이터를 수집해야 하는 경우가 있었다. 채널의 영상이 200개 정도 되었던 것 같은데, `730(2년) * 200(영상 개수) = 146,000`번의 쿼리를 요청해야 모든 데이터 수집이 가능했다. Google 계정 인증 후 `access_token`을 발급하여 쿼리를 요청해야 했는데, 문제는 이 token이 1시간마다 만료된다는 것이었다. 146,000번의 쿼리를 요청해서 데이터를 받는 데 예상 시간이 하루는 족히 넘었던 것으로 기억한다. 그래서 로컬 머신에서 이 작업을 하려면 수십 시간동안 `access_token`을 재발급해가며 계속해서 쿼리 요청을 해야 하는데, 도중에 서버에서 막힐 우려도 있었다. 결국 작업을 포기하고 해당 데이터 없이 프로젝트를 진행했다. 데이터 엔지니어링 공부를 시작하게 된 계기이기도 하다.
 
