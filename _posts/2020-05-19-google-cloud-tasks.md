@@ -45,27 +45,24 @@ Cloud Tasks는 기본적으로 태스크들이 클라우드 상의 큐(Queue)에
   - 터미널에서 `gcloud` 명령어를 실행하려면, `pip install gcloud` 설치 후 터미널을 재시작하면 된다. 이후 `gcloud init`으로 문서에 맞게 자신의 계정 정보를 입력하면 된다.
 - 4-a 단계에서는 서비스 계정을 만들어야 한다.
   - [서비스 계정 만들기 페이지](https://cloud.google.com/docs/authentication/getting-started#creating_a_service_account)에서 아래와 같은 코드를 실행하라고 나오는데, `pip install google-cloud-storage` 설치 후 진행하면 된다.
+  ```py
+  def implicit():
+      from google.cloud import storage
 
-```py
-def implicit():
-    from google.cloud import storage
+      # If you don't specify credentials when constructing the client, the
+      # client library will look for credentials in the environment.
+      storage_client = storage.Client()
 
-    # If you don't specify credentials when constructing the client, the
-    # client library will look for credentials in the environment.
-    storage_client = storage.Client()
+      # Make an authenticated API request
+      buckets = list(storage_client.list_buckets())
+      print(buckets)
 
-    # Make an authenticated API request
-    buckets = list(storage_client.list_buckets())
-    print(buckets)
-
-implicit()
-```
-
-실행하면 아래와 같이 출력될 것이다.
-
-```py
-[<Bucket: {프로젝트 ID}.appspot.com>, <Bucket: staging.{프로젝트 ID}.appspot.com>, <Bucket: us.artifacts.{프로젝트 ID}.appspot.com>]
-```
+  implicit()
+  ```
+  - 실행하면 아래와 같이 출력될 것이다.
+  ```py
+  [<Bucket: {프로젝트 ID}.appspot.com>, <Bucket: staging.{프로젝트 ID}.appspot.com>, <Bucket: us.artifacts.{프로젝트 ID}.appspot.com>]
+  ```
 
 중간 과정들을 많이 생략했는데, 추후 보완하겠다. **Cloud Tasks 큐 만들기** 단계에서 생성한 큐의 출력까지 확인했으면 다음으로 넘어가면 된다.
 <br>
@@ -166,7 +163,8 @@ def create_task(project, queue, location, payload=None, in_seconds=None):
 
 - 이제 python에서 MongoDB를 연결 후 컨트롤(데이터 추가, 삭제 등)하기 위해 `pymongo` 라는 라이브러리를 이용할 것이다. 위 단계에서 확인한 MongoDB Connection String이 필요하다. 아래와 같은 형식의 주소이다.
   - `mongodb+srv://matthew:<password>@cluster0-ulk38.gcp.mongodb.net/test?retryWrites=true&w=majority`
-
+- 터미널에서 `pip install pymongo`, `pip install dnspython`을 실행하여 필요한 라이브러리를 설치한다.
+- 아래 코드를 실행하여 정상적으로 연결이 되는지 확인한다.
 ```py
 from pymongo import MongoClient
 
