@@ -45,6 +45,7 @@ Cloud Tasks는 기본적으로 태스크들이 클라우드 상의 큐(Queue)에
   - 터미널에서 `gcloud` 명령어를 실행하려면, `pip install gcloud` 설치 후 터미널을 재시작하면 된다. 이후 `gcloud init`으로 문서에 맞게 자신의 계정 정보를 입력하면 된다.
 - 4-a 단계에서는 서비스 계정을 만들어야 한다.
   - [서비스 계정 만들기 페이지](https://cloud.google.com/docs/authentication/getting-started#creating_a_service_account)에서 아래와 같은 코드를 실행하라고 나오는데, `pip install google-cloud-storage` 설치 후 진행하면 된다.
+
 ```py
 def implicit():
     from google.cloud import storage
@@ -172,6 +173,8 @@ client = MongoClient('mongodb+srv://matthew:1234@cluster0-ulk38.gcp.mongodb.net/
 db = client.test
 print(db.titanic)
 ```
+
+
 
 
 
