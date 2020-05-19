@@ -3,6 +3,7 @@ layout: post
 title: Google Cloud Tasks 써 보기
 tags: [cloud, google, api, distribution]
 categories: [Data]
+image: "assets/img/tasks.jpg"
 excerpt_separator: <!--more-->
 ---
 클라우드 상에서 API 쿼리를 분산처리하는 방법 중 하나인 [Google Cloud Tasks](https://cloud.google.com/tasks/docs/dual-overview)를 소개한다.<!--more-->
@@ -278,4 +279,4 @@ for user in user_list:
 - [Cloud Tasks 큐 빠른 시작](https://cloud.google.com/tasks/docs/quickstart-appengine)
 - [Google Cloud Platform에서 Cloud Tasks 설정](https://cloud.google.com/tasks/docs/quickstart-appengine)
 - [HTTP Target Task 만들기](https://cloud.google.com/tasks/docs/creating-http-target-tasks)
-- [Atlas 무료 MongoDB 사용 방법](https://ndb796.tistory.com/302) 글에 상세히 소개되어 있다.
+- [Atlas 무료 MongoDB 사용 방법](https://ndb796.tistory.com/302)
