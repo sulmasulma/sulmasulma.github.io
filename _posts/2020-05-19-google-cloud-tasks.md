@@ -166,6 +166,7 @@ def create_task(project, queue, location, payload=None, in_seconds=None):
   - `mongodb+srv://matthew:<password>@cluster0-ulk38.gcp.mongodb.net/test?retryWrites=true&w=majority`
 - 터미널에서 `pip install pymongo`, `pip install dnspython`을 실행하여 필요한 라이브러리를 설치한다.
 - 아래 코드를 실행하여 정상적으로 연결이 되는지 확인한다. 코드에서 `titanic`은 collection(테이블)의 이름이며, 자유롭게 설정해도 된다.
+
 ```py
 from pymongo import MongoClient
 
