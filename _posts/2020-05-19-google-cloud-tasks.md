@@ -93,7 +93,7 @@ cloud function을 생성했으면, 생성한 함수와의 dispatch 작업을 위
   - API 쿼리 시 들어갈 parameter들은 `payload`에 넣어주면 된다. 이 parameter를 Cloud Function에서는 `json`이 아닌 byte array로만 받기 때문에, 반드시 `str` 타입으로 변형해 주어야 한다.
 - `create_task` 함수
   - Cloud Tasks에서는 반드시 `POST` 방식으로 요청해야 한다.
-  - `url`은 본인의 cluod function 주소이다. GCP에서 해당 함수로 들어가면 **트리거** 탭의 URL에서 확인할 수 있다.
+  - `url`은 본인의 cluod function 주소이다. GCP [Cloud Functions](https://console.cloud.google.com/functions/)에서 생성한 함수로 들어가면 **트리거** 탭의 URL에서 확인할 수 있다.
 
 ```py
 import datetime
@@ -163,6 +163,19 @@ def create_task(project, queue, location, payload=None, in_seconds=None):
 <br>
 
 ### MongoDB Atlas 계정 및 Cluster 생성
+- MongoDB를 사용해 보지 않았다면, 처음에 시작하는 방법에 대해서 [Atlas 무료 MongoDB 사용 방법](https://ndb796.tistory.com/302) 글에 상세히 소개되어 있다. 글 내용에 따라 Free Tier로 Cluster를 생성하면 된다.
+  - 클라우드 서비스로 AWS, GCP, Azure 중 하나를 선택해야 하는데, 이 글에서는 GCP에서 진행하고 있으므로 GCP를 선택해 준다. (큰 상관은 없을 것 같다.)
+  - 기본 설정대로, 무료 요금제로 진행하면 512MB의 스토리지를 얻게 된다.
+  - 위 글에서는 **CONNECT** 단계에서 Driver로 `Node.js`를 선택했는데, 여기서는 python을 사용할 것이므로 `Python` 3.6 or later를 선택한다.
+  - (필요시) DB에 접근 가능한 IP를 설정할 수 있다. 위 글에서는 현재 IP 주소로 설정하도록 안내하고 있는데, IP에 상관 없이 모든 네트워크에서 접근 가능하게 할 수 있다. MongoDB Atlas 좌측 메뉴의 Network Access에 들어온 다음, 우측에 있는 **EDIT** 버튼을 클릭한다.
+  ![스크린샷 2020-05-19 오후 12.50.54](https://i.imgur.com/NHeigRq.png)
+  - 그리고 `0.0.0.0/0`을 입력하면 모든 네트워크에서 접근 가능하다.
+  ![스크린샷 2020-05-19 오후 12.51.16](https://i.imgur.com/T5zPBG4.png)<br>
+
+- 이제 python에서 MongoDB를 연결 후 컨트롤(데이터 추가, 삭제 등)하기 위해 `pymongo` 라는 라이브러리를 이용할 것이다.
+
+
+
 
 
 <br>
@@ -186,6 +199,8 @@ def create_task(project, queue, location, payload=None, in_seconds=None):
 <br>
 
 
+이 글을 쓰는 데 (직접적이진 않지만) 도움을 주신 Google Cloud 관리자 및 블로그 작성자 분들께 감사를 표합니다.
+
 ---
 출처
 - [Cloud Tasks 개요](https://cloud.google.com/tasks/docs/dual-overview)
@@ -193,3 +208,4 @@ def create_task(project, queue, location, payload=None, in_seconds=None):
 - [Cloud Tasks 큐 빠른 시작](https://cloud.google.com/tasks/docs/quickstart-appengine)
 - [Google Cloud Platform에서 Cloud Tasks 설정](https://cloud.google.com/tasks/docs/quickstart-appengine)
 - [HTTP Target Task 만들기](https://cloud.google.com/tasks/docs/creating-http-target-tasks)
+- [Atlas 무료 MongoDB 사용 방법](https://ndb796.tistory.com/302) 글에 상세히 소개되어 있다.
