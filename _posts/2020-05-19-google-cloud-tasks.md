@@ -7,15 +7,15 @@ excerpt_separator: <!--more-->
 ---
 클라우드 상에서 API 쿼리를 분산처리하는 방법 중 하나인 [Google Cloud Tasks](https://cloud.google.com/tasks/docs/dual-overview)를 소개한다.<!--more-->
 
-광고회사에서 데이터 분석을 할 때, YouTube Analytics API에서 데이터를 일별/영상별로 쿼리하여 2년 간의 데이터를 수집해야 하는 경우가 있었다. 채널의 영상이 200개 정도 되었던 것 같은데, `730(2년) * 200(영상 개수) = 144,000`번의 쿼리를 요청해야 모든 데이터 수집이 가능했다. Google 계정 인증 후 `access_token`을 발급하여 쿼리를 요청해야 했는데, 문제는 이 token이 1시간마다 만료된다는 것이었다. 144,000번의 쿼리를 요청해서 데이터를 받는 데 예상 시간이 10시간은 족히 넘었던 것으로 기억한다. 그래서 로컬 머신에서 이 작업을 하려면 수십 시간동안 `access_token`을 재발급해가며 계속해서 쿼리 요청을 해야 하는데, 503 에러가 나서 도중에 멈출 우려도 있었다. 결국 작업을 포기하고 해당 데이터 없이 프로젝트를 진행했다. 데이터 엔지니어링 공부를 시작하게 된 계기이기도 하다.
+광고회사에서 데이터 분석을 할 때, YouTube Analytics API에서 데이터를 일별/영상별로 쿼리하여 2년 간의 데이터를 수집해야 하는 경우가 있었다. 채널의 영상이 200개 정도 되었던 것 같은데, `730(2년) * 200(영상 개수) = 146,000`번의 쿼리를 요청해야 모든 데이터 수집이 가능했다. Google 계정 인증 후 `access_token`을 발급하여 쿼리를 요청해야 했는데, 문제는 이 token이 1시간마다 만료된다는 것이었다. 146,000번의 쿼리를 요청해서 데이터를 받는 데 예상 시간이 하루는 족히 넘었던 것으로 기억한다. 그래서 로컬 머신에서 이 작업을 하려면 수십 시간동안 `access_token`을 재발급해가며 계속해서 쿼리 요청을 해야 하는데, 도중에 서버에서 막힐 우려도 있었다. 결국 작업을 포기하고 해당 데이터 없이 프로젝트를 진행했다. 데이터 엔지니어링 공부를 시작하게 된 계기이기도 하다.
 
-서론이 길었는데, 오늘 내용은 이렇게 로컬 머신에서 반복해서 API 쿼리를 요청하는 대신 **Google Cloud에서 분산처리** 를 통해 데이터를 저장하는 것이다. 애플리케이션 외부에서 독립적인 태스크들을 비동기식으로 처리하기 때문에 같은 작업을 반복하는 것보다 작업 시간을 큰 폭으로 줄일 수 있는 내용이다.
+이 글은 이렇게 로컬 머신에서 반복해서 API 쿼리를 요청하는 대신 **Google Cloud에서 분산처리** 를 통해 데이터를 저장하는 것이다. 애플리케이션 외부에서 독립적인 태스크들을 비동기식으로 처리하기 때문에 같은 작업을 반복하는 것보다 작업 시간을 큰 폭으로 줄일 수 있는 내용이다.
 
 각 태스크에서는 API 서버에서 데이터를 받아 `MongoDB`에 쌓고, 최종적으로 쌓인 데이터는 `BigQuery`에 적재할 것이다. 이유는 다음과 같다.
 - `MongoDB`는 document 단위로 데이터가 저장되어, 추가 속도가 빠른 편
 - `BigQuery`는 여러 레코드 추가보다는 하나의 큰 데이터에 Load에 적합한 Data Warehouse
 
-Cloud Tasks는 기본적으로 태스크들이 클라우드 상의 큐(Queue)에 추가되고, 태스크가 성공적으로 실행될 때까지 큐가 태스크를 지속하는 구조이다. Cloud Tasks 개요에 대해서는 [Google Cloud 공식 문서](https://cloud.google.com/tasks/docs/dual-overview)에 정리가 잘 되어 있어서, 해당 글을 보는 것을 추천한다. **이 글에서는 실제 사용 방법에 대해서** 소개하고자 한다.
+Cloud Tasks는 기본적으로 태스크들이 클라우드 상의 큐(Queue)에 추가되고, 태스크가 성공적으로 실행될 때까지 큐가 태스크를 지속하는 구조이다. Cloud Tasks 개요에 대해서는 [Google Cloud 공식 문서](https://cloud.google.com/tasks/docs/dual-overview)에 정리가 잘 되어 있어서, 해당 글을 보는 것을 추천한다. 이 글에서는 **실제 사용 방법에 대해서** 소개하고자 한다.
 
 목차는 아래와 같다.
 
@@ -23,9 +23,6 @@ Cloud Tasks는 기본적으로 태스크들이 클라우드 상의 큐(Queue)에
 2. [HTTP Target Task 만들기](#http-target-task-만들기)
 3. [MongoDB Atlas 계정 및 Cluster 생성](#mongodb-atlas-계정-및-cluster-생성)
 4. [API 데이터 요청 및 진행 상태 확인](#api-데이터-요청-및-진행-상태-확인)
-5. [최종 데이터 확인 및 BigQuery에 Load](#최종-데이터-확인-및-bigquery에-load)
-
-- ~~실제 데이터 요청시 로컬 머신 vs Cloud Tasks 소요 시간까지 비교해 보기~~
 
 ### Google Cloud Platform에서 Cloud Tasks 설정
 
@@ -165,7 +162,7 @@ def create_task(project, queue, location, payload=None, in_seconds=None):
 - 이제 python에서 MongoDB를 연결 후 컨트롤(데이터 추가, 삭제 등)하기 위해 `pymongo` 라는 라이브러리를 이용할 것이다. 위 단계에서 확인한 MongoDB Connection String이 필요하다. 아래와 같은 형식의 주소이다.
   - `mongodb+srv://<id>:<password>@cluster0-ulk38.gcp.mongodb.net/test?retryWrites=true&w=majority`
 - 터미널에서 `pip install pymongo`, `pip install dnspython`을 실행하여 필요한 라이브러리를 설치한다.
-- 아래 코드를 실행하여 정상적으로 연결이 되는지 확인한다. 코드에서 `titanic`은 collection(테이블)의 이름이며, 자유롭게 설정해도 된다.
+- 아래 코드를 실행하여 정상적으로 연결이 되는지 확인한다. 코드에서 `titanic`은 Collection(테이블)의 이름이며, 자유롭게 설정해도 된다. `db.titanic`을 선언하고 데이터를 삽입하면 자동으로 `titanic`이라는 Collection이 생성된다.
 
 ```py
 from pymongo import MongoClient
@@ -173,12 +170,11 @@ from pymongo import MongoClient
 client = MongoClient('mongodb+srv://<id>:<password>@cluster0-ulk38.gcp.mongodb.net/test?retryWrites=true&w=majority')
 db = client.test
 print(db.titanic)
+# Collection 정보 확인 가능
 ```
 
 <br>
 <br>
-
-
 
 ### API 데이터 요청 및 진행 상태 확인
 준비된 API 데이터는 다음과 같다. 유명한 titanic 데이터를 바탕으로 한다.
@@ -195,7 +191,7 @@ param =  {
 }
 ```
 
-- 먼저 `get_user_list`는 모든 탑승객의 이름을 저장한다. 이 작업은 **로컬** 에서 처리한다.
+- 먼저 `get_user_list`는 모든 탑승객(총 1782명)의 이름을 저장한다. 이 작업은 **로컬** 에서 처리한다.
 
 ```py
 import requests
@@ -254,7 +250,7 @@ dnspython
 
 ![test 복사본](https://i.imgur.com/OEeHtwc.png)
 
-이제 비동기 태스크 처리 작업을 진행한다. 위에서 모든 탑승객의 이름을 저장한 `user_list`를 가지고 `dispatch_task` 함수를 실행하면 된다.
+이제 비동기 태스크 처리를 진행한다. 위에서 모든 탑승객의 이름을 저장한 `user_list`를 가지고 `dispatch_task` 함수를 실행하면 된다.
 
 ```py
 for user in user_list:
@@ -272,8 +268,8 @@ for user in user_list:
 
 ### 마무리하며
 
+클라우드에서 분산처리를 통해 데이터를 가져오는 작업을 생각은 해 보았지만 실제로 해 본 적은 없었다. 실제 업무에서는 클라우드 비용, 데이터의 양 등등 고려해야 하는 사항이 많겠지만 한 번 사용해 보는 데에 의미가 있었다. 실제 API 데이터 요청시 로컬 머신과 Cloud Tasks를 사용할 때 소요 시간까지 비교해 보면 좋을 것 같다. Spotify API에서 음원 데이터를 가져오는 작업을 하고 있는데, 바로 실행해 봐야겠다.
 
-이 글을 쓰는 데 (직접적이진 않지만) 도움을 주신 Google Cloud 관리자 및 블로그 작성자 분들께 감사를 표합니다.
 
 ---
 출처
