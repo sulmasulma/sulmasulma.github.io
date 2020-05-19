@@ -175,11 +175,71 @@ db = client.test
 print(db.titanic)
 ```
 
-- ㄹㄹ
+- 준비된 API 데이터는 다음과 같다. 유명한 titanic 데이터를 바탕으로 한다. `get_user_list`는 모든 탑승객의 이름을 얻는 함수이고, `get_user_by_name`은 parameter로 탑승객의 이름을 주면 해당 탑승객의 데이터(row)를 얻을 수 있다.
 
+```py
+url = "https://us-central1-contxtsio-267105.cloudfunctions.net/get_user_list"
+param =  {}
 
+url = "https://us-central1-contxtsio-267105.cloudfunctions.net/get_user_by_name"
+param =  {
+	    "name": "Braund, Mr. Owen Harris"
+}
+```
 
+- 먼저 `get_user_list`는 모든 탑승객의 이름을 저장한다. 이 작업은 **로컬** 에서 처리한다.
 
+```py
+import requests
+
+url = "https://us-central1-contxtsio-267105.cloudfunctions.net/get_user_list"
+param =  {}
+
+r = requests.get(url, params=param)
+user_list = r.json()['data']
+
+len(user_list)
+# >>> 1782
+```
+
+- 이제 각 이름별로 쿼리하는 Cloud Task를 만들어 비동기식으로 데이터를 저장한다. 이 작업은 **클라우드** 에서 처리한다.
+  - 위에서 생성한 cloud function으로 들어가 **소스** 탭으로 이동한다. `main.py`는 작업을 실행할 코드가 들어갈 부분이고, `requirements.txt`는 실행에 필요한 라이브러리들을 명시해 주는 부분이다. 클라우드 환경에서는 로컬 환경과 달리 표준 라이브러리 외의 라이브러리가 없기 때문이다.
+  - 상단 메뉴에서 **수정** 으로 들어간다.
+  - `main.py` 코드는 다음과 같다.
+  ```py
+  from pymongo import MongoClient
+  import ast
+  import requests
+
+  client = MongoClient('mongodb+srv://matthew:1234@cluster0-ulk38.gcp.mongodb.net/test?retryWrites=true&w=majority')
+  db = client.test
+
+  def hello_world(request):
+      """Responds to any HTTP request.
+      Args:
+          request (flask.Request): HTTP request object.
+      Returns:
+          The response text or any set of values that can be turned into a
+          Response object using
+          `make_response <http://flask.pocoo.org/docs/1.0/api/#flask.Flask.make_response>`.
+      """
+      payload = request.get_data(as_text=True)
+      request_json = ast.literal_eval(payload)
+
+      r = requests.post(url = "https://us-central1-contxtsio-267105.cloudfunctions.net/get_user_by_name",
+      json=request_json)
+
+      db.users.insert_one(r.json())
+
+      return "Success"
+  ```
+  - `requirements.txt`는 위 코드에서 필요한 라이브러리들을 써 주면 된다.
+    ```
+    pymongo
+    ast
+    requests
+    ```
+- ff
 
 
 
