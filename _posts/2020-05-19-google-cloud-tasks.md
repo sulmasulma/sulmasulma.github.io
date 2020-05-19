@@ -3,7 +3,7 @@ layout: post
 title: Google Cloud Tasks 써 보기
 tags: [cloud, google, api, distribution]
 categories: [Data]
-image: "assets/img/tasks.jpg"
+image: "assets/img/thumbnails/tasks.jpg"
 excerpt_separator: <!--more-->
 ---
 클라우드에서 비동기식 분산처리하는 방법 중 하나인 [Google Cloud Tasks](https://cloud.google.com/tasks/docs/dual-overview)를 소개한다.<!--more-->
