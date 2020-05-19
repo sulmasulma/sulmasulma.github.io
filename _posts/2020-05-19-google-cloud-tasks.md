@@ -181,7 +181,9 @@ print(db.titanic)
 
 
 ### API 데이터 요청 및 진행 상태 확인
-- 준비된 API 데이터는 다음과 같다. 유명한 titanic 데이터를 바탕으로 한다. `get_user_list`는 모든 탑승객의 이름을 얻는 함수이고, `get_user_by_name`은 parameter로 탑승객의 이름을 주면 해당 탑승객의 데이터(row)를 얻을 수 있다.
+준비된 API 데이터는 다음과 같다. 유명한 titanic 데이터를 바탕으로 한다.
+- `get_user_list`: 모든 탑승객의 이름을 얻을 수 있음
+- `get_user_by_name`: parameter로 탑승객의 이름을 주면 해당 탑승객의 데이터(row)를 얻을 수 있음
 
 ```py
 url = "https://us-central1-contxtsio-267105.cloudfunctions.net/get_user_list"
@@ -249,21 +251,25 @@ dnspython
 ```
 
 - 페이지 하단에 **배포** 버튼을 클릭하면, **테스트** 탭에서 실행해 볼 수 있다. API 요청시 parameter로 들어갈 `name`을 넣어 테스트 하면 된다.
-![스크린샷 2020-05-19 오후 2.54.55](https://i.imgur.com/XnIMC94.png)
+![test](https://i.imgur.com/iXBGgbl.png)
 
-이제 본격적인 비동기 태스크 처리 작업을 진행한다. 
+이제 비동기 태스크 처리 작업을 진행한다. 위에서 모든 탑승객의 이름을 저장한 `user_list`를 가지고 `dispatch_task` 함수를 실행하면 된다.
 
+```py
+for user in user_list:
+    dispatch_task(user)
+```
 
+실행 후 GCP [Cloud Tasks](https://console.cloud.google.com/cloudtasks) (**Cloud 작업** 이라고 번역되어 있다)에서 해당 큐로 들어가면, 동시에 여러 태스크들이 큐에 들어가 처리하는 것을 확인할 수 있다.
+![스크린샷 2020-05-19 오후 3.13.46](https://i.imgur.com/R51iqKR.png)
+
+- MongoDB Atlas에서도 document 수가 계속해서 늘어나는 것을 확인할 수 있다.
+- 다만 API 서버에 계속해서 접근해서 그런지 실행 도중에 `ServiceUnavailable: 503 failed to connect to all addresses` 에러가 나와 모든 데이터를 얻을 수는 없었다.
 
 <br>
 <br>
 
-### 최종 데이터 확인 및 BigQuery에 Load
-
-
-
-<br>
-<br>
+### 마무리하며
 
 
 이 글을 쓰는 데 (직접적이진 않지만) 도움을 주신 Google Cloud 관리자 및 블로그 작성자 분들께 감사를 표합니다.
