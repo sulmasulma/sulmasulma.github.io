@@ -259,7 +259,7 @@ for user in user_list:
 ```
 
 실행 후 GCP [Cloud Tasks](https://console.cloud.google.com/cloudtasks) (**Cloud 작업** 이라고 번역되어 있다)에서 해당 큐로 들어가면, 동시에 여러 태스크들이 큐에 들어가 처리되는 것을 확인할 수 있다.
-![스크린샷 2020-05-19 오후 3.13.46](https://i.imgur.com/R51iqKR.png)
+![스크린샷 2020-05-19 오후 3.13.46](https://i.imgur.com/cGpucQF.png)
 
 - MongoDB Atlas에서도 document 수가 계속해서 늘어나는 것을 확인할 수 있다.
 - 다만 API 서버에 계속해서 접근해서 그런지 실행 도중에 `ServiceUnavailable: 503 failed to connect to all addresses` 에러가 나와 모든 데이터를 얻을 수는 없었다.
