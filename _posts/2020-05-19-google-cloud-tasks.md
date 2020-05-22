@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Google Cloud Tasks 써 보기
+title: Google Cloud Tasks
 tags: [cloud, google, api, distribution]
 categories: [Data]
 image: "assets/img/thumbnails/tasks.jpg"
@@ -270,10 +270,9 @@ for user in user_list:
 ### 마무리하며
 
 클라우드에서 분산처리를 통해 데이터를 가져오는 작업을 생각은 해 보았지만 실제로 해 본 적은 없었다. 실제 업무에서는 클라우드 비용, 데이터의 양 등등 고려해야 하는 사항이 많겠지만 한 번 사용해 보는 데에 의미가 있었다.
-
 실제 API 데이터 요청시 로컬 머신과 Cloud Tasks를 사용할 때 소요 시간까지 비교해 보면 좋을 것 같다. Spotify API에서 음원 데이터를 가져오는 작업을 하고 있는데, 바로 실행해 봐야겠다.
 
-다음 포스팅에서 이렇게 모은 데이터를 `BigQuery`에 적재하여 `Google Data Studio` 대시보드로 시각화하는 과정까지 진행해 보겠다.
+다음 포스팅에서는 이렇게 모은 데이터를 `BigQuery`에 적재하여 `Google Data Studio` 대시보드로 시각화하는 과정까지 진행해 보겠다.
 
 
 ---
