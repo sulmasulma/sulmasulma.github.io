@@ -24,7 +24,7 @@ excerpt_separator: <!--more-->
 목차는 아래와 같다.
 
 1. [카카오톡 채널 생성 및 카카오 오픈빌더 봇 기본 설정](#카카오톡-채널-생성-및-카카오-오픈빌더-봇-기본-설정)
-2. [AWS Lambda, API Gateway 설정](#aws-lambda,-api-gateway-설정)
+2. [AWS Lambda 및 API Gateway 설정](#aws-lambda-및-api-gateway-설정)
 3. [카카오톡 메시지 입출력 및 봇 테스트](#카카오톡-메시지-입출력-및-봇-테스트)
 <br>
 <br>
@@ -86,7 +86,7 @@ excerpt_separator: <!--more-->
 <br>
 <br>
 
-### AWS Lambda, API Gateway 설정
+### AWS Lambda 및 API Gateway 설정
 
 AWS `Lambda`는 서버가 항상 켜져 있는 것이 아니라, 사용자의 request가 있을 때만 클라우드 자원을 할당하는 서버리스(Serverless) 서비스이다. 서버를 항시 가동하는 것에 비해서 컴퓨팅 자원이 적은 편이다. AWS에서도 프리티어 기준 월 100만 회 request가 가능하여, 내가 운영하는 서비스에서는 사실상 무한정 서비스가 가능하다.
 
@@ -165,8 +165,10 @@ def lambda_handler(event, context):
     }
 
 ```
+<br>
+<br>
 
-#### 카카오톡 메시지 입출력 및 봇 테스트
+### 카카오톡 메시지 입출력 및 봇 테스트
 
 이제 위에서 생성한 API 엔드포인트로 HTTP request를 보낼 것이다. 오픈 빌더로 돌아가 **스킬** 탭에서 스킬을 생성하고, API URL을 입력한다. 위에서 API 키를 설정했다면, 헤더값의 key로 `x-api-key`, value로 키를 입력하면 된다.
 
@@ -203,7 +205,7 @@ AWS `CloudWatch`에서 request를 수신하면 로그를 확인할 수 있는데
 <br>
 <br>
 
-여기까지 했으면, Lambda를 통한 챗봇 만들기에 대한 기본적인 설정은 끝났다. 이어지는 글에서 `Spotify` API 데이터를 이용하여 아티스트의 정보를 제공하는 것에 대해서 다루겠다.
+여기까지 했으면, Lambda를 통한 챗봇 만들기에 대한 기본적인 설정은 끝났다. [이어지는 글]()에서 `Spotify` API 데이터를 이용하여 아티스트의 정보를 제공하는 것에 대해서 다루겠다.
 
 
 ---
