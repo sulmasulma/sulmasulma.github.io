@@ -67,9 +67,9 @@ AWS `Lambda`는 서버가 항상 켜져 있는 것이 아니라, 사용자의 re
 
 #### Lambda 함수 생성
 
-Lambda에서 런타임을 설정하여 함수를 설정한다. 나는 `Python 3.7`을 선택했다.
+AWS Lambda에서 함수를 생성한다. 나는 런타임으로 `Python 3.7`을 선택했고, 권한 부분은 따로 건드리지 않았다.
 
-![스크린샷 2020-06-03 오후 5.20.13](/assets/스크린샷%202020-06-03%20오후%205.20.13.png)
+![4. lambda function](/assets/4.%20lambda%20function.png)
 
 
 
@@ -97,13 +97,12 @@ Lambda에서 런타임을 설정하여 함수를 설정한다. 나는 `Python 3
 - `header` 없어도 가능
   - [링크](https://smartshk.tistory.com/9)
 
-###
 
 - 요청할 파라미터: action > params
   - `artist_name`으로 the beatles 를 준 상태
 - request 형식
 
-```JSON
+```json
 {
   "intent": {
     "id": "qqz5oy80luysrtiq4ck4ql4h",
