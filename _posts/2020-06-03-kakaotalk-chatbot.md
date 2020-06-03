@@ -19,7 +19,7 @@ excerpt_separator: <!--more-->
 목차는 아래와 같다.
 
 1. [카카오톡 채널 생성 및 카카오 오픈빌더 봇 기본 설정](#카카오톡-채널-생성-및-카카오-오픈빌더-봇-기본-설정)
-2. [AWS Lambda + API Gateway 설정](#aws-lambda-+-api-gateway-설정)
+2. [AWS Lambda, API Gateway 설정](#aws-lambda,-api-gateway-설정)
 3. [카카오톡 메시지 입출력 및 봇 테스트](#카카오톡-메시지-입출력-및-봇-테스트)
 4. [Spotify API 데이터 이용하여 아티스트 정보 제공](#spotify-api-데이터-이용하여-아티스트-정보-제공)
 <br>
@@ -59,7 +59,7 @@ excerpt_separator: <!--more-->
 <br>
 <br>
 
-### AWS Lambda + API Gateway 설정
+### AWS Lambda, API Gateway 설정
 - 스킬 등록 부분 다루기
 
 
