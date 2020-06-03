@@ -60,7 +60,22 @@ excerpt_separator: <!--more-->
 <br>
 
 ### AWS Lambda, API Gateway 설정
-- 스킬 등록 부분 다루기
+
+AWS `Lambda`는 서버가 항상 켜져 있는 것이 아니라, 사용자의 request가 있을 때만 클라우드 자원을 할당하는 서버리스(Serverless) 서비스이다. 서버를 항시 가동하는 것에 비해서 컴퓨팅 자원이 적은 편이다. AWS에서도 프리티어 기준 월 100만 회 request가 가능하여, 내가 운영하는 서비스에서는 사실상 무한정 서비스가 가능하다.
+
+`Lambda`에서 lambda function을 만들고, `API Gateway`에서 API를 생성하여 lambda function과 연결해 준다. 이렇게 하면 사용자가 request가 발생했을 때 `API Gateway`에서 생성한 endpoint로 요청이 가고, lambda function이 작동하여 사용자에게 response를 응답해 준다.
+
+#### Lambda 함수 생성
+
+Lambda에서 런타임을 설정하여 함수를 설정한다. 나는 `Python 3.7`을 선택했다.
+
+![스크린샷 2020-06-03 오후 5.20.13](/assets/스크린샷%202020-06-03%20오후%205.20.13.png)
+
+
+
+
+#### 스킬 등록
+
 
 
 
