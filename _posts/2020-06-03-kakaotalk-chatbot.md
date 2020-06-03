@@ -93,7 +93,7 @@ AWS `Lambda`는 서버가 항상 켜져 있는 것이 아니라, 사용자의 re
 
 `Lambda`에서 lambda function을 만들고, `API Gateway`에서 API를 생성하여 lambda function과 연결해 준다. 이렇게 하면 카카오톡 메시지 request가 발생했을 때 `API Gateway`에서 생성한 endpoint로 요청이 가고, lambda function이 작동하여 사용자에게 response를 응답해 준다.
 
-<카카오톡 사용자 -> api gateway -> lambda -> 사용자 저니 그리기>
+<카카오톡 사용자 -> API Gateway -> Lambda -> 카카오톡 사용자>
 
 #### Lambda 함수 생성
 
