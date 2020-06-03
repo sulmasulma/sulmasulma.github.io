@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 데이터 엔지니어링 - AWS Lambda를 이용한 Serverless 카카오톡 챗봇 만들기
+title: AWS Lambda를 이용한 Serverless 카카오톡 챗봇 만들기
 tags: [kakaotalk, serverless, Data Engineering, AWS, chatbot]
 categories: [Data]
 excerpt_separator: <!--more-->
