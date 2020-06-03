@@ -77,10 +77,7 @@ excerpt_separator: <!--more-->
 
 ![20200603-3-3-parameter2](/assets/20200603-3-3-parameter2.png)
 
-
-
-
-
+여기까지 진행하고 시나리오 창 상단에 있는 **저장** 버튼을 누른다.
 
 <br>
 <br>
@@ -105,11 +102,12 @@ AWS Lambda에서 함수를 생성한다. 나는 런타임으로 `Python 3.7`을
 
 ![20200603-5-api](/assets/20200603-5-api.png)
 
-트리거 구성에서 **API 게이트웨이** 를 선택하고, API type은 **REST API** 로, 보안은 **열기** 를 선택한다. 보안은 **API key** 로 해야 좋지만, 오픈빌더에서 API 키로 헤더로 설정해도 도저히 요청이 가지 않아서 API 키가 없는 열기를 선택했다. 추가 세팅 부분은 따로 건드리지 않았다.
+트리거 구성에서 **API 게이트웨이** 를 선택하여 새 API를 생성한다. API type은 **REST API** 로, 보안은 **열기** 를 선택한다. 보안은 **API key** 로 해야 좋지만, 오픈빌더에서 API 키를 헤더로 설정해도 도저히 요청이 가지 않아서 API 키가 없는 `열기`를 선택했다. 이외의 부분은 따로 건드리지 않았다.
 
 ![20200603-6-trigger](/assets/20200603-6-trigger.png)
 
 생성한 API Gateway로 들어가면 **ANY** 리소스를 확인할 수 있다. GET, POST 등 어떤 메소드로 요청해도 받을 수 있다는 것이다. 작업에서 **API 배포** 를 눌러 새 스테이지에 배포한다.
+- *참고로 카카오톡 메시지 request는 모두 `POST` 메소드로 요청된다.*
 
 ![20200603-7-apideploy](/assets/20200603-7-apideploy.png)
 
@@ -122,10 +120,14 @@ AWS Lambda에서 함수를 생성한다. 나는 런타임으로 `Python 3.7`을
 
 - API 키를 사용하는 방법은 [AWS 공식 문서](https://docs.aws.amazon.com/ko_kr/apigateway/latest/developerguide/api-gateway-api-key-source.html)에 나와 있다. 다만 카카오 오픈빌더에서 이 키를 정상적으로 사용 가능한지는 모르겠다.
 
-#### Lambda에서 요청 테스트
+#### Lambda에서 코드 수정
 
-이제 카카오톡 메시지를 request로 보냈을 때 Lambda에서 정상적으로 수신하는지 확인하는 단계이다.
-위에서 생성한 Lambda 함수로 들어가 **함수 코드** 탭에서 Code entry type을 **코드 인라인 편집** 으로 설정하고, `lambda_function.py` 파일을 선택한다. 예시 코드로 다음과 같이 입력한다.
+이제 카카오톡 메시지를 request로 보냈을 때 Lambda에서 정상적으로 response를 리턴하는지 확인하는 단계이다.
+위에서 생성한 Lambda 함수로 들어가 **함수 코드** 탭에서 Code entry type을 **코드 인라인 편집** 으로 설정하고, `lambda_function.py` 파일을 선택한다.
+
+![20200603-9-lambda code](/assets/20200603-9-lambda%20code.png)
+
+예시 코드로 다음과 같이 입력하고, 상단 메뉴에 있는 **저장** 을 누른다.
 
 ```py
 import json
@@ -134,11 +136,19 @@ def lambda_handler(event, context):
 
     # 메시지 내용은 request의 ['body']에 들어 있음
     request_body = json.loads(event['body'])
+    params = request_body['action']['params']
+    solo = params['solo'] # 솔로 아티스트 파라미터 생기는지 테스트
 
     result = {
         "version": "2.0",
-        "data":{
-            "test": "test"
+        "template": {
+            "outputs": [
+                {
+                    "simpleText": {
+                        "text": "요청한 아티스트는 {}입니다.".format(solo)
+                    }
+                }
+            ]
         }
     }
 
@@ -152,151 +162,46 @@ def lambda_handler(event, context):
 
 ```
 
+#### 카카오톡 메시지 입출력 및 봇 테스트
 
+이제 위에서 생성한 API 엔드포인트로 HTTP request를 보낼 것이다. 오픈 빌더로 돌아가 **스킬** 탭에서 스킬을 생성하고, API URL을 입력한다. 위에서 API 키를 설정했다면, 헤더값의 key로 `x-api-key`, value로 키를 입력하면 된다.
 
-#### 스킬 등록
-- 오픈빌더에서 API 키를 통해 HTTP request를 보내려면, 뒤에서 언급할 스킬 설정에서
+![20200603-10-skill](/assets/20200603-10-skill.png)
 
+API URL은 Lambda에서 API 게이트웨이를 클릭하면 해당 API에 대한 정보가 나오고, 삼각형의 토글 버튼을 클릭하여 펼치면 나온다.
 
+![20200603-11-apiurl](/assets/20200603-11-apiurl.png)
+
+스킬 설정 창에서 아래로 내려가 파라미터를 임의로 설정하고 request를 테스트해 볼 수 있다.
+
+![20200603-12-skilltest](/assets/20200603-12-skilltest.png)
+
+그러면 **응답 미리보기** 에서 정상적으로 응답하는지 확인할 수 있는데, API 키를 설정한 것과 관계없이 처리가 되지 않는다.
+
+![20200603-13-responsetest](/assets/20200603-13-responsetest.png)
+
+AWS `CloudWatch`에서 request를 수신하면 로그를 확인할 수 있는데, 로그가 아예 나오지 않는다. 보안상의 문제로 요청이 아예 가지 않는 것으로 보인다. 이와 관련하여 [오픈빌더 공식 문서](https://i.kakao.com/docs/skill-build)에서는 Lambda를 사용했을 때 API 키 처리를 해 줘야 한다고 나와 있는데, 나는 키를 설정하지 않아도 실제 서비스에선 문제가 없었다.
+테스트 창에 오류가 있는 것으로 보인다.
+
+어쨌든, 실제 메시지를 주고받는 데에는 문제가 없다. 우선 스킬 설정에서 API 정보를 입력하고 **저장을 누른다.** 그리고 테스트 창 말고, 시나리오로 돌아간다.
+
+**파라미터 설정** 메뉴에서, 위에서 저장한 스킬을 연결한다.
+
+![20200603-14-skillconnect](/assets/20200603-14-skillconnect.png)
+
+하단의 **봇 응답** 메뉴에서 스킬데이터를 누르면, 스킬에서 설정한 대로 response를 줄 수 있다.
+
+![20200603-15-skilldata](/assets/20200603-15-skilldata.png)
+
+`성시경`을 사용자 발화 예시 중 하나로 입력하고, `@sys.person.name`엔티티를 이용한 `solo`라는 변수로 설정했다고 가정하자. 상단 메뉴에 있는 **봇테스트** 창을 열어 `성시경`을 입력하면, Lambda 코드에서 입력한 대로 응답이 정상적으로 수신되는 것을 확인할 수 있다.
+
+![20200603-16-responseexample](/assets/20200603-16-responseexample.png)
 <br>
 <br>
 
-### 카카오톡 메시지 입출력 및 봇 테스트
-
-- 오픈빌더의 스킬 이용. 모든 스킬은 POST 메소드로 요청됨
-- 테스트 화면에선 오류 나는데, 시나리오-블록에서 봇테스트 하면 요청이 감
-
-[출처 링크](https://i.kakao.com/docs/skill-build#%EC%8A%A4%ED%82%AC-%ED%85%8C%EC%8A%A4%ED%8A%B8)
-파라미터를 입력하여 만들어진 JSON을 직접 서버에 입력하고 싶은 케이스가 있습니다. 클립보드로 복사 버튼을 누르면 현재 JSON 창에 있는 값이 클립보드에 복사됩니다. 이를 활용하여 더 수월하게 테스트를 진행할 수 있습니다.
-
-파라미터를 입력하여 만들어진 JSON을 서버로 전송할 일만 남았습니다. 스킬 서버로 전송 버튼을 누르면 스킬 요청 전송이 시작됩니다. 스킬 테스트는 입력된 URL 필드를 확인하여 해당 URL을 엔드포인트로, 그리고 JSON값을 body로 하여 post 요청을 전송합니다.
-
-### Spotify API 데이터 이용하여 아티스트 정보 제공
-
-- `AWS Lambda`로 하려면 반드시 `header`(API 키) 필요
-  - [오픈빌더 관련 링크](https://i.kakao.com/docs/skill-build#%EC%8A%A4%ED%82%AC-%ED%85%8C%EC%8A%A4%ED%8A%B8)
-  - API Key 설정: [API 키 소스 선택](https://docs.aws.amazon.com/ko_kr/apigateway/latest/developerguide/api-gateway-api-key-source.html)
-- `header` 없어도 가능
-  - [링크](https://smartshk.tistory.com/9)
-
-
-- 요청할 파라미터: action > params
-  - `artist_name`으로 the beatles 를 준 상태
-- request 형식
-
-```json
-{
-  "intent": {
-    "id": "qqz5oy80luysrtiq4ck4ql4h",
-    "name": "블록 이름"
-  },
-  "userRequest": {
-    "timezone": "Asia/Seoul",
-    "params": {
-      "ignoreMe": "true"
-    },
-    "block": {
-      "id": "qqz5oy80luysrtiq4ck4ql4h",
-      "name": "블록 이름"
-    },
-    "utterance": "발화 내용",
-    "lang": null,
-    "user": {
-      "id": "363763",
-      "type": "accountId",
-      "properties": {}
-    }
-  },
-  "bot": {
-    "id": "5ec3be532ca48c00011f5300",
-    "name": "봇 이름"
-  },
-  "action": {
-    "name": "la6nkw2a2r",
-    "clientExtra": null,
-    "params": {
-      "artist_name": "the beatles"
-    },
-    "id": "3tllk8vhdoirf6bbkbl5k3co",
-    "detailParams": {
-      "artist_name": {
-        "origin": "the beatles",
-        "value": "the beatles",
-        "groupName": ""
-      }
-    }
-  }
-}
-```
-
-- response 형식
-- 아래 두 가지 형식의 메시지를 사용할 것이다.
-- SimpleText
-
-```json
-{
-    "version": "2.0",
-    "template": {
-        "outputs": [
-            {
-                "simpleText": {
-                    "text": "간단한 텍스트 요소입니다."
-                }
-            }
-        ]
-    }
-}
-```
-
-- BasicCard
-
-```json
-{
-  "version": "2.0",
-  "template": {
-    "outputs": [
-      {
-        "basicCard": {
-          "title": "보물상자",
-          "description": "보물상자 안에는 뭐가 있을까",
-          "thumbnail": {
-            "imageUrl": "http://k.kakaocdn.net/dn/83BvP/bl20duRC1Q1/lj3JUcmrzC53YIjNDkqbWK/i_6piz1p.jpg"
-          },
-          "profile": {
-            "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4BJ9LU4Ikr_EvZLmijfcjzQKMRCJ2bO3A8SVKNuQ78zu2KOqM",
-            "nickname": "보물상자"
-          },
-          "social": {
-            "like": 1238,
-            "comment": 8,
-            "share": 780
-          },
-          "buttons": [
-            {
-              "action": "message",
-              "label": "열어보기",
-              "messageText": "짜잔! 우리가 찾던 보물입니다"
-            },
-            {
-              "action":  "webLink",
-              "label": "구경하기",
-              "webLinkUrl": "https://e.kakao.com/t/hello-ryan"
-            }
-          ]
-        }
-      }
-    ]
-  }
-}
-```
-
-- [github 링크](https://github.com/sulmasulma/kakao-chatbot/blob/master/lambda_function.py)에서 코드를 찾아보실 수 있습니다.
 
 
 ---
 출처
-- [응답 타입별 JSON 포맷](https://i.kakao.com/docs/skill-response-format)
-  - Response 형태: [SkillResponse](https://i.kakao.com/docs/skill-response-format#skillresponse)
-  - 메시지 종류에 따라 `json` 형태의 response를 어떤 형식으로 만들어야 하는지 안내하고 있음
 - [[AWS] AWS Lambda + API Gateway와 카카오 오픈빌더로 급식 메뉴 챗봇 만들기](https://yuda.dev/278)
 - [AWS Lambda 에서 NumPy, Pandas 쓰는 법](https://smartshk.tistory.com/9)
