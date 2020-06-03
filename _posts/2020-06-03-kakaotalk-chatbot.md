@@ -36,7 +36,7 @@ excerpt_separator: <!--more-->
 
 카카오 오픈빌더 계정 승인 후 봇 생성을 하고, 봇으로 들어가면 **설정** 메뉴에서 카카오톡 채널을 연결할 수 있다.
 
-![스크린샷 2020-06-03 오후 3.51.41](https://i.imgur.com/EviDrsp.png)
+![20200603-1-channel](/assets/20200603-1-channel.png)
 
 #### 시나리오 생성 및 엔티티 설정
 
@@ -46,7 +46,7 @@ excerpt_separator: <!--more-->
 
 나는 아티스트(가수) 이름에 기반한 서비스를 제공할 것이므로, 시스템 엔티티의 콘텐츠 항목에 있는 `@sys.person.group`, `@sys.person.name` 두 엔티티를 사용할 것이다.
 
-![스크린샷 2020-06-03 오후 4.32.20](https://i.imgur.com/Mh7GV28.png)
+![20200603-2-entity](/assets/20200603-2-entity.png)
 
 - 이미 등록되어 있는 엔티티 외에도, 아티스트 목록을 가져와 `csv` 파일로 나의 엔티티에 등록하여 사용할 수도 있다.
 
@@ -54,7 +54,7 @@ excerpt_separator: <!--more-->
 
 오픈빌더는 머신러닝으로 사용자의 발화를 학습한다. 예상되는 사용자 발화(아티스트 이름)를 50개 이상 입력하고 각 발화에 맞는 엔티티는 등록한다. 이후 **머신러닝 실행** 버튼을 눌러 학습을 진행하면 웬만한 아티스트는 엔티티에 기반하여 인식이 된다.
 
-![스크린샷 2020-06-03 오후 4.34.04](https://i.imgur.com/9vSd492.png)
+![20200603-3-utterance](/assets/20200603-3-utterance.png)
 - 국내 아티스트와 해외 아티스트를 골고루 입력해 주었다.
 <br>
 <br>
@@ -69,7 +69,7 @@ AWS `Lambda`는 서버가 항상 켜져 있는 것이 아니라, 사용자의 re
 
 AWS Lambda에서 함수를 생성한다. 나는 런타임으로 `Python 3.7`을 선택했고, 권한 부분은 따로 건드리지 않았다.
 
-![4. lambda function](/assets/4.%20lambda%20function.png)
+![20200603-4-lambda function](/assets/20200603-4-lambda%20function.png)
 
 
 
