@@ -52,10 +52,36 @@ excerpt_separator: <!--more-->
 
 #### 사용자 발화 입력
 
-오픈빌더는 머신러닝으로 사용자의 발화를 학습한다. 예상되는 사용자 발화(아티스트 이름)를 50개 이상 입력하고 각 발화에 맞는 엔티티는 등록한다. 이후 **머신러닝 실행** 버튼을 눌러 학습을 진행하면 웬만한 아티스트는 엔티티에 기반하여 인식이 된다.
+오픈빌더는 머신러닝으로 사용자의 발화를 학습한다. 예상되는 사용자 발화(아티스트 이름)를 50개 이상 입력하고 각 발화에 맞는 엔티티는 등록한다.
 
 ![20200603-3-utterance](/assets/20200603-3-utterance.png)
 - 국내 아티스트와 해외 아티스트를 골고루 입력해 주었다.
+
+사용자 발화를 충분히 입력하고 **머신러닝 실행** 버튼을 눌러 학습을 진행하면, 웬만한 아티스트는 엔티티에 기반하여 인식이 된다.
+
+#### 엔티티 매핑
+
+이제 각 발화에 엔티티를 매핑해야 한다. 예를 들어 `태연`을 입력하고 더블클릭하면, 이 발화에 맞는 엔티티를 등록할 수 있다. 태연은 인물 > 개인에 해당하므로, `@sys.person.name` 엔티티를 선택한다.
+
+![20200603-3-1-entitymapping](/assets/20200603-3-1-entitymapping.png)
+
+- 엔티티를 선택해 주면 해당 단어는 파란색 테두리로 싸이게 되고, 카카오톡 메시지를 보낼 때 파라미터로 인식할 수 있다.
+
+#### 파라미터 설정
+
+아직 `태연`을 입력하면 파라미터가 할당이 되는 것이 아니다. 아래로 내려가 **파라미터 설정** 메뉴에서 변수 이름을 설정해야 한다.
+
+![20200603-3-2-parameter](/assets/20200603-3-2-parameter.png)
+
+아티스트가 `오마이걸`과 같은 그룹일 경우 `group`으로, `아이유`와 같은 솔로 가수일 경우 `solo`라는 파라미터가 생기도록 설정했다. +를 눌러 파라미터를 추가하면, 엔티티를 인식하여 파라미터가 할당된다.
+
+![20200603-3-3-parameter2](/assets/20200603-3-3-parameter2.png)
+
+
+
+
+
+
 <br>
 <br>
 
@@ -63,7 +89,9 @@ excerpt_separator: <!--more-->
 
 AWS `Lambda`는 서버가 항상 켜져 있는 것이 아니라, 사용자의 request가 있을 때만 클라우드 자원을 할당하는 서버리스(Serverless) 서비스이다. 서버를 항시 가동하는 것에 비해서 컴퓨팅 자원이 적은 편이다. AWS에서도 프리티어 기준 월 100만 회 request가 가능하여, 내가 운영하는 서비스에서는 사실상 무한정 서비스가 가능하다.
 
-`Lambda`에서 lambda function을 만들고, `API Gateway`에서 API를 생성하여 lambda function과 연결해 준다. 이렇게 하면 사용자가 request가 발생했을 때 `API Gateway`에서 생성한 endpoint로 요청이 가고, lambda function이 작동하여 사용자에게 response를 응답해 준다.
+`Lambda`에서 lambda function을 만들고, `API Gateway`에서 API를 생성하여 lambda function과 연결해 준다. 이렇게 하면 카카오톡 메시지 request가 발생했을 때 `API Gateway`에서 생성한 endpoint로 요청이 가고, lambda function이 작동하여 사용자에게 response를 응답해 준다.
+
+<카카오톡 사용자 -> api gateway -> lambda -> 사용자 저니 그리기>
 
 #### Lambda 함수 생성
 
@@ -71,13 +99,67 @@ AWS Lambda에서 함수를 생성한다. 나는 런타임으로 `Python 3.7`을
 
 ![20200603-4-lambda function](/assets/20200603-4-lambda%20function.png)
 
+#### API Gateway에서 REST API 생성
+
+생성한 lambda function으로 들어가 **트리거 추가** 버튼을 누른다.
+
+![20200603-5-api](/assets/20200603-5-api.png)
+
+트리거 구성에서 **API 게이트웨이** 를 선택하고, API type은 **REST API** 로, 보안은 **열기** 를 선택한다. 보안은 **API key** 로 해야 좋지만, 오픈빌더에서 API 키로 헤더로 설정해도 도저히 요청이 가지 않아서 API 키가 없는 열기를 선택했다. 추가 세팅 부분은 따로 건드리지 않았다.
+
+![20200603-6-trigger](/assets/20200603-6-trigger.png)
+
+생성한 API Gateway로 들어가면 **ANY** 리소스를 확인할 수 있다. GET, POST 등 어떤 메소드로 요청해도 받을 수 있다는 것이다. 작업에서 **API 배포** 를 눌러 새 스테이지에 배포한다.
+
+![20200603-7-apideploy](/assets/20200603-7-apideploy.png)
+
+- 스테이지는 아래와 같이 API 엔드포인트에 들어갈 일종의 함수 이름이라고 보면 된다.
+  - `API URL/{스테이지 이름}`
+
+보안을 **API key** 로 선택했다면, 메서드 요청으로 들어가 **API 키가 필요함** 을 true로 바꾸고, API 키를 발급받으면 된다.
+
+![20200603-8-apikey](/assets/20200603-8-apikey.png)
+
+- API 키를 사용하는 방법은 [AWS 공식 문서](https://docs.aws.amazon.com/ko_kr/apigateway/latest/developerguide/api-gateway-api-key-source.html)에 나와 있다. 다만 카카오 오픈빌더에서 이 키를 정상적으로 사용 가능한지는 모르겠다.
+
+#### Lambda에서 요청 테스트
+
+이제 카카오톡 메시지를 request로 보냈을 때 Lambda에서 정상적으로 수신하는지 확인하는 단계이다.
+위에서 생성한 Lambda 함수로 들어가 **함수 코드** 탭에서 Code entry type을 **코드 인라인 편집** 으로 설정하고, `lambda_function.py` 파일을 선택한다. 예시 코드로 다음과 같이 입력한다.
+
+```py
+import json
+
+def lambda_handler(event, context):
+
+    # 메시지 내용은 request의 ['body']에 들어 있음
+    request_body = json.loads(event['body'])
+
+    result = {
+        "version": "2.0",
+        "data":{
+            "test": "test"
+        }
+    }
+
+    return {
+        'statusCode':200,
+        'body': json.dumps(result),
+        'headers': {
+            'Access-Control-Allow-Origin': '*',
+        }
+    }
+
+```
 
 
 
 #### 스킬 등록
+- 오픈빌더에서 API 키를 통해 HTTP request를 보내려면, 뒤에서 언급할 스킬 설정에서
 
 
-
+<br>
+<br>
 
 ### 카카오톡 메시지 입출력 및 봇 테스트
 
