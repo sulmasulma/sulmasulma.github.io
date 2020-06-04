@@ -92,9 +92,7 @@ excerpt_separator: <!--more-->
 
 여기까지 진행하고 시나리오 창 상단에 있는 **저장** 버튼을 누른다.
 
-<br>
 ---
-<br>
 
 ### AWS Lambda 및 API Gateway 설정
 
