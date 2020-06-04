@@ -57,6 +57,8 @@ excerpt_separator: <!--more-->
 
 - 이미 등록되어 있는 엔티티 외에도, 아티스트 목록을 가져와 `csv` 파일로 나의 엔티티에 등록하여 사용할 수도 있다.
 
+<br>
+
 #### 사용자 발화 입력
 
 오픈빌더는 머신러닝으로 사용자의 발화를 학습한다. 예상되는 사용자 발화(아티스트 이름)를 50개 이상 입력하고 각 발화에 맞는 엔티티는 등록한다.
@@ -66,6 +68,8 @@ excerpt_separator: <!--more-->
 
 사용자 발화를 충분히 입력하고 **머신러닝 실행** 버튼을 눌러 학습을 진행하면, 웬만한 아티스트는 엔티티에 기반하여 인식이 된다.
 
+<br>
+
 #### 엔티티 매핑
 
 이제 각 발화에 엔티티를 매핑해야 한다. 예를 들어 `태연`을 입력하고 더블클릭하면, 이 발화에 맞는 엔티티를 등록할 수 있다. 태연은 인물 > 개인에 해당하므로, `@sys.person.name` 엔티티를 선택한다.
@@ -73,6 +77,8 @@ excerpt_separator: <!--more-->
 ![20200603-3-1-entitymapping](/assets/20200603-3-1-entitymapping.png)
 
 - 엔티티를 선택해 주면 해당 단어는 파란색 테두리로 싸이게 되고, 카카오톡 메시지를 보낼 때 파라미터로 인식할 수 있다.
+
+<br>
 
 #### 파라미터 설정
 
@@ -87,6 +93,7 @@ excerpt_separator: <!--more-->
 여기까지 진행하고 시나리오 창 상단에 있는 **저장** 버튼을 누른다.
 
 <br>
+---
 <br>
 
 ### AWS Lambda 및 API Gateway 설정
@@ -102,6 +109,8 @@ AWS `Lambda`는 서버가 항상 켜져 있는 것이 아니라, 사용자의 re
 AWS Lambda에서 함수를 생성한다. 나는 런타임으로 `Python 3.7`을 선택했고, 권한 부분은 따로 건드리지 않았다.
 
 ![20200603-4-lambda function](/assets/20200603-4-lambda%20function.png)
+
+<br>
 
 #### API Gateway에서 REST API 생성
 
@@ -126,6 +135,8 @@ AWS Lambda에서 함수를 생성한다. 나는 런타임으로 `Python 3.7`을
 ![20200603-8-apikey](/assets/20200603-8-apikey.png)
 
 - API 키를 사용하는 방법은 [AWS 공식 문서](https://docs.aws.amazon.com/ko_kr/apigateway/latest/developerguide/api-gateway-api-key-source.html)에 나와 있다. 다만 카카오 오픈빌더에서 이 키를 정상적으로 사용 가능한지는 모르겠다.
+
+<br>
 
 #### Lambda에서 코드 수정
 
@@ -205,6 +216,7 @@ AWS `CloudWatch`에서 request를 수신하면 로그를 확인할 수 있는데
 `성시경`을 사용자 발화 예시 중 하나로 입력하고, `@sys.person.name`엔티티를 이용한 `solo`라는 변수로 설정했다고 가정하자. 상단 메뉴에 있는 **봇테스트** 창을 열어 `성시경`을 입력하면, Lambda 코드에서 입력한 대로 응답이 정상적으로 수신되는 것을 확인할 수 있다.
 
 ![20200603-16-responseexample](/assets/20200603-16-responseexample.png)
+
 <br>
 <br>
 
