@@ -6,7 +6,7 @@ categories: [Data]
 excerpt_separator: <!--more-->
 ---
 <!--more-->
-카카오톡 챗봇 만들기를 시리즈 게시물로 포스팅하고 있다.
+카카오톡 챗봇 만들기를 시리즈로 포스팅하고 있다.
 
 1. [기본적인 환경설정 및 메시지 응답 테스트](https://sulmasulma.github.io/data/2020/06/03/kakaotalk-chatbot.html)
 2. **입력한 아티스트의 정보 제공**
@@ -56,6 +56,7 @@ excerpt_separator: <!--more-->
 }
 ```
 
+<br>
 
 #### 2. BasicCard
 
@@ -118,15 +119,19 @@ json 형태는 다음과 같다.
 Spotify API를 사용하기 위해서는 서비스에 우선 가입해야 한다. 한국에서는 서비스되지 않기 때문에 VPN을 통해 우회해야 한다. 우회 방법에 대해서는 [한국에서 Spotify(스포티파이) 사용하기](https://min7zz.tistory.com/834)에 나와 있다. TunnelBear라는 앱을 사용하면 된다. TunnelBear는 월 500MB만 무료로 제공하고 있는데, 가입 시에만 VPN을 사용하고 이후 로그인 정보가 남아 있는 세션에서는 다시 VPN을 사용할 필요가 없기 때문에 신경 쓰지 않아도 된다.
 - 예전에 이와 관련해서 문서를 찾아보았을 때 VPN의 위치와 계정 상에서 위치를 같게 할 필요가 있던 것으로 기억한다. 나는 TunnelBear 위치와 계정 상의 위치를 미국으로 설정했다.
 
-Spotify에 가입했으면, [Dashboard](https://developer.spotify.com/dashboard/applications)로 들어가 앱을 생성해야 한다. 생성 후 앱으로 들어가면 `Client ID`, `Client Secret`이 보일 것이다. 이 정보가 API 데이터에 접근할 때 사용해야 할 인증 정보이다.
+Spotify에 가입했으면, [Dashboard](https://developer.spotify.com/dashboard/applications)로 들어가 앱을 생성해야 한다. 생성 후 앱으로 들어가면 아래와 같은 창에서  `Client ID`, `Client Secret`이 보일 것이다. 이 정보가 API 데이터에 접근할 때 사용해야 할 인증 정보이다.
+
+![20200607-2-dashboard](/assets/20200607-2-dashboard.png)
 
 API 이용시 Authorization에 관해서는 크게 두 가지가 있다.
-1. App Authorization: 앱(개발자가 만드는 프로세스)을 통해 API에 접근하는 것이다. 사용자의 정보가 따로 필요하지 않다.
+
+1. App Authorization: 앱을 통해 API에 접근하는 것이다. 사용자의 정보가 따로 필요하지 않다.
 2. User Authorization (OAuth): 사용자 정보를 통해 API에 접근하는 것이다. 모바일 앱을 사용할 때 따로 가입할 필요 없이 Google로 로그인 할 수도 있는데, 이 때 구글 계정 정보를 통해 앱에 접근할 때 이 방식을 사용한다.
 
-내가 개발하려는 카카오톡 서비스에서는 사용자의 Spotify 계정 정보가 필요 없이 아티스트에 대한 서비스를 제공할 것이다. 따라서 **App Authorization** 방식을 사용할 것이다. 이 방식은 다음 이미지의 순서대로 작동한다.
+내가 개발하려는 카카오톡 챗봇에서는 사용자의 Spotify 계정 정보가 필요 없이 아티스트에 대한 서비스를 제공할 것이다. 따라서 **App Authorization** 방식을 사용할 것이다. 이 방식은 다음 이미지의 순서대로 작동한다.
 
 ![auth](https://developer.spotify.com/assets/AuthG_ClientCredentials.png)
+
 1. 카카오톡 사용자가 메시지를 요청하면 Spotify 앱 작동이 시작된다. 이 때 위에서 언급한 Spotify 계정 정보인 `cliend_id`, `cliend_secret`, 그리고 `grant_type`이 필요하다. grant_type은 `client_credentials`로 설정하면 된다.
 2. 그러면 Spotify에서 사용자에게 `access_token`을 부여할 것이다. 이 토큰을 가지고 API 데이터를 쿼리하면 된다.
 
@@ -182,8 +187,6 @@ def get_headers(client_id, client_secret):
 
 ### 데이터를 말풍선 형태에 맞게 보내기
 
-- 요청할 파라미터: action > params
-  - `artist_name`으로 the beatles 를 준 상태
 - request 형식
 
 ```json
