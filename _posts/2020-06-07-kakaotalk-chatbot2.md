@@ -33,6 +33,8 @@ excerpt_separator: <!--more-->
 
 카카오톡 챗봇으로 용도와 목적에 따라 여러 종류의 메시지를 보낼 수 있다. 여기서는 내가 사용할 두 가지만 간단히 소개하겠다.
 
+<br>
+
 #### 1. SimpleText
 
 단순한 텍스트 출력이다.
@@ -491,12 +493,59 @@ IAM으로 들어가게 되면, **권한** 탭에 현재 이 역할에서 사용 
 
 이를 위해 파라미터 대신 유저의 발화를 그대로 검색어로 사용하려고 한다. 유저의 발화는 `userRequest` > `utterance`에 담긴다. 줄을 바꾸지 않아도 뒤에 `\n`이 붙어서, 이를 제거하고 사용해야 한다.
 
+<br>
 
+#### 데이터 처리 로직
+
+여기서는 로직을 위한 핵심 코드 부분만 소개하려고 한다. 전체 코드는 [github](https://github.com/sulmasulma/kakao-chatbot/blob/master/lambda_function.py)에 올려 놓았다.
+
+카카오톡 사용자에게 아티스트 관련 정보를 주기 위한 데이터 처리 과정은 다음과 같다.
+
+- 위에서 만든 MySQL의 `artists` 테이블의 `name`과 유저의 발화와 일치하는 행이 있을 경우, 해당 행 리턴
+  - 일치하는 행이 없을 경우, Search API에서 유저의 발화를 검색어로 하여 나오는 검색 결과를 리턴하고 MySQL에 저장
+- 리턴받은 아티스트의 ID를 바탕으로 `artist_genres` 테이블의 장르들 리턴
+- BasicCard 타입 메시지에서 제목은 `artists` 테이블의 `name`, 이미지는 `artists` 테이블의 `image_url`, description은 장르들로 하여 사용자에게 response로 전달
+
+
+
+```py
+import pymysql, json, logging
+# logging -> 로그 남기기 위한 라이브러리. print()와 유사
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+# connect MySQL -> 계정 정보는 각자에 맞게 사용
+try:
+    conn = pymysql.connect(host, user=username, passwd=password, db=database, port=port, use_unicode=True, charset='utf8')
+    cursor = conn.cursor()
+except:
+    logging.error("could not connect to rds")
+    sys.exit(1)
+
+
+
+
+
+
+```
+
+
+<br>
 
 #### 최종 결과
 
+최종적으로 아래와 같은 형태의 메시지를 응답해 주게 된다.
+
 ![20200607-1-result](/assets/20200607-1-result.png)
-- 각자 음악을 듣는 앱이 모두 다르므로, 범용적인 YouTube 검색 링크를 사용했다.
+- 각자 음악을 듣는 앱이 모두 다르므로, 범용적인 YouTube 링크를 사용했다. YouTube의 `Coldplay`를 검색 결과 창으로 연결된다.
+
+<br>
+<br>
+
+사실 이 결과만 보면, 그냥 YouTube에서 아티스트 이름으로 검색하는 게 낫다. 하지만 이 과정은 관련 아티스트 정보를 제공해 주기 위한 전초과정이라 보면 된다. 멜론 등의 음원 서비스에서 노래를 추천해 주듯이, 카카오톡 챗봇으로 아티스트 및 노래를 추천해 주는 것이다.
+
+다음 글에서 이에 대해 다루겠다.
 
 
 ---
