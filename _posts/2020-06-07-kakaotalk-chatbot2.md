@@ -173,23 +173,37 @@ def get_headers(client_id, client_secret):
 이제 데이터를 가져올 수 있다. [Web API Reference](https://developer.spotify.com/documentation/web-api/reference/)에서 아티스트, 앨범, 검색 결과, 트랙 등 여러 종류의 데이터에 대해 나와 있다. 이번 글에서는 다음 두 가지를 사용할 것이다. 코드를 작성하지 않아도, Spotify 로그인 후 각 링크에서 쿼리 결과를 테스트해 볼 수 있다.
 
 1. [Search](https://developer.spotify.com/documentation/web-api/reference/search/search/): 검색어를 입력 결과로 나오는 아티스트 정보 (아티스트 ID 포함)
-2. [Top Tracks](https://developer.spotify.com/documentation/web-api/reference/artists/get-artists-top-tracks/): 아티스트 ID를 입력면 나오는 아티스트의 인기 트랙
+2. [Top Tracks](https://developer.spotify.com/documentation/web-api/reference/artists/get-artists-top-tracks/): 아티스트 ID를 입력하면 나오는 아티스트의 인기 트랙
 
 <br>
 
 #### 1. Search
 
-parameter는 다음과 같다. `queen`으로 검색해 보았다.
+`queen`으로 검색해 보았다.
 
 ```py
-params = {
-      "q": "queen",
-      "type": "artist",
-      "limit": "1"
-  }
+import requests
+
+def search_artist(artist_name):
+
+    headers = get_headers(client_id, client_secret)
+
+    ## Spotify Search API
+    params = {
+        "q": artist_name,
+        "type": "artist",
+        "limit": "1" # 가장 상위 결과만
+    }
+
+    r = requests.get("https://api.spotify.com/v1/search", params=params, headers=headers)
+
+    raw = json.loads(r.text)
+    return raw
+
+search_artist('queen')
 ```
 
-- `q`는 검색어이다.
+- params에서 `q`는 검색어이다.
 - `type`은 album, artist, playlist, track, show, episode 등을 정할 수 있는데, 나는 아티스트가 필요하므로 `artist`로 설정했다.
 - `limit`은 검색 결과 개수를 정하는 부분이며, 가장 상위 검색어로 나온 결과를 사용할 것이므로 1로 설정했다.
 
@@ -252,9 +266,10 @@ params = {
 ```
 
 `artists > items[0]`에 원하는 아티스트의 정보가 담겨져 있다. 이 정보를 `MySQL`에 저장할 것인데, 이 때 `genres`는 위에서 볼 수 있듯이 - ["glam rock", "rock"] - 한 아티스트에 여러 개의 값이 있는 경우가 많다. 장르가 없는 경우도 있다.
-아티스트 테이블을 구성할 때 장르 때문에 행이 많아지면 구조가 복잡해지므로, 아래와 같이 테이블을 구성할 것이다. artist 테이블의 `id`와 artist_genres 테이블의 `artist_id`가 join되는 구조이다.
 
-- **artist**
+아티스트 테이블을 구성할 때 장르 때문에 행이 많아지면 구조가 복잡해지므로, 아래와 같이 두 개의 테이블로 나눌 것이다. artists 테이블의 `id`와 artist_genres 테이블의 `artist_id`가 join되는 구조이다.
+
+- **artists**
 
 | 칼럼 | 결과에서의 위치 | 설명 | 데이터 타입 |
 | :--------- | :------------- | :------------------- | :--------- |
@@ -277,14 +292,126 @@ artist_genres 테이블은 아래와 같이 한 아티스트에 장르 개수만
 
 ![20200607-3-artistgenres](/assets/20200607-3-artistgenres.png)
 
-- 물론 `NoSQL`을 사용하면 해결 될 문제이지만, 학습을 위해 여러 종류의 DB를 사용해 보고 있다. 아래에 나올 Top Tracks 데이터는 AWS에서 제공하는 NoSQL인 `DynamoDB`를 사용할 것이다.
+- 물론 `NoSQL`을 사용해서 `json` 결과를 그대로 저장해도 되지만, 학습을 위해 여러 종류의 DB를 사용해 보고 있다. 아래에 나올 Top Tracks 데이터는 AWS에서 제공하는 NoSQL인 `DynamoDB`를 사용할 것이다.
 - 참고로 실제 Spotify 서비스에서 검색 결과가 어떻게 나오는지 보고 싶다면, [open.spotify.com](https://open.spotify.com/)에서 확인해 볼 수 있다(이것도 Spotify 로그인이 필요하다). 한국 아티스트의 경우 한글로도 검색이 가능하며, 검색어에 따라서 아티스트가 아예 나오지 않을 수도 있다.
 
 <br>
 
 #### 2. Top Tracks
 
-- invoke lambda 함수(top-tracks)를 통해 DynamoDB에 저장
+Top Tracks에서는 아티스트의 이름을 파라미터로 하여 해당 아티스트의 인기 트랙을 얻을 수 있다. 다만 Search에서는 검색어를 **Query Parameter** 로 사용했는데, Top Tracks에서는 아티스트의 ID가 API 엔드포인트 중 일부로 들어가는 **Path Parameter** 형태로 사용해야 한다. Query Parameter 로는 `country`가 들어간다. 해당 국가에서의 인기 트랙이다.
+
+Queen의 미국에서의 top tracks을 보려면, 아래와 같이 쿼리해야 한다.
+
+```py
+def top_tracks(artist_id):
+    headers = get_headers(client_id, client_secret)
+
+    # Path Parameter: API 엔드포인트에 들어감 - {} 부분
+    URL = "https://api.spotify.com/v1/artists/{}/top-tracks".format(artist_id)
+
+    # Query Parameter
+    params = {
+        'country': 'US'
+    }
+
+    r = requests.get(URL, params=params, headers=headers)
+    raw = json.loads(r.text)
+
+    return raw
+
+top_tracks('1dfeR4HaWDbWqFHLkxsg1d') # Queen의 id
+```
+
+결과는 다음과 같다. 여러 트랙이 나오는데, 분량상 한 트랙의 결과만 가져왔다.
+
+```json
+{
+  "tracks": [
+    {
+      "album": {
+        "album_type": "album",
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/1dfeR4HaWDbWqFHLkxsg1d"
+            },
+            "href": "https://api.spotify.com/v1/artists/1dfeR4HaWDbWqFHLkxsg1d",
+            "id": "1dfeR4HaWDbWqFHLkxsg1d",
+            "name": "Queen",
+            "type": "artist",
+            "uri": "spotify:artist:1dfeR4HaWDbWqFHLkxsg1d"
+          }
+        ],
+        "external_urls": {
+          "spotify": "https://open.spotify.com/album/6X9k3hSsvQck2OfKYdBbXr"
+        },
+        "href": "https://api.spotify.com/v1/albums/6X9k3hSsvQck2OfKYdBbXr",
+        "id": "6X9k3hSsvQck2OfKYdBbXr",
+        "images": [
+          {
+            "height": 640,
+            "url": "https://i.scdn.co/image/ab67616d0000b273ce4f1737bc8a646c8c4bd25a",
+            "width": 640
+          },
+          {
+            "height": 300,
+            "url": "https://i.scdn.co/image/ab67616d00001e02ce4f1737bc8a646c8c4bd25a",
+            "width": 300
+          },
+          {
+            "height": 64,
+            "url": "https://i.scdn.co/image/ab67616d00004851ce4f1737bc8a646c8c4bd25a",
+            "width": 64
+          }
+        ],
+        "name": "A Night At The Opera (Deluxe Remastered Version)",
+        "release_date": "1975-11-21",
+        "release_date_precision": "day",
+        "total_tracks": 18,
+        "type": "album",
+        "uri": "spotify:album:6X9k3hSsvQck2OfKYdBbXr"
+      },
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/1dfeR4HaWDbWqFHLkxsg1d"
+          },
+          "href": "https://api.spotify.com/v1/artists/1dfeR4HaWDbWqFHLkxsg1d",
+          "id": "1dfeR4HaWDbWqFHLkxsg1d",
+          "name": "Queen",
+          "type": "artist",
+          "uri": "spotify:artist:1dfeR4HaWDbWqFHLkxsg1d"
+        }
+      ],
+      "disc_number": 1,
+      "duration_ms": 354320,
+      "explicit": false,
+      "external_ids": {
+        "isrc": "GBUM71029604"
+      },
+      "external_urls": {
+        "spotify": "https://open.spotify.com/track/7tFiyTwD0nx5a1eklYtX2J"
+      },
+      "href": "https://api.spotify.com/v1/tracks/7tFiyTwD0nx5a1eklYtX2J",
+      "id": "7tFiyTwD0nx5a1eklYtX2J",
+      "is_local": false,
+      "is_playable": true,
+      "name": "Bohemian Rhapsody - 2011 Mix",
+      "popularity": 75,
+      "preview_url": null,
+      "track_number": 11,
+      "type": "track",
+      "uri": "spotify:track:7tFiyTwD0nx5a1eklYtX2J"
+    },
+    ...
+  ]
+}
+```
+
+`tracks` 안에 `album`으로 시작하는 여러 트랙들이 담기게 된다. 이 데이터를 AWS에서 제공하는 NoSQL인 `DynamoDB`에 저장할 것이다.
+
+- invoke lambda 함수(top-tracks)
 
 
 
