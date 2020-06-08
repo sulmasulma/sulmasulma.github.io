@@ -170,16 +170,117 @@ def get_headers(client_id, client_secret):
 
 ### Spotify 데이터 종류
 
-이제 데이터를 가져올 수 있다. [Web API Reference](https://developer.spotify.com/documentation/web-api/reference/)에서 아티스트, 앨범, 검색 결과, 트랙 등 여러 종류의 데이터를 얻을 수 있는데, 여기서는 다음 두 가지를 사용할 것이다.
+이제 데이터를 가져올 수 있다. [Web API Reference](https://developer.spotify.com/documentation/web-api/reference/)에서 아티스트, 앨범, 검색 결과, 트랙 등 여러 종류의 데이터에 대해 나와 있다. 이번 글에서는 다음 두 가지를 사용할 것이다. 코드를 작성하지 않아도, Spotify 로그인 후 각 링크에서 쿼리 결과를 테스트해 볼 수 있다.
 
 1. [Search](https://developer.spotify.com/documentation/web-api/reference/search/search/): 검색어를 입력 결과로 나오는 아티스트 정보 (아티스트 ID 포함)
-2. [Top Tracks](https://developer.spotify.com/documentation/web-api/reference/artists/get-artists-top-tracks/): 아티스트 ID를 입력하여, 해당 아티스트의 인기 트랙 리턴
+2. [Top Tracks](https://developer.spotify.com/documentation/web-api/reference/artists/get-artists-top-tracks/): 아티스트 ID를 입력면 나오는 아티스트의 인기 트랙
 
-DB 현황
-- artist: MySQL
-- artist_genres: MySQL
-- top_tracks: invoke lambda 함수(top-tracks)를 통해 DynamoDB에 저장
-- audio_features: 확인 필요
+#### 1. Search
+
+parameter는 다음과 같다. `queen`으로 검색해 보았다.
+
+```py
+params = {
+      "q": "queen",
+      "type": "artist",
+      "limit": "1"
+  }
+```
+
+- `q`는 검색어이다.
+- `type`은 album, artist, playlist, track, show, episode 등을 정할 수 있는데, 나는 아티스트가 필요하므로 `artist`로 설정했다.
+- `limit`은 검색 결과 개수를 정하는 부분이며, 가장 상위 검색어로 나온 결과를 사용할 것이므로 1로 설정했다.
+
+결과는 다음과 같다.
+
+```json
+{
+  "artists": {
+    "href": "https://api.spotify.com/v1/search?query=queen&type=artist&offset=0&limit=1",
+    "items": [
+      {
+        "external_urls": {
+          "spotify": "https://open.spotify.com/artist/1dfeR4HaWDbWqFHLkxsg1d"
+        },
+        "followers": {
+          "href": null,
+          "total": 26100989
+        },
+        "genres": [
+          "glam rock",
+          "rock"
+        ],
+        "href": "https://api.spotify.com/v1/artists/1dfeR4HaWDbWqFHLkxsg1d",
+        "id": "1dfeR4HaWDbWqFHLkxsg1d",
+        "images": [
+          {
+            "height": 806,
+            "url": "https://i.scdn.co/image/b040846ceba13c3e9c125d68389491094e7f2982",
+            "width": 999
+          },
+          {
+            "height": 516,
+            "url": "https://i.scdn.co/image/af2b8e57f6d7b5d43a616bd1e27ba552cd8bfd42",
+            "width": 640
+          },
+          {
+            "height": 161,
+            "url": "https://i.scdn.co/image/c06971e9ff81696699b829484e3be165f4e64368",
+            "width": 200
+          },
+          {
+            "height": 52,
+            "url": "https://i.scdn.co/image/6dd0ffd270903d1884edf9058c49f58b03db893d",
+            "width": 64
+          }
+        ],
+        "name": "Queen",
+        "popularity": 90,
+        "type": "artist",
+        "uri": "spotify:artist:1dfeR4HaWDbWqFHLkxsg1d"
+      }
+    ],
+    "limit": 1,
+    "next": "https://api.spotify.com/v1/search?query=queen&type=artist&offset=1&limit=1",
+    "offset": 0,
+    "previous": null,
+    "total": 3174
+  }
+}
+```
+
+`artists > items[0]`에 원하는 아티스트의 정보가 담겨져 있다. 이 정보를 `MySQL`에 저장할 것인데, 이 때 `genres`는 위에서 볼 수 있듯이 - ["glam rock", "rock"] - 한 아티스트에 여러 개의 값이 있는 경우가 많다. 장르가 없는 경우도 있다.
+아티스트 테이블을 구성할 때 장르 때문에 행이 많아지면 구조가 복잡해지므로, 아래와 같이 테이블을 구성할 것이다. artist 테이블의 `id`와 artist_genres 테이블의 `artist_id`가 join되는 구조이다.
+
+- artist
+  | 칼럼 | 쿼리 결과에서의 위치 | 설명 | 데이터 타입 |
+  | :--------- | :------------- | :------------------- | :--------- |
+  | `id` | `id` | 아티스트 ID | varchar(255) |
+  | `name` | `name` | 아티스트 이름 | varchar(255) |
+  | `followers` | `followers > total` | 팔로워 수 | int(11) |
+  | `popularity` | `popularity` | 인기도 | int(11) |
+  | `url` | `external_urls > spotify` | Spotify에서 해당 아티스트에 대해 정리된 링크 주소 | varchar(255) |
+  | `image_url` | `images[0] > url` | 아티스트 썸네일 이미지 주소 (여러 이미지가 나오는데, 첫 번째 결과를 사용할 것) | varchar(255) |
+
+- artist_genres
+  | 칼럼 | 쿼리 결과에서의 위치 | 설명 | 데이터 타입 |
+  | :--------- | :------------- | :------------------- | :--------- |
+  | `artist_id` | `id` | 아티스트 ID | varchar(255) |
+  | `genre` | `genres` | 각 장르 | varchar(255) |
+  | `updated_at` | `id` | 추가된 날짜와 시각 | timestamp |
+
+artist_genres 테이블은 아래와 같이 한 아티스트에 장르 개수만큼의 행 개수를 가지는 구조이다.
+
+![20200607-3-artistgenres](/assets/20200607-3-artistgenres.png)
+
+- 물론 `NoSQL`을 사용하면 해결 될 문제이지만, 학습을 위해 여러 종류의 DB를 사용해 보고 있다. 아래에 나올 Top Tracks 데이터는 AWS에서 제공하는 NoSQL인 `DynamoDB`를 사용할 것이다.
+- 참고로 실제 Spotify 서비스에서 검색 결과가 어떻게 나오는지 보고 싶다면, [open.spotify.com](https://open.spotify.com/)에서 확인해 볼 수 있다(이것도 Spotify 로그인이 필요하다). 한국 아티스트의 경우 한글로도 검색이 가능하며, 검색어에 따라서 아티스트가 아예 나오지 않을 수도 있다.
+
+<br>
+
+#### 2. Top Tracks
+
+- invoke lambda 함수(top-tracks)를 통해 DynamoDB에 저장
 
 
 
@@ -191,7 +292,7 @@ DB 현황
 
 ### 데이터를 말풍선 형태에 맞게 보내기
 
-- request 형식
+사용자가 `안녕`이라는 메시지를 보내면, 아래의 `json` 형태로 전달된다.
 
 ```json
 {
@@ -208,7 +309,7 @@ DB 현황
       "id": "qqz5oy80luysrtiq4ck4ql4h",
       "name": "블록 이름"
     },
-    "utterance": "발화 내용",
+    "utterance": "안녕",
     "lang": null,
     "user": {
       "id": "363763",
@@ -238,9 +339,12 @@ DB 현황
 }
 ```
 
+`userRequest` > `utterance` 가 사용자의 메시지가 담기는 부분이다.
 
 
-최종 결과
+
+#### 최종 결과
+
 ![20200607-1-result](/assets/20200607-1-result.png)
 - 각자 음악을 듣는 앱이 모두 다르므로, 범용적인 YouTube 검색 링크를 사용했다.
 
