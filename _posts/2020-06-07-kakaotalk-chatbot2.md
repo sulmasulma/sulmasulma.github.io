@@ -253,21 +253,23 @@ params = {
 아티스트 테이블을 구성할 때 장르 때문에 행이 많아지면 구조가 복잡해지므로, 아래와 같이 테이블을 구성할 것이다. artist 테이블의 `id`와 artist_genres 테이블의 `artist_id`가 join되는 구조이다.
 
 - artist
-  | 칼럼 | 쿼리 결과에서의 위치 | 설명 | 데이터 타입 |
-  | :--------- | :------------- | :------------------- | :--------- |
-  | `id` | `id` | 아티스트 ID | varchar(255) |
-  | `name` | `name` | 아티스트 이름 | varchar(255) |
-  | `followers` | `followers > total` | 팔로워 수 | int(11) |
-  | `popularity` | `popularity` | 인기도 | int(11) |
-  | `url` | `external_urls > spotify` | Spotify에서 해당 아티스트에 대해 정리된 링크 주소 | varchar(255) |
-  | `image_url` | `images[0] > url` | 아티스트 썸네일 이미지 주소 (여러 이미지가 나오는데, 첫 번째 결과를 사용할 것) | varchar(255) |
+
+| 칼럼 | 쿼리 결과에서의 위치 | 설명 | 데이터 타입 |
+| :--------- | :------------- | :------------------- | :--------- |
+| `id` | `id` | 아티스트 ID | varchar(255) |
+| `name` | `name` | 아티스트 이름 | varchar(255) |
+| `followers` | `followers > total` | 팔로워 수 | int(11) |
+| `popularity` | `popularity` | 인기도 | int(11) |
+| `url` | `external_urls > spotify` | Spotify에서 해당 아티스트에 대해 정리된 링크 주소 | varchar(255) |
+| `image_url` | `images[0] > url` | 아티스트 썸네일 이미지 주소 (여러 이미지가 나오는데, 첫 번째 결과를 사용할 것) | varchar(255) |
 
 - artist_genres
-  | 칼럼 | 쿼리 결과에서의 위치 | 설명 | 데이터 타입 |
-  | :--------- | :------------- | :------------------- | :--------- |
-  | `artist_id` | `id` | 아티스트 ID | varchar(255) |
-  | `genre` | `genres` | 각 장르 | varchar(255) |
-  | `updated_at` | `id` | 추가된 날짜와 시각 | timestamp |
+
+| 칼럼 | 쿼리 결과에서의 위치 | 설명 | 데이터 타입 |
+| :--------- | :------------- | :------------------- | :--------- |
+| `artist_id` | `id` | 아티스트 ID | varchar(255) |
+| `genre` | `genres` | 각 장르 | varchar(255) |
+| `updated_at` | `id` | 추가된 날짜와 시각 | timestamp |
 
 artist_genres 테이블은 아래와 같이 한 아티스트에 장르 개수만큼의 행 개수를 가지는 구조이다.
 
