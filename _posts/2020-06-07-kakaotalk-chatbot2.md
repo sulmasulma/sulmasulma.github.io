@@ -12,7 +12,7 @@ excerpt_separator: <!--more-->
 2. **입력한 아티스트의 정보 제공**
 3. [관련 아티스트 및 노래 추천]()
 
-[지난 글](https://sulmasulma.github.io/data/2020/06/03/kakaotalk-chatbot.html)에서는 AWS Lambda를 이용한 카카오톡 챗봇 세팅에 대해 다루었다. 이번 글에서는 [Spotify API 데이터](https://developer.spotify.com/documentation/web-api/reference/)를 이용하여, 아티스트를 요청받으면 해당 아티스트에 대한 정보를 response로 주는 것에 대해 다룰 것이다.
+[지난 글](https://sulmasulma.github.io/data/2020/06/03/kakaotalk-chatbot.html)에서 AWS Lambda를 이용한 카카오톡 챗봇 세팅에 대해 다루었다. 이번 글에서는 [Spotify API 데이터](https://developer.spotify.com/documentation/web-api/reference/)를 이용하여, 아티스트를 요청받으면 해당 아티스트에 대한 정보를 response로 주는 것에 대해 다룰 것이다.
 
 
 
@@ -125,15 +125,15 @@ Spotify에 가입했으면, [Dashboard](https://developer.spotify.com/dashboard/
 
 API 이용시 Authorization에 관해서는 크게 두 가지가 있다.
 
-1. App Authorization: 앱을 통해 API에 접근하는 것이다. 사용자의 정보가 따로 필요하지 않다.
-2. User Authorization (OAuth): 사용자 정보를 통해 API에 접근하는 것이다. 모바일 앱을 사용할 때 따로 가입할 필요 없이 Google로 로그인 할 수도 있는데, 이 때 구글 계정 정보를 통해 앱에 접근할 때 이 방식을 사용한다.
+1. App Authorization: 앱을 통해 API에 접근하는 것이다. 서비스를 이용하는 사용자의 정보가 따로 필요하지 않다.
+2. User Authorization (OAuth): 서비스를 이용하는 사용자 정보를 통해 API에 접근하는 것이다. 예를 들어 왓챠 같은 앱을 사용하려면 따로 가입할 필요 없이 Google로 로그인 할 수도 있는데, 이 때 이 방식을 사용한다. Google **계정 정보** 를 가지고 **왓챠** 서비스를 이용하는 것이다.
 
-내가 개발하려는 카카오톡 챗봇에서는 사용자의 Spotify 계정 정보가 필요 없이 아티스트에 대한 서비스를 제공할 것이다. 따라서 **App Authorization** 방식을 사용할 것이다. 이 방식은 다음 이미지의 순서대로 작동한다.
+내가 개발하려는 카카오톡 챗봇에서는 사용자의 Spotify 계정 정보 없이 아티스트에 대한 서비스를 제공할 것이다. 따라서 **App Authorization** 방식을 사용했다. 이 방식은 다음 이미지의 순서대로 작동한다.
 
 ![auth](https://developer.spotify.com/assets/AuthG_ClientCredentials.png)
 
 1. 카카오톡 사용자가 메시지를 요청하면 Spotify 앱 작동이 시작된다. 이 때 위에서 언급한 Spotify 계정 정보인 `cliend_id`, `cliend_secret`, 그리고 `grant_type`이 필요하다. grant_type은 `client_credentials`로 설정하면 된다.
-2. 그러면 Spotify에서 사용자에게 `access_token`을 부여할 것이다. 이 토큰을 가지고 API 데이터를 쿼리하면 된다.
+2. 그러면 Spotify에서 사용자에게 `access_token`을 부여한다. 이 토큰을 가지고 API 데이터를 쿼리하면 된다.
 
 이 과정을 위한 코드는 다음과 같다.
 
@@ -175,7 +175,11 @@ def get_headers(client_id, client_secret):
 1. [Search](https://developer.spotify.com/documentation/web-api/reference/search/search/): 검색어를 입력 결과로 나오는 아티스트 정보 (아티스트 ID 포함)
 2. [Top Tracks](https://developer.spotify.com/documentation/web-api/reference/artists/get-artists-top-tracks/): 아티스트 ID를 입력하여, 해당 아티스트의 인기 트랙 리턴
 
-
+DB 현황
+- artist: MySQL
+- artist_genres: MySQL
+- top_tracks: invoke lambda 함수(top-tracks)를 통해 DynamoDB에 저장
+- audio_features: 확인 필요
 
 
 
@@ -238,7 +242,6 @@ def get_headers(client_id, client_secret):
 
 최종 결과
 ![20200607-1-result](/assets/20200607-1-result.png)
-
 - 각자 음악을 듣는 앱이 모두 다르므로, 범용적인 YouTube 검색 링크를 사용했다.
 
 
