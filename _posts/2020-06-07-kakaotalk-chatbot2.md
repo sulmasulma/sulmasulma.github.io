@@ -20,7 +20,7 @@ excerpt_separator: <!--more-->
 
 1. [카카오톡 말풍선 종류](#카카오톡-말풍선-종류)
 2. [Spotify 가입 및 권한 설정](#spotify-가입-및-권한-설정)
-3. [Spotify 데이터 종류](#spotify-데이터-종류)
+3. [Spotify 데이터 저장](#spotify-데이터-저장)
 4. [데이터를 말풍선 형태에 맞게 보내기](#데이터를-말풍선-형태에-맞게-보내기)
 
 > 중간 중간에 코드를 첨부했는데, 전체 코드는 [github](https://github.com/sulmasulma/kakao-chatbot/blob/master/lambda_function.py)에 올려 놓았다.
@@ -168,7 +168,7 @@ def get_headers(client_id, client_secret):
 
 ---
 
-### Spotify 데이터 종류
+### Spotify 데이터 저장
 
 이제 데이터를 가져올 수 있다. [Web API Reference](https://developer.spotify.com/documentation/web-api/reference/)에서 아티스트, 앨범, 검색 결과, 트랙 등 여러 종류의 데이터에 대해 나와 있다. 이번 글에서는 다음 두 가지를 사용할 것이다. 코드를 작성하지 않아도, Spotify 로그인 후 각 링크에서 쿼리 결과를 테스트해 볼 수 있다.
 
@@ -294,12 +294,13 @@ artist_genres 테이블은 아래와 같이 한 아티스트에 장르 개수만
 
 - 물론 `NoSQL`을 사용해서 `json` 결과를 그대로 저장해도 되지만, 학습을 위해 여러 종류의 DB를 사용해 보고 있다. 아래에 나올 Top Tracks 데이터는 AWS에서 제공하는 NoSQL인 `DynamoDB`를 사용할 것이다.
 - 참고로 실제 Spotify 서비스에서 검색 결과가 어떻게 나오는지 보고 싶다면, [open.spotify.com](https://open.spotify.com/)에서 확인해 볼 수 있다(이것도 Spotify 로그인이 필요하다). 한국 아티스트의 경우 한글로도 검색이 가능하며, 검색어에 따라서 아티스트가 아예 나오지 않을 수도 있다.
+- 분량상 MySQL에 데이터를 삽입하는 과정은 생략하겠다.
 
 <br>
 
 #### 2. Top Tracks
 
-Top Tracks에서는 아티스트의 이름을 파라미터로 하여 해당 아티스트의 인기 트랙을 얻을 수 있다. 다만 Search에서는 검색어를 **Query Parameter** 로 사용했는데, Top Tracks에서는 아티스트의 ID가 API 엔드포인트 중 일부로 들어가는 **Path Parameter** 형태로 사용해야 한다. Query Parameter 로는 `country`가 들어간다. 해당 국가에서의 인기 트랙이다.
+Top Tracks에서는 아티스트의 이름을 파라미터로 하여 해당 아티스트의 인기 트랙을 얻을 수 있다. 다만 Search에서는 검색어를 **Query Parameter** 로 사용했는데, Top Tracks에서는 아티스트의 ID가 API 엔드포인트 중 일부로 들어가는 **Path Parameter** 형태로 사용해야 한다. Query Parameter 로는 `country`가 들어간다. 해당 국가에서의 인기 트랙이 나오게 된다.
 
 Queen의 미국에서의 top tracks을 보려면, 아래와 같이 쿼리해야 한다.
 
@@ -409,13 +410,29 @@ top_tracks('1dfeR4HaWDbWqFHLkxsg1d') # Queen의 id
 }
 ```
 
-`tracks` 안에 `album`으로 시작하는 여러 트랙들이 담기게 된다. 이 데이터를 AWS에서 제공하는 NoSQL인 `DynamoDB`에 저장할 것이다.
+`tracks` 안에 `album`으로 시작하는 여러 트랙들이 담기게 된다. 이 데이터를 AWS에서 제공하는 NoSQL인 `DynamoDB`에 저장하는데, 이 작업을 위해서는 Lambda 함수에서 또 다른 Lambda 함수를 호출할 것이다. 이 작업을 `invoke`라고 한다.
 
-- invoke lambda 함수(top-tracks)
+invoke를 하기 위해서는 다른 Lambda함수를 invoke하기 위한 권한이 필요하다. AWS IAM에서 원래 Lambda 함수에 `AWSLambdaFullAccess` 권한을 부여해야 한다.
 
+먼저 Lambda 함수 페이지로 들어가 **권한** 탭에 있는 **역할 이름** 을 클릭한다.
 
+![20200607-4-role1](/assets/20200607-4-role1.png)
 
+IAM으로 들어가게 되면, **권한** 탭에 현재 이 역할에서 사용 가능한 정책들이 나와 있다. **정책 연결** 로 들어간다.
 
+![20200607-5-role2](/assets/20200607-5-role2.png)
+
+`AWSLambdaFullAccess`를 입력하고 체크 후 정책 연결 버튼을 클릭하여 완료한다. 모두 입력하지 않아도 된다.
+
+![20200607-6-role3](/assets/20200607-6-role3.png)
+
+권한이 추가된 것을 확인할 수 있다.
+
+![20200607-7-role4](/assets/20200607-7-role4.png)
+
+<br>
+
+이제 데이터를 `DynamoDB`에 저장하는 Lambda 함수를 생성하고, 원래 Lambda에서 호출하는 코드를 삽입해야 한다. 이 내용에 대해서는 추후 추가하겠다.
 
 <br>
 
@@ -423,7 +440,7 @@ top_tracks('1dfeR4HaWDbWqFHLkxsg1d') # Queen의 id
 
 ### 데이터를 말풍선 형태에 맞게 보내기
 
-사용자가 `안녕`이라는 메시지를 보내면, 아래의 `json` 형태로 전달된다.
+카카오톡에서 사용자가 `비틀즈`라는 메시지 request를 보내면, 아래의 `json` 형태로 전달된다.
 
 ```json
 {
@@ -440,7 +457,7 @@ top_tracks('1dfeR4HaWDbWqFHLkxsg1d') # Queen의 id
       "id": "qqz5oy80luysrtiq4ck4ql4h",
       "name": "블록 이름"
     },
-    "utterance": "안녕",
+    "utterance": "비틀즈\n",
     "lang": null,
     "user": {
       "id": "363763",
@@ -456,7 +473,7 @@ top_tracks('1dfeR4HaWDbWqFHLkxsg1d') # Queen의 id
     "name": "la6nkw2a2r",
     "clientExtra": null,
     "params": {
-      "artist_name": "the beatles"
+      "group": "the beatles"
     },
     "id": "3tllk8vhdoirf6bbkbl5k3co",
     "detailParams": {
@@ -470,7 +487,9 @@ top_tracks('1dfeR4HaWDbWqFHLkxsg1d') # Queen의 id
 }
 ```
 
-`userRequest` > `utterance` 가 사용자의 메시지가 담기는 부분이다.
+지난 글에서 엔티티를 이용하여 사용자의 메시지에서 파라미터를 추출하는 내용에 다루었다. 이 파라미터는 위 json에서 `action` > `params`에 담기게 된다. 이걸 검색어로 사용하면 되지만, 문제는 항상 이런 파라미터가 생기지 않는다는 것이다. 레드벨벳을 검색하기 위해 `레드벨벳`이나 `레드벨`을 입력하면 생기지만, `레드`를 입력하면 생기지 않는다.
+
+이를 위해 파라미터 대신 유저의 발화를 그대로 검색어로 사용하려고 한다. 유저의 발화는 `userRequest` > `utterance`에 담긴다. 줄을 바꾸지 않아도 뒤에 `\n`이 붙어서, 이를 제거하고 사용해야 한다.
 
 
 
