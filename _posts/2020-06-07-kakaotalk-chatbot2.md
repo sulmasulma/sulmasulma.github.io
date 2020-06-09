@@ -505,6 +505,7 @@ IAM으로 들어가게 되면, **권한** 탭에 현재 이 역할에서 사용 
   - 없을 경우, Search API에서 유저의 발화를 검색어로 하여 나오는 검색 결과를 리턴하고 MySQL에 저장
 - 리턴받은 아티스트의 ID를 바탕으로 `artist_genres` 테이블의 장르들 리턴
 - BasicCard 타입 메시지에서 제목은 `artists` 테이블의 `name`, 이미지는 `artists` 테이블의 `image_url`, description은 장르들로 하여 사용자에게 response로 전달
+  - 버튼을 누르면 YouTube의 해당 아티스트 검색 결과 창으로 연결되게 한다. Spotify 링크를 사용해도 되지만, 국내 사용자가 별로 없으므로 범용적인 YouTube 링크를 사용했다.
 
 ```py
 import pymysql, json
@@ -520,9 +521,7 @@ except:
 # 사용자 발화와 일치하는 아티스트가 DB에 없을 경우, Search API로 찾는 함수
 def search_artist(cursor, artist_name):
 
-    headers = get_headers(client_id, client_secret) # id, secret은 globals()로 생성
-
-    ## Spotify Search API
+    headers = get_headers(client_id, client_secret)
     params = {
         "q": artist_name,
         "type": "artist",
@@ -533,7 +532,7 @@ def search_artist(cursor, artist_name):
     raw = json.loads(r.text)
     artist_raw = raw['artists']['items'][0]
 
-    # 수정된 쿼리 -> 검색어로 나온 아티스트가 DB에 있는지 확인
+    # 수정된 쿼리 -> 검색 결과로 나온 아티스트가 DB에 있는지 확인
     query = 'select name, image_url from artists where name = "{}"'.format(artist_raw['name'])
     cursor.execute(query)
     db_result = cursor.fetchall()
@@ -563,7 +562,7 @@ def search_artist(cursor, artist_name):
     r = invoke_lambda('top-tracks', payload={'artist_id': artist_raw['id']})
 
 
-    # 메시지 응답 처리
+    ### 메시지 응답 처리
     temp = []
 
     # 1. SimpleText: 아티스트 관련 안내
@@ -581,7 +580,6 @@ def search_artist(cursor, artist_name):
         }
     }
     temp.append(temp_text)
-
 
     # 3. BasicCard: 아티스트 정보와 유튜브 링크
     # 아티스트 이름에 공백이 있다면, URL에는 +로 바꿔야 함
@@ -612,7 +610,7 @@ def lambda_handler(event, context):
 
     # 메시지 내용은 request의 'body'에 있음
     request_body = json.loads(event['body'])
-    # 메시지는 뒤에 \n이 붙어서, 제거
+    # 사용자 발화는 뒤에 \n이 붙어서, 제거
     artist_name = request_body['userRequest']['utterance'].rstrip("\n")
 
     query = 'select name, image_url from artists where name = "{}"'.format(artist_name)
@@ -686,8 +684,6 @@ def lambda_handler(event, context):
                     }
                 },
 
-                # 3.
-
             ]
         }
     }
@@ -700,10 +696,6 @@ def lambda_handler(event, context):
             'Access-Control-Allow-Origin': '*',
         }
     }
-
-
-
-
 ```
 
 
@@ -711,17 +703,20 @@ def lambda_handler(event, context):
 
 #### 최종 결과
 
-최종적으로 아래와 같은 형태의 메시지를 응답해 주게 된다.
+DB에 있는 아티스트의 경우이다.
 
 ![20200607-1-result](/assets/20200607-1-result.png)
-- 각자 음악을 듣는 앱이 모두 다르므로, 범용적인 YouTube 링크를 사용했다. YouTube의 `Coldplay`를 검색 결과 창으로 연결된다.
+
+DB에 없는 아티스트는 아래와 같다.
+
+![20200607-8-result2](/assets/20200607-8-result2.png)
 
 <br>
 <br>
 
 ### 마무리하며
 
-사용자 발화와 일치하는 아티스트가 DB에 있을 때와 아닐 때를 구분하여 코드를 작성했다. 그런데 일치하지 않을 경우 DB에 데이터 추가를 위한 시간이 걸리므로, 동기 방식으로 처리할 경우 시간이 걸리지 않는 메시지가 불필요하게 대기하게 된다. 아직 방법을 찾지 못해서 하나의 함수에서 여러 메시지를 동시에 보내 주었다. 각 메시지를 각각의 Lambda 함수로 사용하여 사용자에게 보내 주는 등 해결 방법을 찾아봐야겠다.
+사용자 발화와 일치하는 아티스트가 DB에 있을 때와 아닐 때를 구분하여 코드를 작성했다. 그런데 일치하지 않을 경우 DB에 데이터 추가를 위한 시간이 걸리므로, 동기 방식으로 처리할 경우 시간이 걸리지 않는 메시지가 불필요하게 대기하게 된다. 사용자 입장에서는 제대로 처리가 되고 있는지 알 수가 없다. 이에 대한 해결 방법을 찾지 못해서 일단 하나의 함수에서 여러 메시지를 동시에 보내 주었다. 각 메시지를 각각의 Lambda 함수로 사용하여 사용자에게 보내 주는 등 해결 방법을 찾아봐야겠다.
 
 결과만 놓고 보면, 그냥 YouTube에서 아티스트 이름으로 검색하는 게 낫다. 하지만 이 과정은 관련 아티스트 정보를 제공해 주기 위한 전초과정이라 보면 된다. 멜론 등의 음원 서비스에서 노래를 추천해 주듯이, 카카오톡 챗봇으로 아티스트 및 노래를 추천해 주는 것이다.
 
