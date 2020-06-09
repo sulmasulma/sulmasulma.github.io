@@ -31,7 +31,7 @@ excerpt_separator: <!--more-->
 
 ### 카카오톡 말풍선 종류
 
-카카오톡 챗봇으로 용도와 목적에 따라 여러 종류의 메시지를 보낼 수 있다. 여기서는 내가 사용할 두 가지만 간단히 소개하겠다.
+카카오톡 챗봇으로 용도와 목적에 따라 여러 종류의 메시지를 보낼 수 있다. 여기서는 내가 사용할 세 가지만 간단히 소개하겠다.
 
 <br>
 
@@ -110,7 +110,68 @@ json 형태는 다음과 같다.
 
 `thumbnail` > imageUrl이 보이는 이미지의 주소이다. `profile` > imageUrl은 프로필 이미지인데 카드에 노출되는 부분은 아닌 것 같다. `social`도 마찬가지이다. 그래서 나는 `title`, `description`, `thumbnail`, `buttons` 부분만 담았다. 버튼의 경우 `messageText`는 누르면 해당 메시지가 입력되며, `webLinkUrl`은 누르면 해당 링크로 연결된다.
 
-나는 안내 메시지는 `SimpleText` 형태로, 아티스트에 관한 정보는 아티스트 이미지와 함께 `BasicCard` 형태로 전달하기로 하여 이 두 타입을 소개해 보았다. 이외 여러 형태의 메시지에 대해서는 [공식 문서](https://i.kakao.com/docs/skill-response-format)에 나와 있다.
+<br>
+
+#### 3. ListCard
+
+여러 줄로 구성된 리스트형 메시지이다.
+
+![ListCard](https://i.kakao.com/docs/assets/skill/skill-listcard-example.png)
+
+json 형태는 다음과 같다.
+
+```json
+{
+  "version": "2.0",
+  "template": {
+    "outputs": [
+      {
+        "listCard": {
+          "header": {
+            "title": "카카오 i 디벨로퍼스를 소개합니다",
+            "imageUrl": "http://k.kakaocdn.net/dn/xsBdT/btqqIzbK4Hc/F39JI8XNVDMP9jPvoVdxl1/2x1.jpg"
+          },
+          "items": [
+            {
+              "title": "Kakao i Developers",
+              "description": "새로운 AI의 내일과 일상의 변화",
+              "imageUrl": "http://k.kakaocdn.net/dn/APR96/btqqH7zLanY/kD5mIPX7TdD2NAxgP29cC0/1x1.jpg",
+              "link": {
+                "web": "https://namu.wiki/w/%EB%9D%BC%EC%9D%B4%EC%96%B8(%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%94%84%EB%A0%8C%EC%A6%88)"
+              }
+            },
+            {
+              "title": "Kakao i Open Builder",
+              "description": "카카오톡 채널 챗봇 만들기",
+              "imageUrl": "http://k.kakaocdn.net/dn/N4Epz/btqqHCfF5II/a3kMRckYml1NLPEo7nqTmK/1x1.jpg",
+              "link": {
+                "web": "https://namu.wiki/w/%EB%AC%B4%EC%A7%80(%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%94%84%EB%A0%8C%EC%A6%88)"
+              }
+            },
+            {
+              "title": "Kakao i Voice Service",
+              "description": "보이스봇 / KVS 제휴 신청하기",
+              "imageUrl": "http://k.kakaocdn.net/dn/bE8AKO/btqqFHI6vDQ/mWZGNbLIOlTv3oVF1gzXKK/1x1.jpg",
+              "link": {
+                "web": "https://namu.wiki/w/%EC%96%B4%ED%94%BC%EC%B9%98"
+              }
+            }
+          ],
+          "buttons": [
+            {
+              "label": "구경가기",
+              "action": "webLink",
+              "webLinkUrl": "https://namu.wiki/w/%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%94%84%EB%A0%8C%EC%A6%88"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+나는 안내 메시지는 `SimpleText` 형태로, 아티스트에 관한 정보는 아티스트 이미지와 함께 `BasicCard` 형태로, 아티스트의 인기 트랙은 `ListCard` 형태로 전달하기로 하여 이 세 개를 소개해 보았다. 이외 여러 형태의 메시지에 대해서는 [공식 문서](https://i.kakao.com/docs/skill-response-format)에 나와 있다.
 
 <br>
 
@@ -141,6 +202,8 @@ API 이용시 Authorization에 관해서는 크게 두 가지가 있다.
 
 ```py
 # header 발급 위한 함수
+import base64
+
 def get_headers(client_id, client_secret):
 
     endpoint = "https://accounts.spotify.com/api/token"
@@ -150,13 +213,11 @@ def get_headers(client_id, client_secret):
     headers = {
         "Authorization": "Basic {}".format(encoded)
     }
-
     payload = {
         "grant_type": "client_credentials" # grant_type은 고정
     }
 
     r = requests.post(endpoint, data=payload, headers=headers)
-
     access_token = json.loads(r.text)['access_token']
 
     headers = {
@@ -506,17 +567,40 @@ IAM으로 들어가게 되면, **권한** 탭에 현재 이 역할에서 사용 
 - 리턴받은 아티스트의 ID를 바탕으로 `artist_genres` 테이블의 장르들 리턴
 - BasicCard 타입 메시지에서 제목은 `artists` 테이블의 `name`, 이미지는 `artists` 테이블의 `image_url`, description은 장르들로 하여 사용자에게 response로 전달
   - 버튼을 누르면 YouTube의 해당 아티스트 검색 결과 창으로 연결되게 한다. Spotify 링크를 사용해도 되지만, 국내 사용자가 별로 없으므로 범용적인 YouTube 링크를 사용했다.
+- ListCard
 
 ```py
-import pymysql, json
+import json
+import boto3
+from boto3.dynamodb.conditions import Key
 
-# connect MySQL -> 계정 정보는 각자에 맞게 사용
-try:
-    conn = pymysql.connect(host, user=username, passwd=password, db=database, port=port, use_unicode=True, charset='utf8')
-    cursor = conn.cursor()
-except:
-    logging.error("could not connect to rds")
-    sys.exit(1)
+# DynamoDB에서 top_tracks 데이터 호출하는 함수. ListCard 형태에 맞게 리턴
+def get_top_tracks(artist_id):
+
+    table = dynamodb.Table('top_tracks')
+    response = table.query(
+        KeyConditionExpression=Key('artist_id').eq(artist_id)
+    )
+
+    items = []
+
+    # top tracks 3개 보여주기
+    for ele in response['Items'][:3]:
+        name = ele['name']
+        youtube_url = 'https://www.youtube.com/results?search_query={}'.format(name.replace(' ', '+'))
+        temp_dic = {
+            "title": name,
+            "description": ele['album']['name'],
+            "imageUrl": ele['album']['images'][1]['url'],
+            "link": {
+                "web": youtube_url
+            }
+        }
+
+        items.append(temp_dic)
+
+    return items
+
 
 # 사용자 발화와 일치하는 아티스트가 DB에 없을 경우, Search API로 찾는 함수
 def search_artist(cursor, artist_name):
@@ -532,12 +616,12 @@ def search_artist(cursor, artist_name):
     raw = json.loads(r.text)
     artist_raw = raw['artists']['items'][0]
 
-    # 수정된 쿼리 -> 검색 결과로 나온 아티스트가 DB에 있는지 확인
-    query = 'select name, image_url from artists where name = "{}"'.format(artist_raw['name'])
+    # 수정된 쿼리 -> 검색 결과로 나온 아티스트가 MySQL에 있는지 확인
+    query = 'select id, name, image_url from artists where name = "{}"'.format(artist_raw['name'])
     cursor.execute(query)
     db_result = cursor.fetchall()
 
-    # 이미 있는 데이터면, DB 데이터를 리턴하고 나감
+    # 이미 있는 데이터면, DB 데이터를 변수로 할당하고 나감
     if len(db_result) > 0:
         globals()['raw'] = db_result
         return
@@ -568,7 +652,7 @@ def search_artist(cursor, artist_name):
     # 1. SimpleText: 아티스트 관련 안내
     temp_text = {
         "simpleText": {
-            "text": "{}에 대해 알고 싶으신가요?".format(artist_raw['name'])
+            "text": "{}의 노래를 들어보세요.".format(artist_raw['name'])
         }
     }
     temp.append(temp_text)
@@ -581,28 +665,25 @@ def search_artist(cursor, artist_name):
     }
     temp.append(temp_text)
 
-    # 3. BasicCard: 아티스트 정보와 유튜브 링크
-    # 아티스트 이름에 공백이 있다면, URL에는 +로 바꿔야 함
-    youtube_url = 'https://www.youtube.com/results?search_query={}'.format(artist_raw['name'].replace(' ', '+'))
-
-    temp_card = {
-        "basicCard": {
-            "title": artist_raw['name'],
-            "description": ", ".join(artist_raw['genres']),
-            "thumbnail": {
-                "imageUrl": artist_raw['images'][0]['url']
+    # 3. ListCard
+    temp_list = {
+        "listCard": {
+            "header": {
+                "title": artist_raw['name'],
+                "imageUrl": temp_artist_url
             },
+            "items": get_top_tracks(artist_raw['id']),
             "buttons": [
                 {
-                    "action": "webLink",
-                    "label": "YouTube에서 듣기",
-                    "webLinkUrl": youtube_url
-                },
+                "label": "다른 노래도 보기",
+                "action": "webLink",
+                "webLinkUrl": youtube_url
+                }
             ]
         }
     }
+    temp.append(temp_list)
 
-    temp.append(temp_card)
     return temp
 
 # 메인 함수
@@ -613,7 +694,7 @@ def lambda_handler(event, context):
     # 사용자 발화는 뒤에 \n이 붙어서, 제거
     artist_name = request_body['userRequest']['utterance'].rstrip("\n")
 
-    query = 'select name, image_url from artists where name = "{}"'.format(artist_name)
+    query = 'select id, name, image_url from artists where name = "{}"'.format(artist_name)
     cursor.execute(query)
     globals()['raw'] = cursor.fetchall()
 
@@ -639,7 +720,7 @@ def lambda_handler(event, context):
             }
 
     # 사용자 발화와 일치하는 아티스트가 DB에 있을 경우
-    db_artist_name, image_url = raw[0]
+    artist_id, db_artist_name, image_url = raw[0]
 
     youtube_url = 'https://www.youtube.com/results?search_query={}'.format(db_artist_name.replace(' ', '+'))
 
@@ -662,27 +743,28 @@ def lambda_handler(event, context):
                 # 1. SimpleText: 아티스트 관련 안내
                 {
                     "simpleText": {
-                        "text": "{}에 대해 알고 싶으신가요?".format(db_artist_name)
+                        "text": "{}의 노래를 들어보세요.".format(db_artist_name)
                     }
                 },
 
-                # 2. BasicCard: image_url, url 등 보여주는 카드
+                # 2. ListCard: top tracks
                 {
-                    "basicCard": {
-                        "title": db_artist_name,
-                        "description": ", ".join(genres),
-                        "thumbnail": {
+                    "listCard": {
+                        "header": {
+                            "title": temp_artist_name,
                             "imageUrl": image_url
                         },
+                        "items": get_top_tracks(artist_id),
                         "buttons": [
                             {
-                                "action": "webLink",
-                                "label": "YouTube에서 듣기",
-                                "webLinkUrl": youtube_url
-                            },
+                            "label": "다른 노래도 보기",
+                            "action": "webLink",
+                            "webLinkUrl": youtube_url
+                            }
                         ]
                     }
                 },
+
 
             ]
         }
@@ -703,22 +785,25 @@ def lambda_handler(event, context):
 
 #### 최종 결과
 
-DB에 있는 아티스트의 경우이다.
+최종적으로 아래와 같은 형태의 메시지를 응답해 준다.
+
+![20200607-9-result3](/assets/20200607-9-result3.png)
+
+원래는 아래와 같이 BasicCard의 형태로 아티스트 이름과 장르들을 보여주려고 하였으나, 정보가 너무 적어 효용성이 없는 것 같아서 Top Tracks를 보여주는 것으로 변경하였다.
+
+- ~~이렇게 되면 장르 테이블이 쓸모가 없다~~
+- 장르 테이블은 추후 사용 여부를 결정하려고 한다. 관련 아티스트를 찾는 데 사용할 수 있을 것 같다.
 
 ![20200607-1-result](/assets/20200607-1-result.png)
-
-DB에 없는 아티스트는 아래와 같다.
-
-![20200607-8-result2](/assets/20200607-8-result2.png)
 
 <br>
 <br>
 
 ### 마무리하며
 
-사용자 발화와 일치하는 아티스트가 DB에 있을 때와 아닐 때를 구분하여 코드를 작성했다. 그런데 일치하지 않을 경우 DB에 데이터 추가를 위한 시간이 걸리므로, 동기 방식으로 처리할 경우 시간이 걸리지 않는 메시지가 불필요하게 대기하게 된다. 사용자 입장에서는 제대로 처리가 되고 있는지 알 수가 없다. 이에 대한 해결 방법을 찾지 못해서 일단 하나의 함수에서 여러 메시지를 동시에 보내 주었다. 각 메시지를 각각의 Lambda 함수로 사용하여 사용자에게 보내 주는 등 해결 방법을 찾아봐야겠다.
+사용자 발화와 일치하는 아티스트가 DB에 있을 때와 아닐 때를 구분하여 코드를 작성했다. 그런데 일치하지 않을 경우 DB에 데이터 추가를 위한 시간이 걸리므로, 처리 시간이 걸리지 않는 메시지(예: 안내 메시지)가 불필요하게 대기하게 된다. 사용자 입장에서는 제대로 처리가 되고 있는지 알 수가 없다. 이에 대한 해결 방법을 찾지 못해서 일단 하나의 함수에서 여러 메시지를 동시에 보내 주었다. 각 메시지를 각각의 Lambda 함수로 사용하여 사용자에게 보내 주는 등 해결 방법을 찾아봐야겠다.
 
-결과만 놓고 보면, 그냥 YouTube에서 아티스트 이름으로 검색하는 게 낫다. 하지만 이 과정은 관련 아티스트 정보를 제공해 주기 위한 전초과정이라 보면 된다. 멜론 등의 음원 서비스에서 노래를 추천해 주듯이, 카카오톡 챗봇으로 아티스트 및 노래를 추천해 주는 것이다.
+결과만 놓고 보면, 그냥 YouTube에서 아티스트 이름으로 검색하는 것이 나을 수도 있다. 하지만 이 과정은 관련 아티스트 정보를 제공해 주기 위한 전초과정이라 보면 된다. 멜론 등의 음원 서비스에서 노래를 추천해 주듯이, 카카오톡 챗봇으로 아티스트 및 노래를 추천해 주는 것이다.
 
 다음 글에서 이에 대해 다루겠다.
 
