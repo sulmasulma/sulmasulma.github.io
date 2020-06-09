@@ -23,7 +23,7 @@ excerpt_separator: <!--more-->
 3. [Spotify 데이터 저장](#spotify-데이터-저장)
 4. [데이터를 말풍선 형태에 맞게 보내기](#데이터를-말풍선-형태에-맞게-보내기)
 
-> 중간 중간에 코드를 첨부했는데, 전체 코드는 [github](https://github.com/sulmasulma/kakao-chatbot/blob/master/lambda_function.py)에 올려 놓았다.
+> 중간 중간에 코드를 첨부했는데, 전체 코드는 [Github](https://github.com/sulmasulma/kakao-chatbot/blob/master/lambda_function.py)에 올려 놓았다.
 
 <br>
 
@@ -489,31 +489,25 @@ IAM으로 들어가게 되면, **권한** 탭에 현재 이 역할에서 사용 
 }
 ```
 
-지난 글에서 엔티티를 이용하여 사용자의 메시지에서 파라미터를 추출하는 내용에 다루었다. 이 파라미터는 위 json에서 `action` > `params`에 담기게 된다. 이걸 검색어로 사용하면 되지만, 문제는 항상 이런 파라미터가 생기지 않는다는 것이다. 레드벨벳을 검색하기 위해 `레드벨벳`이나 `레드벨`을 입력하면 생기지만, `레드`를 입력하면 생기지 않는다.
+지난 글에서 엔티티를 이용하여 사용자 발화에서 파라미터를 추출하는 내용에 다루었다. 이 파라미터는 위 json에서 `action` > `params`에 담기게 된다. 이걸 검색어로 사용하면 되지만, 문제는 항상 이런 파라미터가 생기지 않는다는 것이다. 레드벨벳을 검색하기 위해 `레드벨벳`이나 `레드벨`을 입력하면 생기지만, `레드`를 입력하면 생기지 않는다.
 
-이를 위해 파라미터 대신 유저의 발화를 그대로 검색어로 사용하려고 한다. 유저의 발화는 `userRequest` > `utterance`에 담긴다. 줄을 바꾸지 않아도 뒤에 `\n`이 붙어서, 이를 제거하고 사용해야 한다.
+이를 위해 파라미터 대신 사용자 발화를 그대로 검색어로 사용하려고 한다. 사용자 발화는 `userRequest` > `utterance`에 담긴다. 줄을 바꿔서 입력하지 않아도 뒤에 `\n`이 붙어서, `.rstrip()` 메소드로 이를 제거하고 사용해야 한다.
 
 <br>
 
 #### 데이터 처리 로직
 
-여기서는 로직을 위한 핵심 코드 부분만 소개하려고 한다. 전체 코드는 [github](https://github.com/sulmasulma/kakao-chatbot/blob/master/lambda_function.py)에 올려 놓았다.
+> 여기서는 로직을 보여주기 위한 핵심 코드 부분만 소개하려고 한다. 전체 코드는 [Github](https://github.com/sulmasulma/kakao-chatbot/blob/master/lambda_function.py)에 올려 놓았다. 에러 처리를 위한 부분 때문에 여기에 소개한 코드와 조금 다를 수 있다.
 
 카카오톡 사용자에게 아티스트 관련 정보를 주기 위한 데이터 처리 과정은 다음과 같다.
 
-- 위에서 만든 MySQL의 `artists` 테이블의 `name`과 유저의 발화와 일치하는 행이 있을 경우, 해당 행 리턴
-  - 일치하는 행이 없을 경우, Search API에서 유저의 발화를 검색어로 하여 나오는 검색 결과를 리턴하고 MySQL에 저장
+- 위에서 만든 MySQL의 `artists` 테이블에 유저의 발화와 일치하는 아티스트가 있을 경우 해당 데이터 가져옴
+  - 없을 경우, Search API에서 유저의 발화를 검색어로 하여 나오는 검색 결과를 리턴하고 MySQL에 저장
 - 리턴받은 아티스트의 ID를 바탕으로 `artist_genres` 테이블의 장르들 리턴
 - BasicCard 타입 메시지에서 제목은 `artists` 테이블의 `name`, 이미지는 `artists` 테이블의 `image_url`, description은 장르들로 하여 사용자에게 response로 전달
 
-
-
 ```py
-import pymysql, json, logging
-# logging -> 로그 남기기 위한 라이브러리. print()와 유사
-
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
+import pymysql, json
 
 # connect MySQL -> 계정 정보는 각자에 맞게 사용
 try:
@@ -523,7 +517,189 @@ except:
     logging.error("could not connect to rds")
     sys.exit(1)
 
+# 사용자 발화와 일치하는 아티스트가 DB에 없을 경우, Search API로 찾는 함수
+def search_artist(cursor, artist_name):
 
+    headers = get_headers(client_id, client_secret) # id, secret은 globals()로 생성
+
+    ## Spotify Search API
+    params = {
+        "q": artist_name,
+        "type": "artist",
+        "limit": "1"
+    }
+
+    r = requests.get("https://api.spotify.com/v1/search", params=params, headers=headers)
+    raw = json.loads(r.text)
+    artist_raw = raw['artists']['items'][0]
+
+    # 수정된 쿼리 -> 검색어로 나온 아티스트가 DB에 있는지 확인
+    query = 'select name, image_url from artists where name = "{}"'.format(artist_raw['name'])
+    cursor.execute(query)
+    db_result = cursor.fetchall()
+
+    # 이미 있는 데이터면, DB 데이터를 리턴하고 나감
+    if len(db_result) > 0:
+        globals()['raw'] = db_result
+        return
+
+    # DB에 없는 데이터면, DB에 저장해야 함
+    artist = {
+        'id': artist_raw['id'],
+        'name': artist_raw['name'],
+        'followers': artist_raw['followers']['total'],
+        'popularity': artist_raw['popularity'],
+        'url': artist_raw['external_urls']['spotify'],
+        'image_url': artist_raw['images'][0]['url']
+    }
+
+    # 이제 artists 테이블에 데이터 삽입
+    # insert_row는 MySQL에 데이터 삽입하는 함수
+    insert_row(cursor, artist, 'artists')
+    conn.commit()
+
+    # invoke_lambda는 다른 lambda function(top-tracks) 사용하는 함수
+    # top-tracks: DynamoDB에 Top Tracks 저장하는 lambda function
+    r = invoke_lambda('top-tracks', payload={'artist_id': artist_raw['id']})
+
+
+    # 메시지 응답 처리
+    temp = []
+
+    # 1. SimpleText: 아티스트 관련 안내
+    temp_text = {
+        "simpleText": {
+            "text": "{}에 대해 알고 싶으신가요?".format(artist_raw['name'])
+        }
+    }
+    temp.append(temp_text)
+
+    # 2. SimpleText: DB에 데이터 추가하는 시간이 걸리므로, 이와 관련한 안내 메시지도 보냄
+    temp_text = {
+        "simpleText": {
+            "text": "아티스트가 추가되었습니다. 처리 시간 동안 기다려주셔서 감사합니다."
+        }
+    }
+    temp.append(temp_text)
+
+
+    # 3. BasicCard: 아티스트 정보와 유튜브 링크
+    # 아티스트 이름에 공백이 있다면, URL에는 +로 바꿔야 함
+    youtube_url = 'https://www.youtube.com/results?search_query={}'.format(artist_raw['name'].replace(' ', '+'))
+
+    temp_card = {
+        "basicCard": {
+            "title": artist_raw['name'],
+            "description": ", ".join(artist_raw['genres']),
+            "thumbnail": {
+                "imageUrl": artist_raw['images'][0]['url']
+            },
+            "buttons": [
+                {
+                    "action": "webLink",
+                    "label": "YouTube에서 듣기",
+                    "webLinkUrl": youtube_url
+                },
+            ]
+        }
+    }
+
+    temp.append(temp_card)
+    return temp
+
+# 메인 함수
+def lambda_handler(event, context):
+
+    # 메시지 내용은 request의 'body'에 있음
+    request_body = json.loads(event['body'])
+    # 메시지는 뒤에 \n이 붙어서, 제거
+    artist_name = request_body['userRequest']['utterance'].rstrip("\n")
+
+    query = 'select name, image_url from artists where name = "{}"'.format(artist_name)
+    cursor.execute(query)
+    globals()['raw'] = cursor.fetchall()
+
+    # 사용자 발화와 일치하는 아티스트가 DB에 없을 경우 DB에 추가하는 작업
+    if len(raw) == 0:
+        search_result = search_artist(cursor, artist_name)
+
+        # 새로운 데이터가 추가되었을 경우의 메시지 형태
+        if search_result:
+            result = {
+                "version": "2.0",
+                "template": {
+                    "outputs": search_result
+                }
+            }
+
+            return {
+                'statusCode':200,
+                'body': json.dumps(result),
+                'headers': {
+                    'Access-Control-Allow-Origin': '*',
+                }
+            }
+
+    # 사용자 발화와 일치하는 아티스트가 DB에 있을 경우
+    db_artist_name, image_url = raw[0]
+
+    youtube_url = 'https://www.youtube.com/results?search_query={}'.format(db_artist_name.replace(' ', '+'))
+
+    # 장르 담기
+    query = """
+        select t2.genre from artists t1 join artist_genres t2 on t2.artist_id = t1.id
+        where t1.name = '{}'
+    """.format(db_artist_name)
+    cursor.execute(query)
+
+    genres = []
+    for (genre, ) in cursor.fetchall():
+        genres.append(genre)
+
+    # 최종 메시지
+    result = {
+        "version": "2.0",
+        "template": {
+            "outputs": [
+                # 1. SimpleText: 아티스트 관련 안내
+                {
+                    "simpleText": {
+                        "text": "{}에 대해 알고 싶으신가요?".format(db_artist_name)
+                    }
+                },
+
+                # 2. BasicCard: image_url, url 등 보여주는 카드
+                {
+                    "basicCard": {
+                        "title": db_artist_name,
+                        "description": ", ".join(genres),
+                        "thumbnail": {
+                            "imageUrl": image_url
+                        },
+                        "buttons": [
+                            {
+                                "action": "webLink",
+                                "label": "YouTube에서 듣기",
+                                "webLinkUrl": youtube_url
+                            },
+                        ]
+                    }
+                },
+
+                # 3.
+
+            ]
+        }
+    }
+
+    # 메시지 리턴
+    return {
+        'statusCode':200,
+        'body': json.dumps(result),
+        'headers': {
+            'Access-Control-Allow-Origin': '*',
+        }
+    }
 
 
 
@@ -543,13 +719,18 @@ except:
 <br>
 <br>
 
-사실 이 결과만 보면, 그냥 YouTube에서 아티스트 이름으로 검색하는 게 낫다. 하지만 이 과정은 관련 아티스트 정보를 제공해 주기 위한 전초과정이라 보면 된다. 멜론 등의 음원 서비스에서 노래를 추천해 주듯이, 카카오톡 챗봇으로 아티스트 및 노래를 추천해 주는 것이다.
+### 마무리하며
+
+사용자 발화와 일치하는 아티스트가 DB에 있을 때와 아닐 때를 구분하여 코드를 작성했다. 그런데 일치하지 않을 경우 DB에 데이터 추가를 위한 시간이 걸리므로, 동기 방식으로 처리할 경우 시간이 걸리지 않는 메시지가 불필요하게 대기하게 된다. 아직 방법을 찾지 못해서 하나의 함수에서 여러 메시지를 동시에 보내 주었다. 각 메시지를 각각의 Lambda 함수로 사용하여 사용자에게 보내 주는 등 해결 방법을 찾아봐야겠다.
+
+결과만 놓고 보면, 그냥 YouTube에서 아티스트 이름으로 검색하는 게 낫다. 하지만 이 과정은 관련 아티스트 정보를 제공해 주기 위한 전초과정이라 보면 된다. 멜론 등의 음원 서비스에서 노래를 추천해 주듯이, 카카오톡 챗봇으로 아티스트 및 노래를 추천해 주는 것이다.
 
 다음 글에서 이에 대해 다루겠다.
 
+<br>
 
 ---
-출처
+#### 참고 문서
 - [응답 타입별 JSON 포맷](https://i.kakao.com/docs/skill-response-format)
 - [한국에서 Spotify(스포티파이) 사용하기](https://min7zz.tistory.com/834)
 - [Spotify API: Quick Start](https://developer.spotify.com/documentation/web-api/quick-start/)
