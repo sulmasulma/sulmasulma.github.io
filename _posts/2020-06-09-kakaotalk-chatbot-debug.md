@@ -35,17 +35,6 @@ print(translator.translate('포스트말론', dest="en").text) #
 <br>
 <br>
 
-### 2.
-
-
-
-
-### 마무리하며
-
-
-
-<br>
-
 ---
 #### 참고 문서
 - [Python - Google translate(구글 번역) API 사용 방법](https://codechacha.com/ko/python-google-translate/)
