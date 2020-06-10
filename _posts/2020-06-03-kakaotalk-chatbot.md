@@ -218,6 +218,8 @@ AWS `CloudWatch`에서 request를 수신하면 로그를 확인할 수 있는데
 
 ![20200603-16-responseexample](/assets/20200603-16-responseexample.png)
 
+이제 오픈빌더에서 **배포** 탭을 통해 배포를 완료하면, 실제 카카오톡에서도 사용할 수 있다.
+
 <br>
 <br>
 
