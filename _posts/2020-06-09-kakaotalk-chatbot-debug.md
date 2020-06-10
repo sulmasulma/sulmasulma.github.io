@@ -5,8 +5,7 @@ tags: [kakaotalk, serverless, Data Engineering, AWS, chatbot, debug]
 categories: [Data]
 excerpt_separator: <!--more-->
 ---
-<!--more-->
-카카오톡 챗봇에서 크고 작은 개선 사항들을 정리해 보았다.
+카카오톡 챗봇에서 크고 작은 개선 사항들을 정리해 보았다.<!--more-->
 
 ### 1. 아티스트 이름 번역
 
