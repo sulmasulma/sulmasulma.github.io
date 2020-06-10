@@ -563,7 +563,9 @@ IAM으로 들어가게 되면, **권한** 탭에 현재 이 역할에서 사용 
 
 - 위에서 만든 MySQL의 `artists` 테이블에 유저의 발화와 일치하는 아티스트가 있을 경우 해당 데이터 가져옴
   - 없을 경우, Search API에서 유저의 발화를 검색어로 하여 나오는 검색 결과를 리턴하고 MySQL에 저장
-- 리턴받은 아티스트의 ID를 바탕으로 `artist_genres` 테이블의 장르들, DynamoDB의 `top_tracks` 리턴
+- 리턴받은 아티스트의 ID를 바탕으로 `artist_genres` 테이블의 장르들 리턴
+- 리턴받은 아티스트의 ID를 바탕으로 `top_tracks` 데이터 리턴
+  - 이미 DynamoDB에 저장되어 있는 아티스트면 DB에서 가져오고, 새로운 아티스트면 API 결과 리턴
 - ListCard 타입 메시지에서 제목은 `artists` 테이블의 `name`, 이미지는 `artists` 테이블의 `image_url`을 사용하고 `top_tracks`의 각 트랙을 리스트로 보여줌
   - 버튼을 누르면 YouTube의 해당 아티스트 검색 결과 창으로 연결되게 하여, 아티스트의 다른 노래나 영상들도 볼 수 있게 해 줌. Spotify 링크를 사용해도 되지만, 국내 사용자가 별로 없으므로 범용적인 YouTube 링크를 사용
 
@@ -638,7 +640,8 @@ def search_artist(cursor, artist_name):
                 "title": artist_raw['name'],
                 "imageUrl": temp_artist_url
             },
-            # get_top_tracks는 아티스트의 id를 이용하여 DynamoDB에서 해당 아티스트의 탑 트랙을 찾는 함수. ListCard 형태에 맞게 리턴
+            # get_top_tracks는 아티스트의 id를 이용하여 DynamoDB나 API에서 해당 아티스트의 탑 트랙을 찾는 함수
+            # ListCard 형태에 맞게 리턴
             "items": get_top_tracks(artist_raw['id']),
             "buttons": [
                 {
@@ -721,7 +724,8 @@ def lambda_handler(event, context):
                             "title": temp_artist_name,
                             "imageUrl": image_url
                         },
-                        # get_top_tracks는 아티스트의 id를 이용하여 DynamoDB에서 해당 아티스트의 탑 트랙을 찾는 함수. ListCard 형태에 맞게 리턴
+                        # get_top_tracks는 아티스트의 id를 이용하여 DynamoDB나 API에서 해당 아티스트의 탑 트랙을 찾는 함수
+                        # ListCard 형태에 맞게 리턴
                         "items": get_top_tracks(artist_id),
                         "buttons": [
                             {
@@ -753,9 +757,13 @@ def lambda_handler(event, context):
 
 #### 최종 결과
 
-최종적으로 아래와 같은 형태의 메시지를 응답해 준다.
+이미 DB에 있는 아티스트의 경우는 다음과 같다.
 
 ![20200607-9-result3](/assets/20200607-9-result3.png)
+
+DB에 없는 아티스트는 다음과 같다.
+
+![20200607-10-result4](/assets/20200607-10-result4.png)
 
 원래는 아래와 같이 BasicCard의 형태로 아티스트 이름과 장르들을 보여주려고 하였으나, 정보가 너무 적어 효용성이 없는 것 같아서 Top Tracks를 보여주는 것으로 변경하였다.
 
