@@ -14,9 +14,10 @@ excerpt_separator: <!--more-->
 
 사용한 기술 스택은 아래와 같다.
 
-- 데이터: `Spotify` API
-- 서버 (서버리스): AWS `Lambda`
-- DB: AWS RDS-`MySQL`, `DynamoDB`
+- 언어: `Python 3.7`
+- 데이터: Spotify API
+- 서버: AWS `Lambda`(서버리스)
+- DB: AWS `MySQL`, `DynamoDB`
 - 이외 AWS 서비스: `API Gateway`(API 생성 및 관리), `S3`(서비스에 필요한 코드 저장)
 
 [올인원 패키지 : 데이터 엔지니어링](https://www.fastcampus.co.kr/data_online_engineering)에서 `Spotify` API와 AWS 데이터 파이프라인을 이용하여 **페이스북 메신저** 챗봇을 개발하는 내용을 다루었다. 하지만 페이스북 메신저의 경우 잘 사용하지도 않는 플랫폼일 뿐만 아니라, 배포하려면 채널이 비즈니스 인증을 받아야 하는데 이마저도 코로나19로 인해 업무가 중단되었다고 한다. 반면 **카카오톡** 챗봇은 비즈니스 인증을 받지 않아도 서비스 배포가 가능하다. 따라서 카카오톡 챗봇을 만든 과정을 소개하고자 한다.
