@@ -5,7 +5,7 @@ tags: [kakaotalk, serverless, Data Engineering, AWS, chatbot, debug]
 categories: [Data]
 excerpt_separator: <!--more-->
 ---
-카카오톡 챗봇에서 크고 작은 개선 사항들을 정리해 보았다.<!--more-->
+카카오톡 챗봇에서 크고 작은 개선 사항들을 정리해 보았다.<!--more--> 지속적으로 업데이트할 예정이다.
 
 ### 1. 아티스트 이름 번역
 
@@ -32,6 +32,31 @@ print(translator.translate('포스트말론', dest="en").text) #
 이 정도면 문제 없는 수준이다!
 
 <br>
+
+---
+
+### 2. 예외 아티스트
+
+`자전거 탄 풍경`이라는 가수를 모두 알 것이다. ~~너에게 난~ 해질녘 노을처럼~~~~ [카카오톡 챗봇 만들기 1](https://sulmasulma.github.io/data/2020/06/03/kakaotalk-chatbot.html)에서 카카오톡 챗봇의 엔티티에 대해 언급했는데, `자전거 탄 풍경`은 `@sys.person.group` 엔티티를 통해 파라미터 매핑이 되지만 `자전거`는 단어가 너무 포괄적이라 그런지 매핑되지 않는다.
+
+![20200609-2-bicycle](/assets/20200609-2-bicycle.png)
+
+참고로 이 메시지는 스킬(Lambda에서 수신)을 통해 처리하는 것이 아니다. 오픈빌더에서 시나리오의 왼쪽 메뉴를 보면 [폴백 플록](https://i.kakao.com/docs/tutorial-chatbot-key-features#폴백-블록fallback-block-설정하기)이라는 게 있다. 봇이 사용자의 말을 알아듣지 못하고, 이해할 수 없을 때 내뱉는 메시지이다. 폴백 블록으로 들어가 봇 응답을 아래와 같이 설정한 것이다.
+
+![20200609-3-fallback](/assets/20200609-3-fallback.png)
+
+다시 본론으로 돌아가자. 이 챗봇은 아티스트 이름을 입력받아 처리하는 것이다. `자전거`를 입력하면 일단 Search API를 통해 검색이 되도록 하려고 한다.
+
+해결 방법은 간단하다. 시나리오에서 사용자 발화 예시로 `자전거`를 넣어주고 더블클릭하여 `@sys.person.group` 엔티티를 수동으로 매핑시킨다. 그리고 저장하면 끝이다.
+
+![20200609-4-addexample](/assets/20200609-4-addexample.png)
+
+이제 `자전거`의 검색 결과로 자전거 탄 풍경이 나오게 된다. 여기에 표시되지는 않지만, request를 확인해 보면 `group` 파라미터도 정상적으로 생긴다.
+
+![20200609-5-bicycleresult](/assets/20200609-5-bicycleresult.png)
+
+
+
 <br>
 
 ---
