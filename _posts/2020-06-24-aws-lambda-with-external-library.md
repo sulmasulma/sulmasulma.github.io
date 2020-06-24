@@ -10,7 +10,7 @@ AWS Lambda에서 표준 라이브러리 외에 외부 라이브러리를 사용�
 Lambda 환경은 로컬 환경과 다르다. 로컬에서 `numpy`, `pandas` 등의 라이브러리를 설치했다고 해도, Lambda 환경에는 영향이 없다. Lambda 환경에서는 기본적으로 [표준 라이브러리](https://docs.python.org/ko/3/library/index.html)만 사용할 수 있다. 외부 라이브러리를 사용하려면, 아래 두 방법 중 하나를 선택하면 된다.
 
 1. 코드 및 라이브러리 파일을 `.zip` 파일로 압축하여 Lambda에 업로드
-2. 코드 및 라이브러리 파일을 `.zip` 파일로 압축하여 `Amazon S3`에 업로드하여 Lambda에서 참조
+2. 코드 및 라이브러리 파일을 `.zip` 파일로 압축하여 `Amazon S3`에 업로드하여 Lambda에서 사용
 
 나는 두 번째 방법인 S3를 이용할 것이다.
 
@@ -40,7 +40,7 @@ Lambda 환경은 로컬 환경과 다르다. 로컬에서 `numpy`, `pandas` 등�
 
 ---
 
-### 2. S3에 파일을 업로드하여 Lambda에서 참조
+### 2. S3에 파일을 업로드하여 Lambda에서 사용하기
 
 [카카오톡 챗봇 만들기 1편](https://sulmasulma.github.io/data/2020/06/03/kakaotalk-chatbot.html)에서는 Lambda 페이지에서 인라인 코드를 작성하여 외부 라이브러리 없이 사용했다. 이번에는 인라인 코드 편집 대신 S3를 이용할 것이므로, 로컬에서 코드를 작성하여 `.py` 파일로 저장한다.
 
