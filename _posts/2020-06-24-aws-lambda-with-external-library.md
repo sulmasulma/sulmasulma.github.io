@@ -1,0 +1,85 @@
+---
+layout: post
+title: AWS Lambda에서 외부 라이브러리 사용하기
+tags: [AWS, lambda]
+categories: [Data]
+excerpt_separator: <!--more-->
+---
+AWS Lambda에서 표준 라이브러리 외에 외부 라이브러리를 사용하는 방법을 소개한다.<!--more-->
+
+Lambda 환경은 로컬 환경과 다르다. 로컬에서 `numpy`, `pandas` 등의 라이브러리를 설치했다고 해도, Lambda 환경에는 영향이 없다. Lambda 환경에서는 기본적으로 [표준 라이브러리](https://docs.python.org/ko/3/library/index.html)만 사용할 수 있다. 외부 라이브러리를 사용하려면, 아래 두 방법 중 하나를 선택하면 된다.
+
+1. 코드 및 라이브러리 파일을 `.zip` 파일로 압축하여 Lambda에 업로드
+2. 코드 및 라이브러리 파일을 `.zip` 파일로 압축하여 `Amazon S3`에 업로드하여 Lambda에서 참조
+
+나는 두 번째 방법인 S3를 이용할 것이다.
+
+<br>
+
+---
+
+### 1. S3 버킷 생성
+
+[S3](https://s3.console.aws.amazon.com/s3/home)에 들어가 버킷을 생성한다. 버킷은 일종의 폴더라고 생각하면 된다.
+
+![20200624-1-createbucket](/assets/20200624-1-createbucket.png)
+
+버킷 만들기 창으로 들어왔으면, 이름을 입력한다. 다른 사람의 버킷을 포함해서 모든 버킷의 이름은 고유해야 한다. **다음** 으로 넘어가기 전에 아래와 같이 버킷 이름이 이미 있다고 나오면, 고유한 이름으로 수정해 준다.
+
+![20200624-2-bucketname](/assets/20200624-2-bucketname.png)
+
+권한 설정 단계에서는 S3 파일에 다른 사람이 임의로 접근할 수 없도록 **모든 퍼블릭 액세스 차단** 설정에 체크해 준다.
+
+![20200624-3-bucketaccess](/assets/20200624-3-bucketaccess.png)
+
+마지막 검토 단계까지 진행하여 버킷 만들기를 누르면, S3 페이지에서 내 버킷 목록을 확인할 수 있다.
+
+![20200624-4-bucketlist](/assets/20200624-4-bucketlist.png)
+
+<br>
+
+---
+
+### 2. S3에 파일을 업로드하여 Lambda에서 참조
+
+[카카오톡 챗봇 만들기 1편](https://sulmasulma.github.io/data/2020/06/03/kakaotalk-chatbot.html)에서는 Lambda 페이지에서 인라인 코드를 작성하여 외부 라이브러리 없이 사용했다. 이번에는 인라인 코드 작성 대신 S3를 이용할 것이므로, 로컬에서 코드를 작성하여 `.py` 파일로 저장한다.
+
+이제 로컬 **환경** 에 라이브러리를 저장하는 것이 아니고, Lambda에 업로드 용으로 별도의 폴더 라이브러리를 저장할 것이다. 내가 사용한 외부 라이브러리는 `pymysql`, `boto3`이므로, `requirements.txt`라는 파일을 만들어 아래와 같이 작성한다.
+
+```txt
+pymysql
+boto3
+```
+
+현재 폴더에서 터미널을 열어 `pip3 install -r requirements.txt -t ./libs/`를 입력한다. 하위 폴더로 `libs/`를 만들고 그 안에 위의 두 라이브러리를 설치하는 것이다.
+
+그럼 현재 폴더는 아래와 같이 구성된다.
+- `lambda_function.py`: Lambda 함수가 실행될 코드
+- `requirements.txt`: 필요한 외부 라이브러리 목록
+- `./libs/`: 외부 라이브러리가 들어 있는 폴더
+
+이제 `deploy.sh` 파일을 생성하여 아래와 같이 작성한다. `kakao.zip` 파일로 압축하여 S3의 `s3://spotify-lambda-matt/kakao.zip`(spotify-lambda-matt은 위에서 생성한 S3 버킷 이름)에 복사하고, Lambda 함수 `spotify-kakao`에 업데이트하는 과정이다. 로컬 폴더와 S3에 이미 있던 `kakao.zip` 파일을 삭제하고 새 파일을 업로드하게 된다.
+
+```sh
+#!/bin/bash
+
+rm kakao.zip
+zip kakao.zip -r *
+
+aws s3 rm s3://spotify-lambda-matt/kakao.zip
+aws s3 cp kakao.zip s3://spotify-lambda-matt/kakao.zip
+aws lambda update-function-code --function-name spotify-kakao --s3-bucket spotify-lambda-matt --s3-key kakao.zip
+```
+
+터미널로 돌아와 `./deploy.sh`를 실행한다. 마지막 결과로 아래와 같이 출력되면, 성공적으로 S3 및 Lambda에 업데이트된 것이다.
+
+```txt
+{
+    "FunctionName": "spotify-kakao",
+    ...
+    "State": "Active",
+    "LastUpdateStatus": "Successful"
+}
+```
+
+<br>
