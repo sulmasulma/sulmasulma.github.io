@@ -5,14 +5,15 @@ tags: [AWS, lambda]
 categories: [Data]
 excerpt_separator: <!--more-->
 ---
-AWS Lambda에서 표준 라이브러리 외에 외부 라이브러리를 사용하는 방법을 소개한다.<!--more-->
+AWS Lambda에서 외부 라이브러리를 사용하는 방법을 소개한다.<!--more-->
 
-Lambda 환경은 로컬 환경과 다르다. 로컬에서 `numpy`, `pandas` 등의 라이브러리를 설치했다고 해도, Lambda 환경에는 영향이 없다. Lambda 환경에서는 기본적으로 [표준 라이브러리](https://docs.python.org/ko/3/library/index.html)만 사용할 수 있다. 외부 라이브러리를 사용하려면, 아래 두 방법 중 하나를 선택하면 된다.
+Lambda 환경은 로컬 환경과 다르다. 로컬에서 `numpy`, `pandas` 등의 라이브러리를 설치했다고 해도, [Lambda 환경](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)에는 영향이 없다. Lambda에서 외부 라이브러리를 사용하려면, 아래 두 방법 중 하나를 선택하면 된다.
 
 1. 코드 및 라이브러리 파일을 `.zip` 파일로 압축하여 Lambda에 업로드
 2. 코드 및 라이브러리 파일을 `.zip` 파일로 압축하여 `Amazon S3`에 업로드하여 Lambda에서 사용
 
 나는 두 번째 방법인 S3를 이용할 것이다.
+- *참고로, 외부 라이브러리 설정 없이 python의 [표준 라이브러리](https://docs.python.org/ko/3/library/index.html)를 모두 사용 가능하다고 생각했는데 `request` 패키지는 설정이 필요하다. 디폴트 Lambda 환경에서는 제한적인 라이브러리만 포함되어 있는 것으로 보인다.*
 
 <br>
 
@@ -42,7 +43,11 @@ Lambda 환경은 로컬 환경과 다르다. 로컬에서 `numpy`, `pandas` 등�
 
 ### 2. S3에 파일을 업로드하여 Lambda에서 사용하기
 
-[카카오톡 챗봇 만들기 1편](https://sulmasulma.github.io/data/2020/06/03/kakaotalk-chatbot.html)에서는 Lambda 페이지에서 인라인 코드를 작성하여 외부 라이브러리 없이 사용했다. 이번에는 인라인 코드 편집 대신 S3를 이용할 것이므로, 로컬에서 코드를 작성하여 `.py` 파일로 저장한다.
+#### 코드 파일 저장
+
+[카카오톡 챗봇 만들기 1편](https://sulmasulma.github.io/data/2020/06/03/kakaotalk-chatbot.html)에서는 Lambda 페이지에서 인라인 코드를 작성하여 외부 라이브러리 없이 사용했다. 이번에는 인라인 코드 편집 대신 S3를 이용할 것이므로, 로컬에서 코드를 작성하여 `lambda_function.py` 파일로 저장한다.
+
+#### 라이브러리 저장
 
 라이브러리는 로컬 환경에 설치하는 것이 아니고, Lambda에 업로드 용으로 별도의 폴더에 라이브러리를 저장할 것이다. 내가 사용한 외부 라이브러리는 `pymysql`과 `boto3`이므로, `requirements.txt`라는 파일을 만들어 아래와 같이 작성한다.
 
@@ -52,6 +57,15 @@ boto3
 ```
 
 이제 현재 폴더에서 터미널을 열어 `pip3 install -r requirements.txt -t ./libs/`를 입력한다. 하위 폴더로 `libs/`를 만들고 그 안에 위의 두 라이브러리를 설치하는 것이다.
+
+그리고 `lambda_function.py` 코드의 가장 윗부분에 다음과 같이 입력한다.
+
+```py
+import sys
+sys.path.append('./libs')
+```
+
+- 이렇게 해야 `libs/` 폴더에 설치한 외부 라이브러리를 사용할 수 있다.
 
 여기까지 하면 폴더는 아래와 같이 구성된다.
 - `lambda_function.py`: Lambda 함수가 실행될 코드
