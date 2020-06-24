@@ -47,6 +47,8 @@ Lambda 환경은 로컬 환경과 다르다. 로컬에서 `numpy`, `pandas` 등�
 
 [카카오톡 챗봇 만들기 1편](https://sulmasulma.github.io/data/2020/06/03/kakaotalk-chatbot.html)에서는 Lambda 페이지에서 인라인 코드를 작성하여 외부 라이브러리 없이 사용했다. 이번에는 인라인 코드 편집 대신 S3를 이용할 것이므로, 로컬에서 코드를 작성하여 `lambda_function.py` 파일로 저장한다.
 
+<br>
+
 #### 라이브러리 저장
 
 라이브러리는 로컬 환경에 설치하는 것이 아니고, Lambda에 업로드 용으로 별도의 폴더에 라이브러리를 저장할 것이다. 내가 사용한 외부 라이브러리는 `pymysql`과 `boto3`이므로, `requirements.txt`라는 파일을 만들어 아래와 같이 작성한다.
@@ -67,12 +69,11 @@ sys.path.append('./libs')
 
 - 이렇게 해야 `libs/` 폴더에 설치한 외부 라이브러리를 사용할 수 있다.
 
-여기까지 하면 폴더는 아래와 같이 구성된다.
-- `lambda_function.py`: Lambda 함수가 실행될 코드
-- `requirements.txt`: 필요한 외부 라이브러리 목록
-- `./libs/`: 외부 라이브러리가 들어 있는 폴더
+<br>
 
-이제 `deploy.sh` 파일을 생성하여 아래와 같이 작성한다. `kakao.zip` 파일로 압축하여 S3의 `s3://spotify-lambda-matt/kakao.zip`(spotify-lambda-matt은 위에서 생성한 S3 버킷 이름)에 복사하고, Lambda 함수 `spotify-kakao`에 업데이트하는 과정이다. 로컬 폴더와 S3에 이미 있던 `kakao.zip` 파일을 삭제하고 새 파일을 업로드하여, 반복적으로 사용 가능하다.
+#### S3에 업로드
+
+`deploy.sh` 파일을 생성하여 아래와 같이 작성한다. `kakao.zip` 파일로 압축하여 S3의 `s3://spotify-lambda-matt/kakao.zip`(spotify-lambda-matt은 위에서 생성한 S3 버킷 이름)에 복사하고, Lambda 함수 `spotify-kakao`에 업데이트하는 과정이다. 로컬 폴더와 S3에 이미 있던 `kakao.zip` 파일을 삭제하고 새 파일을 업로드하여, 반복적으로 사용 가능하다.
 
 ```sh
 #!/bin/bash
@@ -85,7 +86,13 @@ aws s3 cp kakao.zip s3://spotify-lambda-matt/kakao.zip
 aws lambda update-function-code --function-name spotify-kakao --s3-bucket spotify-lambda-matt --s3-key kakao.zip
 ```
 
-터미널로 돌아와 `./deploy.sh`를 실행한다. 마지막 결과로 아래와 같이 출력되면, 성공적으로 S3 및 Lambda에 업데이트된 것이다. `lambda_function.py` 코드와 라이브러리 목록을 수정할 때마다 반복적으로 이 커맨드를 실행하여 업데이트하면 된다.
+여기까지 하면 폴더는 아래와 같이 구성된다.
+- `lambda_function.py`: Lambda 함수가 실행될 코드
+- `requirements.txt`: 필요한 외부 라이브러리 목록
+- `./libs/`: 외부 라이브러리가 들어 있는 폴더
+- `deploy.sh`: 명령어
+
+이제 터미널로 돌아와 `./deploy.sh`를 실행한다. 진행 과정이 쭉 나오고, 마지막에 아래와 같이 출력되면 성공적으로 S3 및 Lambda에 업데이트된 것이다.
 
 ```
 {
@@ -95,6 +102,9 @@ aws lambda update-function-code --function-name spotify-kakao --s3-bucket spotif
     "LastUpdateStatus": "Successful"
 }
 ```
+
+- `lambda_function.py` 코드와 라이브러리 목록을 수정할 때마다 **반복적으로 이 커맨드를 실행** 하여 업데이트하면 된다.
+
 
 <br>
 
