@@ -55,6 +55,49 @@ print(translator.translate('포스트말론', dest="en").text) #
 
 ![20200609-5-bicycleresult](/assets/20200609-5-bicycleresult.png)
 
+<br>
+
+---
+
+### 3. 비동기/동기 invoke lambda 사용
+
+[카카오톡 챗봇 만들기 2](https://sulmasulma.github.io/data/2020/06/07/kakaotalk-chatbot2.html)에서 새로운 아티스트가 추가되었을 때 `MySQL`에 아티스트 데이터를, `DynamoDB`에 top_tracks 데이터를 저장했다. 이전의 메시지 요청을 통해 아티스트가 이미 DB에 저장되어 있었으면 문제가 없는데, 해당 요청을 통해 새로 추가된 아티스트의 경우 아래와 같이 `top_tracks` 데이터가 리턴되지 않는 오류가 발생했다.
+
+![20200609-1-loadingerror](/assets/20200609-1-loadingerror.png)
+
+DynamoDB에 데이터를 저장하기 위해, Lambda function에서 다른 Lambda function을 사용하는 `invoke` 방식을 사용했다. 여기서 궁금증이 생겼다.
+
+> invoke lambda가 비동기 방식으로 이루어져서, DynamoDB에 데이터 저장이 완료되기 전에 데이터를 불러오느라 위와 같이 데이터가 없는 현상이 발생한 것인가??
+
+동기 방식과 비동기 방식의 차이를 간략히 설명하면 다음과 같다.
+- 동기(Synchronous) 방식: 함수를 실행하고 **응답을 기다림.** 실행이 종료되면 응답이 반환됨
+  ![Synchronous](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/images/invocation-sync.png)
+- 비동기(Asynchronous) 방식: 함수의 **응답을 기다리지 않고 다음 이벤트를 처리함.** 대기열에 여러 Event를 넣어 병렬적으로, 동시다발적으로 처리 가능
+  ![Asynchronous](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/images/features-async.png)
+
+이 문제가 발생하고, 새로 추가된 아티스트는 DB 데이터가 아닌 API 결과를 메시지에 넣어 주는 것으로 해결했다. 하지만 invoke lambda를 동기/비동기 방식으로 구분하여 사용하는 방법이 궁금해졌다.
+
+현재 invoke lambda를 실행하는 코드는 다음과 같다.
+
+```py
+import boto3
+
+def invoke_lambda(fxn_name, payload, invocation_type = 'Event'):
+
+    lambda_client = boto3.client('lambda')
+    invoke_response = lambda_client.invoke(
+        FunctionName = fxn_name,
+        InvocationType = invocation_type,
+        Payload = json.dumps(payload)
+    )
+
+    if invoke_response['StatusCode'] not in [200, 202, 204]:
+        logging.error('ERROR: Invoking lambda function: {} failed'.format(fxn_name))
+
+    return invoke_response
+```
+
+위와 같이 InvocationType을 `Event`로 해 줄 경우 Lambda 함수를 비동기식으로 호출한다. InvocationType 따로 지정해 주지 않으면 동기식으로 호출한다.
 
 
 <br>
@@ -62,3 +105,5 @@ print(translator.translate('포스트말론', dest="en").text) #
 ---
 #### 참고 문서
 - [Python - Google translate(구글 번역) API 사용 방법](https://codechacha.com/ko/python-google-translate/)
+- [동기식 호출](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/invocation-sync.html)
+- [비동기식 호출](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/invocation-async.html)
