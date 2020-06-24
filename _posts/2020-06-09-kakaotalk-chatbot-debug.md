@@ -93,13 +93,10 @@ def invoke_lambda(fxn_name, payload, invocation_type = 'Event'):
         Payload = json.dumps(payload)
     )
 
-    if invoke_response['StatusCode'] not in [200, 202, 204]:
-        logging.error('ERROR: Invoking lambda function: {} failed'.format(fxn_name))
-
     return invoke_response
 ```
 
-위와 같이 InvocationType을 `Event`로 해 줄 경우 Lambda 함수를 비동기식으로 호출한다. InvocationType 따로 지정해 주지 않으면 동기식으로 호출한다.
+위와 같이 InvocationType을 `Event`로 해 줄 경우 Lambda 함수를 비동기식으로 호출한다. InvocationType을 따로 지정해 주지 않으면 동기식으로 호출한다.
 
 
 <br>
