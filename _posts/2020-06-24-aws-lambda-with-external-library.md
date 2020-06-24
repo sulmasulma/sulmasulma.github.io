@@ -42,11 +42,11 @@ Lambda 환경은 로컬 환경과 다르다. 로컬에서 `numpy`, `pandas` 등�
 
 ### 2. S3에 파일을 업로드하여 Lambda에서 참조
 
-[카카오톡 챗봇 만들기 1편](https://sulmasulma.github.io/data/2020/06/03/kakaotalk-chatbot.html)에서는 Lambda 페이지에서 인라인 코드를 작성하여 외부 라이브러리 없이 사용했다. 이번에는 인라인 코드 작성 대신 S3를 이용할 것이므로, 로컬에서 코드를 작성하여 `.py` 파일로 저장한다.
+[카카오톡 챗봇 만들기 1편](https://sulmasulma.github.io/data/2020/06/03/kakaotalk-chatbot.html)에서는 Lambda 페이지에서 인라인 코드를 작성하여 외부 라이브러리 없이 사용했다. 이번에는 인라인 코드 편집 대신 S3를 이용할 것이므로, 로컬에서 코드를 작성하여 `.py` 파일로 저장한다.
 
 이제 로컬 **환경** 에 라이브러리를 저장하는 것이 아니고, Lambda에 업로드 용으로 별도의 폴더 라이브러리를 저장할 것이다. 내가 사용한 외부 라이브러리는 `pymysql`, `boto3`이므로, `requirements.txt`라는 파일을 만들어 아래와 같이 작성한다.
 
-```txt
+```
 pymysql
 boto3
 ```
@@ -73,7 +73,7 @@ aws lambda update-function-code --function-name spotify-kakao --s3-bucket spotif
 
 터미널로 돌아와 `./deploy.sh`를 실행한다. 마지막 결과로 아래와 같이 출력되면, 성공적으로 S3 및 Lambda에 업데이트된 것이다.
 
-```txt
+```
 {
     "FunctionName": "spotify-kakao",
     ...
@@ -81,5 +81,11 @@ aws lambda update-function-code --function-name spotify-kakao --s3-bucket spotif
     "LastUpdateStatus": "Successful"
 }
 ```
+
+<br>
+
+이제 Lambda 페이지로 돌아가면, 코드 외에 필요한 파일들이 함께 업로드된 것을 확인할 수 있다. [공식 문서](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/python-package.html)에 따르면 파일들의 총 크기가 3MB 이하라면 인라인 코드 편집이 가능하지만, 3MB를 초과할 경우 아래와 같이 비활성화된다.
+
+![20200624-5-codeineditable](/assets/20200624-5-codeineditable.png)
 
 <br>
