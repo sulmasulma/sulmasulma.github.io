@@ -69,6 +69,8 @@ DynamoDB에 데이터를 저장하기 위해, Lambda function에서 다른 Lambd
 
 > invoke lambda가 비동기 방식으로 이루어져서, DynamoDB에 데이터 저장이 완료되기 전에 데이터를 불러오느라 위와 같이 데이터가 없는 현상이 발생한 것인가??
 
+<br>
+
 동기 방식과 비동기 방식의 차이를 간략히 설명하면 다음과 같다.
 - 동기(Synchronous) 방식: 함수를 실행하고 **응답을 기다림.** 실행이 종료되면 응답이 반환됨
   ![Synchronous](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/images/invocation-sync.png)
