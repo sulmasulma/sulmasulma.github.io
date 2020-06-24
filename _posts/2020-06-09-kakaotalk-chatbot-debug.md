@@ -72,12 +72,12 @@ DynamoDB에 데이터를 저장하기 위해, Lambda function에서 다른 Lambd
 <br>
 
 동기 방식과 비동기 방식의 차이를 간략히 설명하면 다음과 같다.
-- 동기(Synchronous) 방식: 함수를 실행하고 **응답을 기다림.** 실행이 종료되면 응답이 반환됨
+- 동기(Synchronous) 방식: 함수를 실행하고 **응답을 기다림.** 이벤트 실행이 종료되면 응답이 반환되고, 다음 이벤트를 실행할 수 있음
   ![Synchronous](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/images/invocation-sync.png)
 - 비동기(Asynchronous) 방식: 함수의 **응답을 기다리지 않고 다음 이벤트를 처리함.** 대기열에 여러 Event를 넣어 병렬적으로, 동시다발적으로 처리 가능
   ![Asynchronous](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/images/features-async.png)
 
-이 문제가 발생하고, 새로 추가된 아티스트는 DB 데이터가 아닌 API 결과를 메시지에 넣어 주는 것으로 해결했다. 하지만 invoke lambda를 동기/비동기 방식으로 구분하여 사용하는 방법이 궁금해졌다.
+이 문제가 발생하고, 새로 추가된 아티스트는 **DB 데이터가 아닌 API 결과** 를 메시지에 넣어 주는 것으로 해결했다. 하지만 invoke lambda를 동기/비동기 방식으로 구분하여 사용하는 방법이 궁금해졌다.
 
 현재 invoke lambda를 실행하는 코드는 다음과 같다.
 
