@@ -61,7 +61,7 @@ defaultdict(<class 'list'>, {'Bob': 1, 'Katie': 2, 'Sara': []})
 <br>
 
 ### 3. deque
-`queue`는 한 쪽에선 입력, 반대 쪽에선 출력이 되는 First-In-First-Out (FIFO) 자료구조이다. `list`를 가지고 queue를 구현할 수도 있지만, `collections` 라이브러리의 `deque`를 이용하여 더 효율적이고 편리하게 구현할 수도 있다.
+python에서 `list`는 Stack이다. 한 쪽에서 입출력이 모두 일어나는 First-In-Last-Out (FILO) 자료구조이다. 반면 `collections` 라이브러리의 `deque`는 Queue이다. 한 쪽에선 입력, 반대 쪽에선 출력이 되는 First-In-First-Out (FIFO) 자료구조이다.
 
 - `deque`는 기본적으로 최대 길이를 설정할 수 있다.
 
