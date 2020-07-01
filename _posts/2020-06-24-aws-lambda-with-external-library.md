@@ -13,7 +13,7 @@ Lambda 환경은 로컬 환경과 다르다. 로컬에서 `numpy`, `pandas` 등�
 2. 코드 및 라이브러리 파일을 `.zip` 파일로 압축하여 `Amazon S3`에 업로드하여 Lambda에서 사용
 
 나는 두 번째 방법인 S3를 이용할 것이다.
-- *참고로, 외부 라이브러리 설정 없이 python의 [표준 라이브러리](https://docs.python.org/ko/3/library/index.html)를 모두 사용 가능하다고 생각했는데 `request` 패키지는 설정이 필요하다. 디폴트 Lambda 환경에서는 제한적인 라이브러리만 포함되어 있는 것으로 보인다.*
+- *참고로, 외부 라이브러리 설정 없이 python의 [표준 라이브러리](https://docs.python.org/ko/3/library/index.html)를 모두 사용 가능하다고 생각했는데 `requests` 패키지는 설정이 필요하다. 디폴트 Lambda 환경에서는 제한적인 라이브러리만 포함되어 있는 것으로 보인다.*
 
 <br>
 
