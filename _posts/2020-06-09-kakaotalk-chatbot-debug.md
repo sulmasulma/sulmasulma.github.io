@@ -9,9 +9,14 @@ excerpt_separator: <!--more-->
 
 ### 1. 아티스트 이름 번역
 
-[Spotify](https://open.spotify.com/search)에서 한국 아티스트는 한국어로 검색해도 나오지만, 외국 아티스트는 (아직까지 발견한 바로는) 비틀즈 말고는 한국어로 검색했을 때 나오지 않는다. Search API에서 `콜드플레이`를 검색하면 아무 결과도 나오지 않는다.
+[Spotify](https://open.spotify.com/search)에서 한국 아티스트는 한국어로 검색해도 나오지만, 외국 아티스트는 한국어로 검색했을 때 나오지 않는 경우가 있다
+- `에미넴`
 
-이는 사용자 입장에서 매우 불편한 부분이다. 구글 번역기를 손쉽게 코드로 사용할 수 있는 방법을 찾아 보다가, `googletrans`라는 아주 유용한 라이브러리를 발견하게 되었다. `pip install googletrans`로 설치하여 사용하면 된다.
+또한 띄어쓰기를 제대로 하지 않으면 나오지 않는 경우도 있다.
+- `레이디 가가`: 검색됨
+- `레이디가가`: 검색되지 않음
+
+이는 사용자 입장에서 매우 불편한 부분이다. 그래서 구글 번역기를 통해 **한국어 검색어를 영어로 변환** 한 뒤 사용하기로 했다. `googletrans`라는 라이브러리를 이용하면 된다. [Google 번역기](https://translate.google.com/)와 같은 서버를 사용한다. `pip install googletrans`로 설치 후 사용하면 된다.
 
 ```py
 from googletrans import Translator
@@ -29,7 +34,7 @@ print(translator.translate('포스트말론', dest="en").text) #
 
 포스트 말론의 결과인 **Post Marlon** 의 경우 정확한 아티스트 이름인 **Post Malone** 과 약간 차이가 있지만, Search API에서 Post Marlon으로 조회하면 Post Malone이 나온다.
 
-이 정도면 문제 없는 수준이다!
+하루에 사용할 수 있는 횟수가 정해져 있지만, [Google Cloud Translation](https://cloud.google.com/translate/docs)을 사용하는 것보다 간편하다. 트래픽 이슈가 생길 경우 넘어가면 될 것 같다.
 
 <br>
 
@@ -104,5 +109,6 @@ def invoke_lambda(fxn_name, payload, invocation_type = 'Event'):
 ---
 #### 참고 문서
 - [Python - Google translate(구글 번역) API 사용 방법](https://codechacha.com/ko/python-google-translate/)
+- [Googletrans 2.4.0 documentation](https://py-googletrans.readthedocs.io/en/latest/)
 - [동기식 호출](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/invocation-sync.html)
 - [비동기식 호출](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/invocation-async.html)
