@@ -45,8 +45,8 @@ h6 {
     a {
         color: $text-color;
     }
-    
-    
+
+
 }
 
 h1 {
@@ -192,6 +192,7 @@ hr {
 a {
     color: $link-color;
     text-decoration: none;
+    target: "_blank";
 }
 
 iframe,
