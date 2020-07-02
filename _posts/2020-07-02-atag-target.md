@@ -19,6 +19,8 @@ excerpt_separator: <!--more-->
 <a href="https://sulmasulma.github.io/" target="_blank">
 ```
 
+<br>
+
 블로그 글은 마크다운으로 작성하는데, html 코드를 사용할 수는 있지만 기본적으로는 간략화된 문법을 사용한다. 기본적으로는 다음과 같다.
 
 ```md
