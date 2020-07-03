@@ -29,7 +29,7 @@ print(translator.translate('퀸', dest="en").text)
 # queen
 print(translator.translate('트래비스', dest="en").text)
 # Travis
-print(translator.translate('포스트말론', dest="en").text) #
+print(translator.translate('포스트말론', dest="en").text)
 # Post Marlon
 ```
 
