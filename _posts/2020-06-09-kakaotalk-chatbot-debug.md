@@ -33,7 +33,7 @@ print(translator.translate('포스트말론', dest="en").text) #
 # Post Marlon
 ```
 
-포스트 말론의 결과인 **Post Marlon** 의 경우 정확한 아티스트 이름인 **Post Malone** 과 약간 차이가 있지만, Search API에서 Post Marlon으로 조회하면 Post Malone이 나온다.
+포스트 말론의 결과인 **Post Marlon** 의 경우 정확한 아티스트 이름인 **Post Malone** 과 약간 차이가 있지만, Spotify Search API에서 Post Marlon으로 조회하면 Post Malone이 나온다.
 
 하루에 사용할 수 있는 횟수가 정해져 있지만, [Google Cloud Translation](https://cloud.google.com/translate/docs)을 사용하는 것보다 간편하다. 트래픽 이슈가 생길 경우 넘어가면 될 것 같다.
 
