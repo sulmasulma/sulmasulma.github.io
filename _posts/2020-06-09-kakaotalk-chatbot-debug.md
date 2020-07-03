@@ -9,7 +9,7 @@ excerpt_separator: <!--more-->
 
 ### 1. 아티스트 이름 번역
 
-[Spotify](https://open.spotify.com/search)에서 한국 아티스트는 한국어로 검색해도 나오지만, 외국 아티스트는 한국어로 검색했을 때 나오지 않는 경우가 있다
+[Spotify](https://open.spotify.com/search)에서 한국 아티스트는 한국어로 검색해도 나오지만, 외국 아티스트는 한국어로 검색했을 때 나오지 않는 경우가 있다. (2020/07/03 기준)
 - `eminem`: 검색됨
 - `에미넴`: 검색되지 않음
 
