@@ -30,12 +30,12 @@ Cloud Tasks는 기본적으로 태스크들이 클라우드 상의 큐(Queue)에
 
 먼저 [Google Cloud Platform](https://cloud.google.com/) (이하 GCP)에 가입해야 한다.
 
-![스크린샷 2020-05-18 오후 4.07.09](https://i.imgur.com/d0FkWh4.jpg)
+![20200517-1](/assets/20200517-1.png)
 
 무료로 시작하기 버튼을 눌러 진행하면 되는데, 문제는 다음 페이지에서 '계속' 버튼을 눌러도 진행이 되지 않는다. (글을 읽는 시점에서는 이 문제가 고쳐졌을 수도 있다.)<br>
 이 문제에 대해서는 [GCP 가입 및 가입 오류 해결, 인스턴스 생성하기](https://private-space.tistory.com/41) 글을 참고하면 된다. 글에서 EC2 (클라우드 Compute Engine) 인스턴스 생성에 대해서 다루고 있는데, 여기서는 Cloud Tasks를 사용할 것이므로 아래와 같이 생긴 대시보드 창만 확인하고 넘어가면 된다.
 
-![스크린샷 2020-05-18 오후 4.13.16](https://i.imgur.com/YlVArXn.png)
+![20200517-2](/assets/20200517-2.png)
 
 이제 [Cloud Tasks 큐 빠른 시작](https://cloud.google.com/tasks/docs/quickstart-appengine) 문서를 따라 환경 설정을 진행해야 한다. **Cloud Tasks 큐 만들기** 단계까지만 진행하면 된다. 그 밑에 **Cloud Tasks 큐에 태스크 추가** 단계도 있는데, 다른 태스크(API 쿼리 요청)를 추가할 것이므로 일단 넘어가도 된다.
 - 먼저 App Engine 페이지로 이동하여 프로젝트를 만들고, 애플리케이션의 리전을 선택하면 된다. 어느 리전을 선택해도 큰 상관은 없는데, 필자는 `us-central`(이 경우 `gcloud` 명령어에서는 `us-central1`으로 사용할 수 있다)을 선택했다.
@@ -73,7 +73,7 @@ implicit()
 각 작업을 실행하는 **태스크 핸들러** 를 생성하는 과정이다. API 쿼리를 300번 요청한다고 하면, 300개의 독립적인 태스크를 만들어 Google Cloud에서 컨트롤할 수 있도록 매핑해 주어야 한다.
 - 먼저 GCP [Cloud Functions](https://console.cloud.google.com/functions/)에서 **함수 만들기** 로 들어가 함수를 생성한다.
 - 함수 이름은 자유롭게, 할당 메모리는 기본값인 256MiB, 트리거 역시 기본값인 HTTP를 선택한다. 이 때 주의해야 할 점은, **인증되지 않은 호출 허용** 옵션을 설정하여 추가적인 인증 없이 빠르게 태스크를 진행할 수 있게 한다.
-![스크린샷 2020-05-18 오후 5.11.07](https://i.imgur.com/gc8ZMI5.png)
+![20200517-3](/assets/20200517-3.png)
 - 소스 코드는 인라인 편집기, 런타임은 `Python 3.7`, 실행할 함수는 `hello_world`로 그대로 둔다.
 
 cloud function을 생성했으면, 생성한 함수와의 dispatch 작업을 위해 아래 코드를 실행한다. 몇몇 부분을 본인의 설정 사항에 따라서 변경해야 한다.
@@ -157,9 +157,11 @@ def create_task(project, queue, location, payload=None, in_seconds=None):
   - 기본 설정대로, 무료 요금제로 진행하면 512MB의 스토리지를 얻게 된다.
   - 위 글에서는 **CONNECT** 단계에서 Driver로 `Node.js`를 선택했는데, 여기서는 python을 사용할 것이므로 `Python` 3.6 or later를 선택한다.
   - (필요시) DB에 접근 가능한 IP를 설정할 수 있다. 위 글에서는 현재 IP 주소로 설정하도록 안내하고 있는데, IP에 상관 없이 모든 네트워크에서 접근 가능하게 할 수 있다. MongoDB Atlas 좌측 메뉴의 Network Access에 들어온 다음, 우측 하단에 있는 **EDIT** 버튼을 클릭한다.
-  ![스크린샷 2020-05-19 오후 12.50.54](https://i.imgur.com/NHeigRq.png)
+  ![20200517-4](/assets/20200517-4.png)
   - 그리고 `0.0.0.0/0`을 입력하면 모든 네트워크에서 접근 가능하다.
-  ![스크린샷 2020-05-19 오후 12.51.16](https://i.imgur.com/T5zPBG4.png)<br>
+  ![20200517-5](/assets/20200517-5.png)
+
+<br>
 
 - 이제 python에서 MongoDB를 연결 후 데이터 추가, 삭제 등의 작업을 하기 위해 `pymongo` 라는 라이브러리를 이용할 것이다. 위 단계에서 확인한 MongoDB Connection String이 필요하다. 아래와 같은 형식의 주소이다.
   - `mongodb+srv://<id>:<password>@cluster0-ulk38.gcp.mongodb.net/test?retryWrites=true&w=majority`
@@ -250,7 +252,7 @@ dnspython
 
 - 페이지 하단에 **배포** 버튼을 클릭하면, **테스트** 탭에서 실행해 볼 수 있다. API 요청시 parameter로 들어갈 `name`을 넣어 테스트 하면 된다.
 
-![test 복사본](https://i.imgur.com/OEeHtwc.png)
+![20200517-6](/assets/20200517-6.png)
 
 이제 비동기 태스크 처리를 진행한다. 위에서 모든 탑승객의 이름을 저장한 `user_list`를 가지고 `dispatch_task` 함수를 실행하면 된다.
 
@@ -261,7 +263,7 @@ for user in user_list:
 
 실행 후 GCP [Cloud Tasks](https://console.cloud.google.com/cloudtasks) (**Cloud 작업** 이라고 번역되어 있다)에서 해당 큐로 들어가면, 동시에 여러 태스크들이 큐에 들어가 처리되는 것을 확인할 수 있다.
 
-![스크린샷 2020-05-19 오후 3.13.46](https://i.imgur.com/cGpucQF.png)
+![20200517-7](/assets/20200517-7.png)
 
 - MongoDB Atlas에서도 document 수가 계속해서 늘어나는 것을 확인할 수 있다.
 - 다만 API 서버에 계속해서 접근해서 그런지 실행 도중에 `ServiceUnavailable: 503 failed to connect to all addresses` 에러가 나와 모든 데이터를 얻을 수는 없었다.
@@ -271,7 +273,7 @@ for user in user_list:
 
 ### 마무리하며
 
-클라우드에서 분산처리를 통해 데이터를 가져오는 작업을 생각은 해 보았지만 실제로 해 본 적은 없었다. 실제 업무에서는 클라우드 비용, 데이터의 양 등등 고려해야 하는 사항이 많겠지만 한 번 사용해 보는 데에 의미가 있었다.
+클라우드에서 분산처리를 통해 데이터를 가져오는 작업을 생각은 해 보았지만 실제로 해 본 적은 없었다. 실제 업무에서는 클라우드 사용 비용, 데이터의 양 등 고려해야 하는 사항이 많겠지만 한 번 사용해 보는 데에 의미가 있었다.
 실제 API 데이터 요청시 로컬 머신과 Cloud Tasks를 사용할 때 소요 시간까지 비교해 보면 좋을 것 같다. Spotify API에서 음원 데이터를 가져오는 작업을 하고 있는데, 바로 실행해 봐야겠다.
 
 다음 포스팅에서는 이렇게 모은 데이터를 `BigQuery`에 적재하여 `Google Data Studio` 대시보드로 시각화하는 과정까지 진행해 보겠다.
