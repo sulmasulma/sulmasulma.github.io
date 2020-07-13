@@ -104,6 +104,54 @@ def invoke_lambda(fxn_name, payload, invocation_type = 'Event'):
 
 위와 같이 InvocationType을 `Event`로 해 줄 경우 Lambda 함수를 비동기식으로 호출한다. InvocationType을 따로 지정해 주지 않으면 동기식으로 호출한다.
 
+<br>
+
+---
+
+### 4. Top Tracks 업데이트
+
+현재 Top Tracks 데이터를 챗봇에서 보여주는 과정은 다음과 같다.
+- 이미 있는 아티스트: `DynamoDB`에서 가져옴
+- 메시지 입력시 새로 추가되는 아티스트: `Spotify API`에서 가져옴
+
+한 번 저장된 아티스트의 데이터가 **업데이트되지 않는** 구조이다.
+
+오마이걸의 경우 몇 달 전에 컴백하여 `살짝 설렜어 (Nonstop)`, `Dolphin` 등의 노래를 발표했고, 현재 (2020/07/13) 이 두 곡이 Top Track API 결과상에서 상위 2개를 차지한다. 따라서 챗봇에서 오마이걸로 검색하면 이 두 곡이 나와야 하는데, 컴백 전에 데이터가 이미 생성되어 아직도 아래와 같이 나온다.
+
+![20200609-6-ohmygirl1](/assets/20200609-6-ohmygirl1.png)
+
+이 문제를 해결하기 위해 매일 Top Tracks 데이터를 S3 및 DynamoDB에 자동적으로 업데이트하여, 당일 기준 데이터를 제공하도록 했다. 아래와 같이 `Nonstop`, `Dolphin`을 확인할 수 있다.
+
+![20200609-7-ohmygirl2](/assets/20200609-7-ohmygirl2.png)
+
+- 데이터 업데이트 자동화에 대해서는 [Amazon EC2와 리눅스 crontab을 이용한 배치 처리
+](https://sulmasulma.github.io/data/2020/07/09/ec2-crontab.html)에 서술해 놓았다.
+
+<!-- 아래와 같이 한 행씩 삭제하면, DynamoDB의 프로비전 용량을 초과한다.
+
+```py
+table = dynamodb.Table('top_tracks')
+response = table.delete_item(
+    Key={
+        'artist_id': artist_id,
+        'id': id
+    }
+)
+```
+- 참고로 DynamoDB에서 레코드를 삭제할 때에는 파티션 키(위에서는 `artist_id`), 정렬 키(위에서 `id`) 조건을 모두 주어야 한다.
+
+프로비전 용량을 초과하지 않고 정상적으로 모든 레코드를 삭제하려면, 아래와 같이 전체 테이블을 `scan`한 후, `batch_writer`를 이용해야 한다.
+
+```py
+table = dynamodb.Table('top_tracks')
+scan = table.scan()
+with table.batch_writer() as batch:
+    for item in scan['Items']:
+        batch.delete_item(Key={
+            'artist_id':item['artist_id'],
+            'id': item['id']
+``` -->
+
 
 <br>
 
@@ -113,3 +161,4 @@ def invoke_lambda(fxn_name, payload, invocation_type = 'Event'):
 - [Googletrans 2.4.0 documentation](https://py-googletrans.readthedocs.io/en/latest/)
 - [동기식 호출](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/invocation-sync.html)
 - [비동기식 호출](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/invocation-async.html)
+- [Iteratively Deleting Items in Dynamo DB using Python](https://medium.com/@rob3hr/iteratively-deleting-items-in-dynamo-db-using-python-28082130f9f3)
