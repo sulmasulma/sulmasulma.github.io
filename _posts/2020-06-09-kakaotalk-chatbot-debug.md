@@ -124,8 +124,7 @@ def invoke_lambda(fxn_name, payload, invocation_type = 'Event'):
 
 ![20200609-7-ohmygirl2](/assets/20200609-7-ohmygirl2.png)
 
-- 데이터 업데이트 자동화에 대해서는 [Amazon EC2와 리눅스 crontab을 이용한 배치 처리
-](https://sulmasulma.github.io/data/2020/07/09/ec2-crontab.html)에 서술해 놓았다.
+- 데이터 업데이트 자동화에 대해서는 [Amazon EC2와 리눅스 crontab을 이용한 배치 처리](data/2020/07/09/ec2-crontab.html)에 서술해 놓았다.
 
 <!-- 아래와 같이 한 행씩 삭제하면, DynamoDB의 프로비전 용량을 초과한다.
 
