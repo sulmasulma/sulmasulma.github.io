@@ -229,7 +229,7 @@ AWS `CloudWatch`에서 request를 수신하면 로그를 확인할 수 있는데
 
 여기까지 했으면, Lambda를 통한 챗봇 만들기에 대한 기본적인 설정은 끝났다. [이어지는 글](https://sulmasulma.github.io/data/2020/06/07/kakaotalk-chatbot2.html)에서 `Spotify` API 데이터를 이용하여 아티스트의 정보를 제공하는 것에 대해서 다루겠다.
 
-> 개발중인 챗봇은 카카오톡에서 `아티스트봇`으로 검색하시면 사용해 보실 수 있습니다([링크](https://pf.kakao.com/_xgubvxb)). 챗봇 사용과 더불어 일반 메시지도 보내실 수 있으니 많은 사용과 피드백 부탁드립니다.
+> 개발중인 챗봇은 카카오톡에서 `아티스트봇`으로 검색하시면 사용해 보실 수 있습니다 ([링크](https://pf.kakao.com/_xgubvxb)).
 
 
 ---
