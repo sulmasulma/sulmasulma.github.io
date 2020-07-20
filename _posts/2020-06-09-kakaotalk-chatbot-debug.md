@@ -126,32 +126,6 @@ def invoke_lambda(fxn_name, payload, invocation_type = 'Event'):
 
 - 데이터 업데이트 자동화에 대해서는 [Amazon EC2와 리눅스 crontab을 이용한 배치 처리](https://sulmasulma.github.io/data/2020/07/09/ec2-crontab.html)에 서술해 놓았다.
 
-<!-- 아래와 같이 한 행씩 삭제하면, DynamoDB의 프로비전 용량을 초과한다.
-
-```py
-table = dynamodb.Table('top_tracks')
-response = table.delete_item(
-    Key={
-        'artist_id': artist_id,
-        'id': id
-    }
-)
-```
-- 참고로 DynamoDB에서 레코드를 삭제할 때에는 파티션 키(위에서는 `artist_id`), 정렬 키(위에서 `id`) 조건을 모두 주어야 한다.
-
-프로비전 용량을 초과하지 않고 정상적으로 모든 레코드를 삭제하려면, 아래와 같이 전체 테이블을 `scan`한 후, `batch_writer`를 이용해야 한다.
-
-```py
-table = dynamodb.Table('top_tracks')
-scan = table.scan()
-with table.batch_writer() as batch:
-    for item in scan['Items']:
-        batch.delete_item(Key={
-            'artist_id':item['artist_id'],
-            'id': item['id']
-``` -->
-
-
 <br>
 
 ---
@@ -160,4 +134,3 @@ with table.batch_writer() as batch:
 - [Googletrans 2.4.0 documentation](https://py-googletrans.readthedocs.io/en/latest/)
 - [동기식 호출](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/invocation-sync.html)
 - [비동기식 호출](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/invocation-async.html)
-- [Iteratively Deleting Items in Dynamo DB using Python](https://medium.com/@rob3hr/iteratively-deleting-items-in-dynamo-db-using-python-28082130f9f3)
