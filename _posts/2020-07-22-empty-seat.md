@@ -25,7 +25,7 @@ excerpt_separator: <!--more-->
 
 ---
 
-### 1. 자리 사이트 크롤링
+### 자리 사이트 크롤링
 
 전체 좌석 중 내가 원하는 구역은 아래 안내도의 왼쪽 노란 구역(노트북 이용)에서 361~368번의 동떨어진 자리를 제외한 자리들이다. (309~360, 369~388)
 
@@ -42,7 +42,7 @@ excerpt_separator: <!--more-->
 
 이제 빈 자리(파란색)와 비어 있지 않은 자리(회색)의 차이를 알아 보자.
 
-#### 빈 자리
+#### 빈 자리 (155번)
 
 ```html
 <div id="Layer2" style="position:absolute; left:928.90625px; top:281.640625px; width:22.65625px; height:19.140625px; z-index:2">
@@ -58,9 +58,11 @@ excerpt_separator: <!--more-->
 </div>
 ```
 
-- `td` 태그를 보면 배경 색(`bgcolor`)이 파란색(#5AB6CF)이다.
+- `td` 태그를 보면 배경 색(`bgcolor`)이 **파란색(#5AB6CF)** 이다.
 
-#### 비어 있지 않은 자리
+<br>
+
+#### 비어 있지 않은 자리 (154번)
 
 ```html
 <div id="Layer1" style="position:absolute; left:928.90625px; top:260.44921875px; width:22.65625px; height:19.140625px; z-index:1">
@@ -118,7 +120,7 @@ for ele in soup.find_all('div')[1:]: # 1번째부터 각 자리를 나타내는 
 
 ---
 
-### 2. 자동으로 메일 발송하기
+### 자동으로 메일 발송하기
 
 이 부분은 전적으로 [아무튼 워라밸 블로그](http://hleecaster.com/python-email-automation/) 글을 참고하였다. *좋은 글 감사합니다.*
 
