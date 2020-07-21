@@ -182,6 +182,8 @@ smtp.sendmail(SMTP_USER, addr, msg.as_string())
 smtp.close()
 ```
 
+<br>
+
 코드를 실행하면, 다음과 같은 메일을 받을 수 있다. 나는 발신자와 수신자가 같도록 하여, 내가 나에게 메일을 발송했다.
 
 ![20200722-2-mailresult](/assets/20200722-2-mailresult.png)
