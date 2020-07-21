@@ -32,13 +32,13 @@ excerpt_separator: <!--more-->
 ![20200722-1-map](/assets/20200722-1-map.png)
 
 이 사이트에서 html 태그 구조는 다음과 같다.
-- 전체 구조도: `<div id="maptemp">`
+- **전체 구조도**: `<div id="maptemp">`
   - 배경 이미지: `<div id="backimage">`
-  - 자리 1: `<div id="Layer1">`
-  - 자리 2: `<div id="Layer2">`
-  - 자리 3: `<div id="Layer3">`
+  - **자리 1**: `<div id="Layer1">`
+  - **자리 2**: `<div id="Layer2">`
+  - **자리 3**: `<div id="Layer3">`
   - ...
-- `maptemp`라는 id를 가진 `div` 태그 안의 2번째 요소부터 각 자리에 해당하는 `div` 태그들이 들어 있다.
+- `maptemp`라는 id를 가진 `div` 태그 안의 **2번째 요소부터** 각 자리에 해당하는 `div` 태그들이 들어 있다.
 
 이제 빈 자리(파란색)와 비어 있지 않은 자리(회색)의 차이를 알아 보자.
 
