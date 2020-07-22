@@ -82,6 +82,8 @@ excerpt_separator: <!--more-->
 
 공통적으로 `font` 태그 안에 자리 번호가 들어 있다. 따라서 내가 원하는 **자리 번호** (309~360, 369~388)와 **자리 색** (파란색, #5AB6CF)을 만족하는 자리를 수집하면 된다.
 
+`while True` 구문을 이용하여, 원하는 자리가 생길 때까지 10초마다 새로고침하여 다시 크롤링하도록 했다.
+
 ```py
 from selenium import webdriver
 from bs4 import BeautifulSoup
@@ -94,14 +96,27 @@ html = driver.find_element_by_id('maptemp').get_attribute('innerHTML') # 전체 
 soup = BeautifulSoup(html, 'html.parser')
 data = [] # 원하는 자리 담기
 
-for ele in soup.find_all('div')[1:]: # 1번째부터 각 자리를 나타내는 div 태그가 있음
-    d = ele.table.tbody.tr.td # 번호와 색 공통으로 해당하는 부분으로 들어감
-    num = int(d.font.get_text()) # 자리 번호는 태그의 값
-    color = d.get('bgcolor') # 자리 색은 태그의 변수
+while True:
+    for ele in soup.find_all('div')[1:]: # 1번째부터 각 자리를 나타내는 div 태그가 있음
+        d = ele.table.tbody.tr.td # 번호와 색 공통으로 해당하는 부분으로 들어감
+        num = int(d.font.get_text()) # 자리 번호는 태그의 값
+        color = d.get('bgcolor') # 자리 색은 태그의 변수
 
-    # 원하는 자리 났을 경우, 리스트에 자리와 색 넣기
-    if ((num >= 309 and num <= 360) or num >= 369) and color == "#5AB6CF":
-        data.append([num, color])
+        # 원하는 자리 났을 경우, 리스트에 자리와 색 넣기
+        if ((num >= 309 and num <= 360) or num >= 369) and color == "#5AB6CF":
+            data.append([num, color])
+
+    if data:
+      print("자리 났음!! 종료")
+      """
+      메일 발송 코드 넣을 부분 (뒤의 내용)
+      """
+      driver.quit() # 드라이버 완전히 종료. 창 하나만 닫으려면 .close()
+      break
+
+    # 10초마다 새로고침하여 반복
+    time.sleep(10)
+    driver.refresh()
 ```
 
 자리가 났을 경우 수집되는 데이터(위에서 `data`)는 아래와 같은 구조이다.
@@ -184,9 +199,11 @@ smtp.close()
 
 <br>
 
-최종적으로 **10초마다 반복적으로** 크롤링하여 자리가 있는지 확인하고, 자리가 있다면 메일을 발송하고 종료하도록 했다.
+전체 과정을 정리하면 다음과 같다.
+- 10초마다 반복적으로 크롤링하여 자리가 있는지 확인
+- 자리가 있다면 메일을 발송하고 종료
 
-코드를 실행하면, 다음과 같은 메일을 받을 수 있다. 나는 발신자와 수신자가 같도록 하여, 내가 나에게 메일을 발송했다.
+정상적으로 실행되면 다음과 같은 메일을 받을 수 있다. 나는 발신자와 수신자가 같도록 하여, 내가 나에게 메일을 발송했다.
 
 ![20200722-2-mailresult](/assets/20200722-2-mailresult.png)
 
