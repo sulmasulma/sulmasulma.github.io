@@ -145,19 +145,19 @@ Gmail의 경우 서버 주소는 `smtp.gmail.com`, 포트 번호는 `465`이다.
 (Gmail 기준) 위에서 수집한 자리 데이터를 메일로 발송하는 코드를 작성하면 된다. 코드의 핵심 부분만 소개한다.
 
 ```py
-import smtplib, os, pickle # smtplib: 메일 전송을 위한 패키지
-from email import encoders # 파일전송을 할 때 이미지나 문서 동영상 등의 파일을 문자열로 변환할 때 사용할 패키지
+import smtplib, pickle # smtplib: 메일 전송을 위한 패키지
 from email.mime.text import MIMEText # 본문내용을 전송할 때 사용되는 모듈
 from email.mime.multipart import MIMEMultipart # 메시지를 보낼 때 메시지에 대한 모듈
 from email.mime.base import MIMEBase # 파일을 전송할 때 사용되는 모듈
 
-# SMTP 접속을 위한 서버, 계정 설정
+# SMTP 접속을 위한 서버, 계정 설정 (Gmail)
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 465
 
-# 발신자 계정, 비밀번호 (Gmail)
+# 발신자 계정, 비밀번호
+# 비밀번호는 보안을 위해 pickle 파일로 저장하여 가져오면 좋음
 SMTP_USER = "발신자 주소"
-SMTP_PASSWORD = pickle.load(open('pw.pickle', 'rb')) # 보안을 위해 pickle 파일로 저장하여 가져오면 좋음
+SMTP_PASSWORD = pickle.load(open('pw.pickle', 'rb'))
 
 # 수신자 주소
 addr = "수신자 주소"
@@ -165,7 +165,7 @@ addr = "수신자 주소"
 msg = MIMEMultipart("alternative")
 msg["From"] = SMTP_USER # 발신자
 msg["To"] = addr # 수신자
-msg["Subject"] = '메일 제목' # 메일 제목
+msg["Subject"] = '자리가 났습니다!!' # 메일 제목
 
 # 메일 내용(str 형식): 자리 데이터
 # 리스트 [309, 312, ..., 385, 388] -> 문자열 "309 312 ... 385 388"로 변환
@@ -183,6 +183,8 @@ smtp.close()
 ```
 
 <br>
+
+최종적으로 **10초마다 반복적으로** 크롤링하여 자리가 있는지 확인하고, 자리가 있다면 메일을 발송하고 종료하도록 했다.
 
 코드를 실행하면, 다음과 같은 메일을 받을 수 있다. 나는 발신자와 수신자가 같도록 하여, 내가 나에게 메일을 발송했다.
 
