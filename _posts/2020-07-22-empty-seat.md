@@ -107,12 +107,12 @@ while True:
             data.append([num, color])
 
     if data:
-      print("자리 났음!! 종료")
-      """
-      메일 발송 코드 넣을 부분 (뒤의 내용)
-      """
-      driver.quit() # 드라이버 완전히 종료. 창 하나만 닫으려면 .close()
-      break
+        print("자리 났음!! 종료")
+        """
+        메일 발송 코드 넣을 부분 (뒤의 내용)
+        """
+        driver.quit() # 드라이버 완전히 종료. 창 하나만 닫으려면 .close()
+        break
 
     # 10초마다 새로고침하여 반복
     time.sleep(10)
