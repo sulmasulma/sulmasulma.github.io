@@ -163,7 +163,6 @@ Gmail의 경우 서버 주소는 `smtp.gmail.com`, 포트 번호는 `465`이다.
 import smtplib, pickle # smtplib: 메일 전송을 위한 패키지
 from email.mime.text import MIMEText # 본문내용을 전송할 때 사용되는 모듈
 from email.mime.multipart import MIMEMultipart # 메시지를 보낼 때 메시지에 대한 모듈
-from email.mime.base import MIMEBase # 파일을 전송할 때 사용되는 모듈
 
 # SMTP 접속을 위한 서버, 계정 설정 (Gmail)
 SMTP_SERVER = "smtp.gmail.com"
