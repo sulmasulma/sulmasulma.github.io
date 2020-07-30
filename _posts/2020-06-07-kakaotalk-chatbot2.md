@@ -22,7 +22,7 @@ excerpt_separator: <!--more-->
 3. [Spotify 데이터 저장](#spotify-데이터-저장)
 4. [데이터를 말풍선 형태에 맞게 보내기](#데이터를-말풍선-형태에-맞게-보내기)
 
-> 중간 중간에 코드를 첨부했는데, 전체 코드는 [Github](https://github.com/sulmasulma/kakao-chatbot/blob/master/lambda_function.py)에 올려 놓았다.
+> 중간 중간에 코드를 첨부했는데, 전체 코드는 [Github](https://github.com/sulmasulma/kakao-chatbot/blob/master/lambda/lambda_function.py)에 올려 놓았다.
 
 <br>
 
@@ -557,7 +557,7 @@ IAM으로 들어가게 되면, **권한** 탭에 현재 이 역할에서 사용 
 
 #### 데이터 처리 로직
 
-> 여기서는 로직을 보여주기 위한 핵심 코드 부분만 소개하려고 한다. 전체 코드는 [Github](https://github.com/sulmasulma/kakao-chatbot/blob/master/lambda_function.py)에 올려 놓았다. 에러 처리를 위한 부분 때문에 여기에 소개한 코드와 조금 다를 수 있다.
+> 여기서는 로직을 보여주기 위한 핵심 코드 부분만 소개하려고 한다. 전체 코드는 [Github](https://github.com/sulmasulma/kakao-chatbot/blob/master/lambda/lambda_function.py)에 올려 놓았다. 에러 처리를 위한 부분 때문에 여기에 소개한 코드와 조금 다를 수 있다.
 
 카카오톡 사용자에게 아티스트 관련 정보를 주기 위한 데이터 처리 과정은 다음과 같다.
 
