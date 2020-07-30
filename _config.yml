@@ -20,7 +20,7 @@ theme_settings:
   favicon: assets/favicon.ico
 
   # Header and footer text
-  header_text: Matthew의 데이터 분석 블로그
+  header_text: 매일매일 조금씩
   header_feature_image: assets/img/pexels/triangular.jpeg
   footer_text: The BEST things in life are on the other side of FEAR - Will Smith
 
