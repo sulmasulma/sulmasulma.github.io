@@ -1,11 +1,11 @@
 ---
 layout: post
-title: AWS Lambda를 이용한 Serverless 카카오톡 챗봇 만들기 2
+title: AWS Lambda를 이용한 Serverless 카카오톡 챗봇 만들기 2: 데이터 처리
 tags: [kakaotalk, serverless, Data Engineering, AWS, chatbot]
 categories: [Data]
 excerpt_separator: <!--more-->
 ---
-카카오톡 챗봇에서 데이터 처리하는 방법을 소개한다.<!--more--> 아래와 같이 시리즈로 포스팅하고 있다.
+<!--more-->카카오톡 챗봇 개발기를 아래와 같이 시리즈로 포스팅하고 있다.
 
 1. [기본적인 환경설정 및 메시지 응답 테스트](https://sulmasulma.github.io/data/2020/06/03/kakaotalk-chatbot.html)
 2. **입력한 아티스트의 정보 제공**
