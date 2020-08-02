@@ -247,7 +247,7 @@ resp = invoke_lambda('top-tracks', payload={
 
 먼저 S3 데이터로 `top_tracks`, `audio_features` 테이블을 생성한다. 쿼리에 테이블 형태, S3 주소, 압축 형식 등을 명시해 준다.
 
-```SQL
+```sql
 create external table if not exists top_tracks(
     id string,
     artist_id string,
@@ -265,7 +265,7 @@ S3 주소는 `top-tracks/dt={}/top_tracks.parquet` 형식이다. `dt={}`을 넣�
 
 단 아래 쿼리를 반드시 실행해야 파티션이 적용된다.
 
-```SQL
+```sql
 msck repair table top_tracks
 ```
 
