@@ -9,7 +9,7 @@ excerpt_separator: <!--more-->
 
 1. [기본적인 환경설정 및 메시지 응답 테스트](https://sulmasulma.github.io/data/2020/06/03/kakaotalk-chatbot.html)
 2. **입력한 아티스트의 정보 제공**
-3. 관련 아티스트 및 노래 추천
+3. [관련 아티스트 및 노래 추천](https://sulmasulma.github.io/data/2020/08/02/kakaotalk-chatbot3.html)
 
 [지난 글](https://sulmasulma.github.io/data/2020/06/03/kakaotalk-chatbot.html)에서 AWS Lambda를 이용한 카카오톡 챗봇 세팅에 대해 다루었다. 이번 글에서는 [Spotify API 데이터](https://developer.spotify.com/documentation/web-api/reference/)를 이용하여, 아티스트를 요청받으면 해당 아티스트에 대한 정보를 response로 주는 것에 대해 다룰 것이다.
 

@@ -18,10 +18,10 @@ excerpt_separator: <!--more-->
 목차는 다음과 같다.
 
 1. [아티스트 데이터 가져오기](#아티스트-데이터-가져오기)
-2. [아티스트별 top_tracks와 트랙별 audio_features를 S3에 저장](아티스트별-top_tracks와-트랙별-audio-features를-s3에-저장)
-3. [S3에 저장한 데이터를 Athena를 통해 쿼리하여 아티스트 간 거리 계산](s3에-저장한-데이터를-athena를-통해-쿼리하여-아티스트-간-거리-계산)
-4. [배치 처리를 통한 자동화](배치-처리를-통한-자동화)
-5. [최종 결과 확인](최종-결과-확인)
+2. [아티스트별 top_tracks와 트랙별 audio_features를 S3에 저장](#아티스트별-top_tracks와-트랙별-audio_features를-s3에-저장)
+3. [S3에 저장한 데이터를 Athena를 통해 쿼리하여 아티스트 간 거리 계산](#s3에-저장한-데이터를-athena를-통해-쿼리하여-아티스트-간-거리-계산)
+4. [배치 처리를 통한 자동화](#배치-처리를-통한-자동화)
+5. [최종 결과 확인](#최종-결과-확인)
 
 > 중간 중간에 코드를 첨부했는데, 전체 코드는 [Github](https://github.com/sulmasulma/kakao-chatbot)에 올려 놓았다. 1-2번 과정은 [ttandaudio_to_s3.py](https://github.com/sulmasulma/kakao-chatbot/blob/master/ttandaudio_to_s3.py), 3번 과정은 [related_artists.py](https://github.com/sulmasulma/kakao-chatbot/blob/master/related_artists.py)에서 확인할 수 있다.
 

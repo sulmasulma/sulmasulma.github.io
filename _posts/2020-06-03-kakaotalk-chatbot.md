@@ -10,7 +10,7 @@ excerpt_separator: <!--more-->
 
 1. **기본적인 환경설정 및 메시지 응답 테스트**
 2. [입력한 아티스트의 정보 제공](https://sulmasulma.github.io/data/2020/06/07/kakaotalk-chatbot2.html)
-3. 관련 아티스트 및 노래 추천
+3. [관련 아티스트 및 노래 추천](https://sulmasulma.github.io/data/2020/08/02/kakaotalk-chatbot3.html)
 
 사용한 기술 스택은 아래와 같다.
 
