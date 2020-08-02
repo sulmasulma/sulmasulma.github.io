@@ -261,7 +261,7 @@ stored as parquet location 's3://spotify-artists-matt/top-tracks'
 tblproperties("parquet.compress" = "snappy")
 ```
 
-S3 주소는 `top-tracks/dt={}/top_tracks.parquet` 형식이다. `dt={}`을 넣음으로 데이터에서 파티션이 자동으로 적용되도록 했다. 데이터를 파티션 단위로 구성하여 처리 속도를 빠르게 할 수 있으며, DML 쿼리시 `where dt={날짜}` 구문으로 필요한 날짜의 데이터만 가져올 수 있다. `year={}/month={}/day={}` 처럼 여러 개의 파티션 컬럼을 지정할 수도 있다.
+S3 주소는 `top-tracks/dt={}/top_tracks.parquet` 형식이다. `dt={}`을 넣음으로 데이터에서 파티션이 자동으로 적용되도록 했다. 파티션 단위로 구성하면 처리 속도를 빠르게 할 수 있으며, DML 쿼리시 `where dt={날짜}` 구문으로 필요한 날짜의 데이터만 가져올 수 있다. `year={}/month={}/day={}` 처럼 여러 개의 파티션 컬럼을 지정할 수도 있다.
 
 단 아래 쿼리를 반드시 실행해야 파티션이 적용된다.
 
