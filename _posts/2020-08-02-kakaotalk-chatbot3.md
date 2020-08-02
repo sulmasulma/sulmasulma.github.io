@@ -74,13 +74,12 @@ Amazon `S3`에 데이터를 저장한다. 절차를 다시 정리하면 아래�
 코드를 소개하기 전에, S3에 저장하는 과정에서 몇 가지 특징이 있다.
 
 - API 쿼리 결과는 `json` 형태로 반환된다.
-- S3에 저장할 때 json 대신 `parquet` 형식으로 저장할 것이다!
-- parquet은 **컬럼 기반 포맷** 으로, 압축률이 높고 일부 컬럼만 읽어 들일 수 있어 처리량을 줄일 수 있다.
-  - 자세한 장점에 대해서는 [Apache Spark에서 컬럼 기반 저장 포맷 Parquet(파케이) 제대로 활용하기](http://engineering.vcnc.co.kr/2018/05/parquet-and-spark/)에서 볼 수 있다.
-- S3에 저장한 데이터를 `Athena`라는 Presto 기반 쿼리 엔진을 통해 쿼리할 것인데, Athena는 parquet 형태의 데이터에서 json처럼 nested field를 지원하지 않는다.
+- S3에 저장할 때 json을 그대로 저장하는 대신 `parquet` 형식으로 저장할 것이다.
+- parquet은 **컬럼 기반 포맷** 으로, 압축률이 높고 일부 컬럼만 읽어 들일 수 있어 처리량을 줄일 수 있다. 자세한 장점에 대해서는 [Apache Spark에서 컬럼 기반 저장 포맷 Parquet(파케이) 제대로 활용하기](http://engineering.vcnc.co.kr/2018/05/parquet-and-spark/)에서 볼 수 있다.
+- S3에 저장한 데이터를 `Athena`라는 Presto 기반 쿼리 엔진을 통해 쿼리할 것인데, **Athena는 parquet 형태의 데이터에서 json처럼 nested field를 지원하지 않는다.**
   - nested field는 `{"tracks": [{"album": "num1"}, {"album": "num2"}]}` 처럼 계층 구조를 가진 컬럼을 말한다.
-- 따라서 계층 구조를 가지고 있는 API 데이터에서 필요한 컬럼만 추출하여 flat 한 형태로 변환할 것이다.
-  - 필요한 위치를 찾아 필요한 컬럼만 추출할 때 `jsonpath`라는 python 라이브러리를 사용한다.
+- 따라서 계층 구조를 가지고 있는 API 데이터에서 **필요한 컬럼만 추출하여 flat 한 형태로 변환할 것이다.**
+  - 계층 구조를 가진 컬럼을 찾아서 추출할 때 `jsonpath`라는 python 라이브러리를 사용한다.
 
 먼저 아티스트별 id를 이용하여 top_tracks 데이터를 쿼리하고, 하나의 객체(`top_tracks`)에 모은다.
 
