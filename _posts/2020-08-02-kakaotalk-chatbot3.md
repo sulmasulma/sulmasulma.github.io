@@ -13,7 +13,7 @@ excerpt_separator: <!--more-->
 
 [지난 글](https://sulmasulma.github.io/data/2020/06/07/kakaotalk-chatbot2.html)에서 `MySQL`과 `DynamoDB`를 이용하여, 아티스트를 요청받으면 해당 아티스트에 대한 인기 트랙 정보를 응답해 주는 내용을 다루었다.
 
-이번 글에서는 관련 아티스트를 추천해 줄 것이다. 아티스트별 인기 트랙들(`top_tracks`)의 음원 정보(`audio_features`)를 이용하여 아티스트 간의 유사도(Euclidean Distance)를 구하고, 사용자가 입력받은 아티스트와 유사도가 큰(=거리가 작은) 아티스트를 응답해 줄 것이다.
+이번 글에서는 Amazon `S3`와 `Athena`까지 활용하여 관련 아티스트를 추천해 줄 것이다. 아티스트별 인기 트랙들(`top_tracks`)의 음원 정보(`audio_features`)를 이용하여 아티스트 간의 유사도(Euclidean Distance)를 구하고, 사용자가 입력받은 아티스트와 유사도가 큰(=거리가 작은) 아티스트를 응답해 줄 것이다.
 
 목차는 다음과 같다.
 
@@ -66,7 +66,7 @@ for (artist_id, name) in cursor.fetchall():
 
 ### 아티스트별 top_tracks와 트랙별 audio_features를 S3에 저장
 
-Amazon `S3`라는 Data Lake에 데이터를 저장한다. 절차를 다시 정리하면 아래와 같다.
+Amazon `S3`에 데이터를 저장한다. 절차를 다시 정리하면 아래와 같다.
 
 1. 위에서 얻은 아티스트별 id를 바탕으로 Spotify API에서 해당 아티스트의 `top_tracks` 데이터 쿼리, S3에 저장
 2. `top_tracks`에서 얻은 트랙별 id를 바탕으로 Spotify API에서 해당 트랙의 `audio_features` 데이터 쿼리, S3에 저장
