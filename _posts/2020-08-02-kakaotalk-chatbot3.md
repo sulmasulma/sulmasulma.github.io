@@ -284,7 +284,7 @@ msck repair table top_tracks
 챗봇에서 관련 아티스트를 추천해 주는 과정은 다음과 같다.
 
 1. 아티스트별 인기 트랙의 danceability 평균, acousticness 평균, instrumentalness 평균 등 `audio_features`에 있는 **수치별 평균값** 을 구한다.
-2. 이를 바탕으로 **아티스트들 간의 Euclidean Distance를 계산** 한다.
+2. 이를 바탕으로 **아티스트들 간의 Euclidean Distance를 계산** 하여 MySQL에 저장한다.
 3. 요청받은 아티스트와 Euclidean Distance가 **가장 가까운 아티스트를 제공** 한다.
 
 <br>
@@ -336,7 +336,13 @@ ssh -i key-pair.pem ec2-user@{퍼블릭 DNS}
 
 ### 최종 결과 확인
 
-아래와 같이 검색한 아티스트와 관련 아티스트들을 가로로 넘기면서 볼 수 있다. 한 장의 카드가 아닌 [Carousel](https://i.kakao.com/docs/skill-response-format#carousel)을 적용하여 여러 장의 카드를 같이 볼 수 있도록 했다.
+MySQL의 `related_artists` 테이블에 아래와 같이 아티스트들 간의 거리를 계산해 놓았다. 그리고 Lambda 함수의 코드에 요청받은 아티스트와 거리가 가장 가까운 아티스트 3개를 제공하는 부분을 추가했다.
+
+![20200801-4-relatedartists](/assets/20200801-4-relatedartists.png)
+
+<br>
+
+최종적으로, 아래와 같이 검색한 아티스트와 관련 아티스트들을 가로로 넘기면서 볼 수 있다. 한 장의 카드가 아닌 [Carousel](https://i.kakao.com/docs/skill-response-format#carousel)을 적용하여 여러 장의 카드를 같이 볼 수 있도록 했다.
 
 ![20200801-2-chatbotexample](/assets/20200801-2-chatbotexample.gif)
 
