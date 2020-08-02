@@ -122,6 +122,8 @@ for (artist_id, name) in cursor.fetchall():
         top_tracks.append(top_track)
 ```
 
+<br>
+
 모은 데이터를 `parquet` 파일로 저장하고, 이 파일을 최종적으로 S3에 저장한다.
 - 여기서 `track_ids`는 `audio_features` 데이터를 쿼리할 때 필요한 트랙 id들을 담고 있다.
 - `pyarrow`라는 엔진을 사용한다. 이를 위해 `pip install pyarrow`로 라이브러리 설치가 필요하다.
