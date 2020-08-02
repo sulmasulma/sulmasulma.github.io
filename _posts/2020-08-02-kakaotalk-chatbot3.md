@@ -278,11 +278,15 @@ msck repair table top_tracks
 - [top_tracks](https://developer.spotify.com/documentation/web-api/reference/artists/get-artists-top-tracks/) 데이터에는 트랙(노래)별 id와 아티스트 id가 있다.
 - [audio_features](https://developer.spotify.com/documentation/web-api/reference/tracks/get-audio-features/) 데이터에는 `danceability`, `acousticness`, `instrumentalness` 등 음원의 특성을 요약한 수치들이 있다.
 
+<br>
+
 챗봇에서 관련 아티스트를 추천해 주는 과정은 다음과 같다.
 
 1. 아티스트별 인기 트랙의 danceability 평균, acousticness 평균, instrumentalness 평균 등 `audio_features`에 있는 **수치별 평균값** 을 구한다.
 2. 이를 바탕으로 **아티스트들 간의 Euclidean Distance를 계산** 한다.
 3. 요청받은 아티스트와 Euclidean Distance가 **가장 가까운 아티스트를 제공** 한다.
+
+<br>
 
 Euclidean Distance는 우리가 수학적으로 흔히 아는 거리를 말한다. 아래와 같이 각 요소에 대하여 차이의 제곱들을 더해준 후 제곱근을 씌운다.
 
