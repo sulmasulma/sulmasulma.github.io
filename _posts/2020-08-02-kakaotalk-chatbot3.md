@@ -355,7 +355,7 @@ ssh -i key-pair.pem ec2-user@{퍼블릭 DNS}
 
 ---
 #### 참고 문서
-- [Apache Spark에서 컬럼 기반 저장 포맷 Parquet(파케이) 제대로 활용하기](http://engineering.vcnc.co.kr/2018/05/parquet-and-spark/)
-- [Boto3 DynamoDB documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/dynamodb.html)
-- [Iteratively Deleting Items in Dynamo DB using Python](https://medium.com/@rob3hr/iteratively-deleting-items-in-dynamo-db-using-python-28082130f9f3)
-- [DynamoDB로 오류 처리](https://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff)
+- [Apache Spark에서 컬럼 기반 저장 포맷 Parquet(파케이) 제대로 활용하기](http://engineering.vcnc.co.kr/2018/05/parquet-and-spark/){:target="_blank"}
+- [Boto3 DynamoDB documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/dynamodb.html){:target="_blank"}
+- [Iteratively Deleting Items in Dynamo DB using Python](https://medium.com/@rob3hr/iteratively-deleting-items-in-dynamo-db-using-python-28082130f9f3){:target="_blank"}{:target="_blank"}
+- [DynamoDB로 오류 처리](https://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff){:target="_blank"}
