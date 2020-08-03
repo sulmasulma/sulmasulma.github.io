@@ -156,7 +156,7 @@ s3_object.put(Body=data)
 
 S3에 저장한 데이터를 DynamoDB로 Load 할 수 있으나, Amazon `EMR` 인스턴스가 필요하다. 프리 티어도 아닐 뿐더러, `EC2`처럼 인스턴스를 켜 둔 시간에 비례하여 요금이 산정되기 때문에, 2일 정도밖에 안 썼는데도 수십 달러의 요금 폭탄을 맞은 적이 있다. 그래서 API 결과를 바로 DynamoDB에 업데이트하기로 했다.
 
-DB 데이터를 업데이트하려면, 새로운 key(트랙 id)를 가진 데이터는 삽입하고, 기존에 있던 key를 가진 행의 데이터는 업데이트해야 한다. boto3의 `put_item` 메소드를 이용하여 이 기능을 구현할 수 있다!
+DB 데이터를 업데이트하려면 새로운 key(트랙 id)를 가진 데이터는 삽입하고, 기존에 있던 key를 가진 행의 데이터는 업데이트(**insert & update**)해야 한다. boto3의 `put_item` 메소드를 이용하여 이 기능을 구현할 수 있다!
 
 ![20200801-1-putitem](/assets/20200801-1-putitem.png)
 
@@ -246,25 +246,48 @@ resp = invoke_lambda('top-tracks', payload={
 
 #### 1. Athena에서 S3 데이터 쿼리
 
-먼저 S3 데이터로 `top_tracks`, `audio_features` 테이블을 생성한다. 쿼리에 테이블 형태, S3 주소, 압축 형식 등을 명시해 준다.
+먼저 S3 데이터로 `top_tracks`, `audio_features` 테이블을 생성한다. 쿼리에 테이블 형태, S3 주소, 압축 형식 등을 명시해 준다. 아래와 같이 python 스크립트를 통해 쿼리를 실행할 수 있다.
 
-```sql
-create external table if not exists top_tracks(
+```py
+import boto3
+
+def query_athena(query, athena):
+    response = athena.start_query_execution(
+        QueryString=query,
+        QueryExecutionContext={
+            'Database': 'Athena 상에서 Database 이름'
+        },
+        ResultConfiguration={
+            # 쿼리 결과를 저장하는 위치 지정 (데이터의 위치와 다르게!)
+            'OutputLocation': "s3://{bucket_name}/{folder_name}/",
+            'EncryptionConfiguration': {
+                'EncryptionOption': 'SSE_S3'
+            }
+        }
+    )
+
+    return response
+
+athena = boto3.client('athena')
+
+query = """
+    create external table if not exists top_tracks(
     id string,
     artist_id string,
     name string,
     album_name string,
     popularity int,
     image_url string
-)
-partitioned by (dt string)
-stored as parquet location 's3://spotify-artists-matt/top-tracks'
-tblproperties("parquet.compress" = "snappy")
+    ) partitioned by (dt string)
+    stored as parquet location 's3://{bucket_name}/{folder_name}' tblproperties("parquet.compress" = "snappy")
+"""
+
+r = query_athena(query, athena)
 ```
 
-S3 주소는 `top-tracks/dt={}/top_tracks.parquet` 형식이다. `dt={}`을 넣음으로 데이터에서 파티션이 자동으로 적용되도록 했다. 파티션 단위로 구성하면 처리 속도를 빠르게 할 수 있으며, DML 쿼리시 `where dt={날짜}` 구문으로 필요한 날짜의 데이터만 가져올 수 있다. `year={}/month={}/day={}` 처럼 여러 개의 파티션 컬럼을 지정할 수도 있다.
+S3에 저장한 파일의 주소는 `{bucket_name}/{folder_name}/dt={}/top_tracks.parquet` 형식이다. `dt={}`을 넣음으로 데이터에서 파티션이 자동으로 적용되도록 했다. 파티션 단위로 구성하면 처리 속도를 빠르게 할 수 있으며, DML 쿼리시 `where dt={날짜}` 구문으로 필요한 날짜의 데이터만 가져올 수 있다. `year={}/month={}/day={}` 처럼 여러 개의 파티션 컬럼을 지정할 수도 있다.
 
-단 아래 쿼리를 반드시 실행해야 파티션이 적용된다.
+단 아래 쿼리까지 반드시 실행해야 파티션이 적용된다.
 
 ```sql
 msck repair table top_tracks
@@ -294,6 +317,19 @@ Euclidean Distance는 우리가 수학적으로 흔히 아는 거리를 말한�
 ![20200801-3-distance](/assets/20200801-3-distance.svg)
 
 트랙의 수치 자체가 아닌 수치들의 **평균** 을 사용하는 것이기 때문에 정보를 많이 잃어버리게 되지만, 프로토타입으로 일단은 간단한 방법을 이용했다.
+
+아티스트들 간의 거리를 계산하여 MySQL의 `related_artists` 테이블에 삽입했다. 그리고 Lambda 함수의 코드에 요청받은 아티스트와 거리가 가장 가까운 아티스트 3개를 제공하는 부분을 추가했다.
+
+![20200801-4-relatedartists](/assets/20200801-4-relatedartists.png)
+
+- 이 테이블은 `artist_id`, `y_artist` 두 개의 primary key가 있다. 두 아티스트 간의 **관계** 에 관한 테이블이기 때문이다.
+- 지금까지 `MySQL`이나 `DynamoDB`에 데이터를 추가할 때 적용한 사항인데, 새로운 키는 삽입하고 기존에 있던 키는 업데이트(**insert & update**)하도록 했다. DynamoDB에서는 위에서 언급했듯이 `put_item` 메소드를 사용하고, SQL에서는 아래와 같이 `ON DUPLICATE KEY UPDATE` 구문을 사용하면 된다.
+  ```sql
+  INSERT INTO related_artists(artist_id, y_artist, distance)
+  VALUES('00FQb4jTyendYWaN8pK0wa', '05HCRWM8qQ2JHQrciIpX8p', 0.190224)
+  ON DUPLICATE KEY UPDATE
+  artist_id='00FQb4jTyendYWaN8pK0wa', y_artist='05HCRWM8qQ2JHQrciIpX8p', distance=0.190224;
+  ```
 
 여기까지의 과정을 매일 밤 자동적으로 처리되도록 할 것이다. 실시간 처리가 아니고 하루 1번만 하기 때문에, 챗봇에서 새로 추가된 아티스트는 관련 아티스트가 바로 제공되진 않는다. 이 부분은 추후 개선해야 한다.
 
@@ -336,13 +372,7 @@ ssh -i key-pair.pem ec2-user@{퍼블릭 DNS}
 
 ### 최종 결과 확인
 
-MySQL의 `related_artists` 테이블에 아래와 같이 아티스트들 간의 거리를 계산해 놓았다. 그리고 Lambda 함수의 코드에 요청받은 아티스트와 거리가 가장 가까운 아티스트 3개를 제공하는 부분을 추가했다.
-
-![20200801-4-relatedartists](/assets/20200801-4-relatedartists.png)
-
-<br>
-
-최종적으로, 아래와 같이 검색한 아티스트와 관련 아티스트들을 가로로 넘기면서 볼 수 있다. 한 장의 카드가 아닌 [Carousel](https://i.kakao.com/docs/skill-response-format#carousel)을 적용하여 여러 장의 카드를 같이 볼 수 있도록 했다.
+아래와 같이 검색한 아티스트와 관련 아티스트들을 가로로 넘기면서 볼 수 있다. 한 장의 카드가 아닌 [Carousel](https://i.kakao.com/docs/skill-response-format#carousel)을 적용하여 여러 장의 카드를 같이 볼 수 있도록 했다.
 
 ![20200801-2-chatbotexample](/assets/20200801-2-chatbotexample.gif)
 
