@@ -293,6 +293,8 @@ S3에 저장한 파일의 주소는 `{bucket_name}/{folder_name}/dt={}/top_track
 msck repair table top_tracks
 ```
 
+`audio_features` 데이터도 위와 같이 형식에 맞게 테이블을 생성하면 된다.
+
 <br>
 
 #### 2. 아티스트 간 거리 계산
