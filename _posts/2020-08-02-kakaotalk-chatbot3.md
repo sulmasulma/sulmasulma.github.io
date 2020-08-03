@@ -312,8 +312,6 @@ msck repair table top_tracks
 2. 이를 바탕으로 **아티스트들 간의 Euclidean Distance를 계산** 하여 MySQL에 저장한다.
 3. 요청받은 아티스트와 Euclidean Distance가 **가장 가까운 아티스트를 제공** 한다.
 
-<br>
-
 Euclidean Distance는 우리가 수학적으로 흔히 아는 거리를 말한다. 아래와 같이 각 요소에 대하여 차이의 제곱들을 더해준 후 제곱근을 씌운다.
 
 ![20200801-3-distance](/assets/20200801-3-distance.svg)
