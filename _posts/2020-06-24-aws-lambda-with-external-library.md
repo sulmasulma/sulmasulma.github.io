@@ -5,8 +5,7 @@ tags: [AWS, lambda]
 categories: [Data]
 excerpt_separator: <!--more-->
 ---
-AWS Lambda에서 외부 라이브러리를 사용하는 방법을 소개한다.<!--more-->
-
+<!--more-->
 Lambda 환경은 로컬 환경과 다르다. 로컬에서 `numpy`, `pandas` 등의 라이브러리를 설치했다고 해도, [Lambda 환경](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html){:target="_blank"}에는 영향이 없다. Lambda에서 외부 라이브러리를 사용하려면, 아래 두 방법 중 하나를 선택하면 된다.
 
 1. 코드 및 라이브러리 파일을 `.zip` 파일로 압축하여 Lambda에 업로드
