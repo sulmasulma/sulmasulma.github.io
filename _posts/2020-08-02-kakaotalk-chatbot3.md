@@ -139,7 +139,7 @@ top_tracks.to_parquet('top-tracks.parquet', engine='pyarrow', compression='snapp
 # S3에 저장
 s3 = boto3.resource('s3')
 dt = datetime.utcnow().strftime('%Y-%m-%d') # UTC 기준 현재 시간으로. "2020-08-01" 형태
-s3_object = s3.Object('spotify-artists-matt', 'top-tracks/dt={}/top_tracks.parquet'.format(dt)) # 새로운 폴더(파티션)가 생성이 되는 것
+s3_object = s3.Object('{bucket_name}', 'top-tracks/dt={}/top_tracks.parquet'.format(dt)) # 새로운 폴더(파티션)가 생성이 되는 것
 data = open('top-tracks.parquet', 'rb')
 s3_object.put(Body=data)
 ```
