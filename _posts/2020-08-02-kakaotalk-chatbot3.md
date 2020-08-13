@@ -308,7 +308,7 @@ msck repair table top_tracks
 
 챗봇에서 관련 아티스트를 추천해 주는 과정은 다음과 같다.
 
-1. 아티스트별 인기 트랙의 danceability 평균, acousticness 평균, instrumentalness 평균 등 `audio_features`에 있는 **수치별 평균값** 을 구한다.
+1. 아티스트별로 인기 트랙의 danceability 평균, acousticness 평균, instrumentalness 평균 등 `audio_features`에 있는 **수치별 평균값** 을 구한다.
 2. 이를 바탕으로 **아티스트들 간의 Euclidean Distance를 계산** 하여 MySQL에 저장한다.
 3. 요청받은 아티스트와 Euclidean Distance가 **가장 가까운 아티스트를 제공** 한다.
 
@@ -383,9 +383,9 @@ ssh -i key-pair.pem ec2-user@{퍼블릭 DNS}
 
 ### 마무리하며
 
-2편을 작성한 이후로 2달 가까이 걸렸다. 내용이 적은 것은 아니었지만 나의 게으름이 한 몫 했다. 프로토타입을 우선 개발하기 위해 Euclidean Distance를 계산하는 단순한 방법을 사용했지만, 이후에는 모델링을 적용해 보려고 한다.
+2편을 작성한 이후로 2달 가까이 걸렸다. 내용이 적은 것은 아니었지만 나의 게으름이 한 몫 했다. 프로토타입을 우선 개발하기 위해 Euclidean Distance를 계산하는 단순한 방법을 사용했지만, 이후에는 `Cosine Similarity`나 다른 추천 알고리즘을 적용해 보려고 한다.
 
-머신러닝을 적용하려면 수천 개 이상의 아티스트 데이터가 필요하다. 그만큼의 Spotify 아티스트 ID가 필요한데, 어떻게 수집해야 할지 고민 중이다. Spotify 말고 아예 다른 데이터를 사용하는 것도 고려 중이다. 추천 알고리즘에 대한 공부도 더 필요하다.
+머신러닝 알고리즘을 적용하려면 수천 개 이상의 아티스트 데이터가 필요하다. 그만큼의 Spotify 아티스트 ID가 필요한데, 현재 DB에 수집된 아티스트는 800개 정도이기 때문에 어떻게 수집해야 할지 고민 중이다. 아티스트별이 아닌, 트랙별 데이터를 이용할 수도 있다. 학습을 위해 Spotify 말고 아예 다른 데이터를 사용하는 것도 고려 중이다. 추천 알고리즘에 대한 공부도 더 필요하다.
 
 > 긴 글 읽어주셔서 감사합니다.
 <!-- 사실 YouTube, Netflix 등에서 사용하고 있는 추천 방법은 Collaborative Fltering -->
