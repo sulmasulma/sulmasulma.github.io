@@ -376,6 +376,7 @@ ssh -i key-pair.pem ec2-user@{퍼블릭 DNS}
 
 ![20200801-2-chatbotexample](/assets/20200801-2-chatbotexample.gif)
 
+- 단순히 음원 수치를 이용한 것이지만, 여자 아이돌 그룹의 경우 관련 아티스트로 여자 아이돌 그룹이 나오는 것을 확인할 수 있다! 음악 스타일이 비슷한 것이 `audio_features` 수치상으로도 나타나는 것으로 보인다.
 
 <br>
 
