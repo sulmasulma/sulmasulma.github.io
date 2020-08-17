@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Google Cloud Tasks
-tags: [cloud, google, gcp, api, distributed, parallel]
+tags: [cloud, distributed]
 categories: [Data]
 image: "assets/img/thumbnails/tasks.jpg"
 excerpt_separator: <!--more-->

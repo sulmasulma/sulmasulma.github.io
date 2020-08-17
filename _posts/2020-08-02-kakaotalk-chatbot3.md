@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "AWS Lambda를 이용한 Serverless 카카오톡 챗봇 만들기 3: 관련 아티스트 추천"
-tags: [kakaotalk, serverless, Data Engineering, AWS, chatbot]
+tags: [serverless, Data Engineering, cloud, chatbot]
 categories: [Data]
 excerpt_separator: <!--more-->
 ---

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 마크다운 링크 새 탭에서 열기
-tags: [markdown, atag]
+tags: [markdown]
 categories: [Github Pages]
 excerpt_separator: <!--more-->
 ---
