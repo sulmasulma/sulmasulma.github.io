@@ -101,9 +101,11 @@ excerpt_separator: <!--more-->
 
 AWS `Lambda`는 서버가 항상 켜져 있는 것이 아니라, 사용자의 request가 있을 때만 클라우드 자원을 할당하는 서버리스(Serverless) 서비스이다. 서버를 항시 가동하는 것에 비해서 컴퓨팅 자원이 적은 편이다. AWS에서도 프리티어 기준 월 100만 회 request가 가능하여, 내가 운영하는 서비스에서는 사실상 무한정 서비스가 가능하다.
 
-`Lambda`에서 lambda function을 만들고, `API Gateway`에서 API를 생성하여 lambda function과 연결해 준다. 이렇게 하면 카카오톡 메시지 request가 발생했을 때 `API Gateway`에서 생성한 endpoint로 요청이 가고, lambda function이 작동하여 사용자에게 response를 응답해 준다.
+`Lambda`에서 lambda function을 만들고, `API Gateway`에서 API를 생성하여 lambda function과 연결해 준다. 이렇게 하면 카카오톡 메시지 request가 발생했을 때 챗봇에서 `API Gateway`에서 생성한 endpoint URL로 요청을 보내고, lambda function이 작동하여 사용자에게 response를 응답해 준다.
 
-<카카오톡 사용자 -> API Gateway -> Lambda -> 카카오톡 사용자>
+![20200603-18-apigateway](/assets/20200603-18-apigateway.png)
+
+<br>
 
 #### Lambda 함수 생성
 
