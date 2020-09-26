@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 데이터야놀자 2019 정리
-tags: [seminar, datayanolja, note, memo]
+tags: [seminar]
 categories: [Etc]
 excerpt_separator: <!--more-->
 ---
