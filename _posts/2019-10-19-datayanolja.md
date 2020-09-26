@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 데이터야놀자 2019 정리
+title: 데이터야놀자 2019
 tags: [seminar]
 categories: [Etc]
 excerpt_separator: <!--more-->
