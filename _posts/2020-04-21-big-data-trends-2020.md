@@ -1,7 +1,7 @@
 ---
 layout: post
 title: These are the Big Data Trends 2020.
-tags: [Big Data, Trends]
+tags: [Big Data]
 categories: [Readings]
 excerpt_separator: <!--more-->
 ---

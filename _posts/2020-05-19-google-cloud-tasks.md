@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Google Cloud Tasks
-tags: [cloud, distributed]
+tags: [cloud]
 categories: [Data]
 image: "assets/img/thumbnails/tasks.jpg"
 excerpt_separator: <!--more-->

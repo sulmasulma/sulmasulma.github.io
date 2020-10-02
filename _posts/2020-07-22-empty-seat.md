@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 도서관에 빈 자리 나면 메일로 알림받기
-tags: [crawling, mail]
+tags: [crawling]
 categories: [Etc]
 excerpt_separator: <!--more-->
 ---

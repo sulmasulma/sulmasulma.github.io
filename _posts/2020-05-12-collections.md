@@ -1,7 +1,7 @@
 ---
 layout: post
 title: python collections 라이브러리 다루기
-tags: [Algorithm, collections, stack, queue]
+tags: [Algorithm, stack, queue]
 categories: [Algorithm]
 excerpt_separator: <!--more-->
 ---

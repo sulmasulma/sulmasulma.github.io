@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Jupyter Lab을 브라우저가 아닌 Desktop App에서 사용하기
-tags: [jupyter, jupyter-lab, jupyter lab, chrome, 주피터랩, 주피터, 앱, no-browser]
+tags: [jupyter]
 categories: [Data]
 excerpt_separator: <!--more-->
 ---

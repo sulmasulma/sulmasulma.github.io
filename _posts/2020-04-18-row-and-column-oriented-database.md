@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 행 지향 데이터베이스 vs 열 지향 데이터베이스
-tags: [Database, MPP, Big Data]
+tags: [Data Engineering, Big Data]
 categories: [Data]
 excerpt_separator: <!--more-->
 ---

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 스택/큐
-tags: [Algorithm, Stack, Queue]
+tags: [Algorithm, stack, queue]
 categories: [Algorithm]
 excerpt_separator: <!--more-->
 ---

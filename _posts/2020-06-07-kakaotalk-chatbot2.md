@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "AWS Lambda를 이용한 Serverless 카카오톡 챗봇 만들기 2: 데이터 처리"
-tags: [serverless, Data Engineering, cloud, chatbot]
+tags: [Data Engineering, cloud, chatbot]
 categories: [Data]
 excerpt_separator: <!--more-->
 ---

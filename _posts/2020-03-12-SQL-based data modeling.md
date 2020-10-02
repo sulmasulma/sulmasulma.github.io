@@ -1,7 +1,7 @@
 ---
 layout: post
 title: The rise of SQL-based data modeling and DataOps
-tags: [Data Engineering, Data Modeling, SQL, NoSQL, DataOps, Data Pipeline]
+tags: [Data Engineering]
 categories: [Readings]
 excerpt_separator: <!--more-->
 ---

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: AWS Lambda에서 외부 라이브러리 사용하기
-tags: [cloud, lambda]
+tags: [cloud]
 categories: [Data]
 excerpt_separator: <!--more-->
 ---

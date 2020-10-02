@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Amazon Athena, EMR, Redshift 차이
-tags: [Data Engineering, AWS, Amazon, Athena, EMR, Redshift]
+tags: [Data Engineering]
 categories: [Data]
 excerpt_separator: <!--more-->
 ---

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 카카오톡 챗봇 개선 과정
-tags: [serverless, Data Engineering, cloud, chatbot]
+tags: [Data Engineering, cloud, chatbot]
 categories: [Data]
 excerpt_separator: <!--more-->
 ---
