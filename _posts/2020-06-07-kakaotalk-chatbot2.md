@@ -13,8 +13,6 @@ excerpt_separator: <!--more-->
 
 [지난 글](https://sulmasulma.github.io/data/2020/06/03/kakaotalk-chatbot.html)에서 AWS Lambda를 이용한 카카오톡 챗봇 세팅에 대해 다루었다. 이번 글에서는 [Spotify API 데이터](https://developer.spotify.com/documentation/web-api/reference/)를 이용하여, 아티스트를 요청받으면 해당 아티스트에 대한 정보를 response로 주는 것에 대해 다룰 것이다.
 
-
-
 목차는 다음과 같다. ~~스압 주의~~
 
 1. [카카오톡 말풍선 종류](#카카오톡-말풍선-종류)
@@ -113,7 +111,7 @@ json 형태는 다음과 같다.
 
 #### 3. ListCard
 
-여러 줄로 구성된 리스트형 메시지이다.
+여러 줄로 구성된 리스트형 메시지이다. 글 작성 당시에는 제목에 이미지를 넣을 수 있었으나, 카카오톡 측에서 업데이트로 인해 2020년 10월 27일 현재 제목에는 이미지를 넣을 수 없다.
 
 ![ListCard](https://i.kakao.com/docs/assets/skill/skill-listcard-example.png)
 
@@ -127,8 +125,7 @@ json 형태는 다음과 같다.
       {
         "listCard": {
           "header": {
-            "title": "카카오 i 디벨로퍼스를 소개합니다",
-            "imageUrl": "http://k.kakaocdn.net/dn/xsBdT/btqqIzbK4Hc/F39JI8XNVDMP9jPvoVdxl1/2x1.jpg"
+            "title": "카카오 i 디벨로퍼스를 소개합니다"
           },
           "items": [
             {
