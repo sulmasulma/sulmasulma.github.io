@@ -187,7 +187,7 @@ sudo mv chromedriver /usr/bin/chromedriver
 chromedriver –version
 ```
 
-참고로 버전명은 [http://chromedriver.storage.googleapis.com/](http://chromedriver.storage.googleapis.com/)에서 확인할 수 있다. 나는 리눅스용 88.0 버전에 해당하는 `88.0.4324.27` chromedriver를 받았다.
+참고로 버전명은 [http://chromedriver.storage.googleapis.com](http://chromedriver.storage.googleapis.com/)에서 확인할 수 있다. 나는 리눅스용 88.0 버전에 해당하는 `88.0.4324.27` chromedriver를 받았다.
 
 <br>
 
@@ -238,7 +238,7 @@ SLACK_SIGNING_SECRET={secret 들어갈 자리}
 00 23 * * 0-4 /usr/bin/python3 /home/ec2-user/photo_bot_linux.py
 ```
 
-매일 평일 8시(GMT 기준 일~목요일 23시 00분)에 자동으로 스크립트를 실행하기 위해, 위와 같이 crontab 명령을 작성했다.
+매일 평일 오전 8시(GMT 기준 일~목요일 23시 00분)에 자동으로 스크립트를 실행하기 위해, 위와 같이 crontab 명령을 작성했다.
 
 <br>
 
