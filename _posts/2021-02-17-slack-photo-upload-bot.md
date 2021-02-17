@@ -114,12 +114,13 @@ from slack_sdk.errors import SlackApiError
 
 # logger
 logger = logging.getLogger()
-logger.setLevel(logging.INFO
+logger.setLevel(logging.INFO)
 
 # slack client
 slack_bot_token = os.environ.get("SLACK_BOT_TOKEN")
 client = WebClient(token=slack_bot_token)
 ```
+<br>
 
 파일을 업로드하기 위한 코드는 아래와 같다. Slack API 중 [files.upload 메소드](https://api.slack.com/methods/files.upload)를 사용한다.
 
