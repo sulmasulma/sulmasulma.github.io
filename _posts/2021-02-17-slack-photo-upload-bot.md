@@ -21,7 +21,7 @@ excerpt_separator: <!--more-->
 
 참고로, 이 글에서는 코드의 주요 부분만 소개하고자 한다. 전체 코드는 [GitHub](https://github.com/sulmasulma/forfun/blob/master/photo_bot.py)에 올려 두었다. 크롤링 부분은 `scrap_photo_google` 함수를 보면 된다.
 
-<p>
+<br>
 
 ### 사진 크롤링
 
