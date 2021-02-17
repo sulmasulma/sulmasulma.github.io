@@ -270,4 +270,3 @@ SLACK_SIGNING_SECRET={secret 들어갈 자리}
 - [EC2에 Chrome 및 ChromeDriver 설치](https://understandingdata.com/install-google-chrome-selenium-ec2-aws/)
 - [Linux에서 ChromeDriver 삭제](https://stackoverflow.com/questions/57570005/delete-chromedriver-from-ubuntu)
 - [crontab 편집시 shell 환경변수](https://brainio.tistory.com/1)
-- []()
