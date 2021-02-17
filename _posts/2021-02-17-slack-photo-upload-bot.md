@@ -2,7 +2,7 @@
 layout: post
 title: Slack 사진 업로드 봇 만들기
 tags: [crawling, cloud]
-categories: [Readings]
+categories: [Etc]
 excerpt_separator: <!--more-->
 ---
 구글에서 사진을 크롤링하여 슬랙에 자동으로 올리는 봇을 만들어 보았다.<!--more--> 목차는 아래와 같다.
