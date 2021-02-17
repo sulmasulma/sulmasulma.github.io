@@ -146,6 +146,8 @@ except SlackApiError as e:
     logger.error("Error uploading file: {}".format(e))
 ```
 
+<br>
+
 참고로, 채널에 파일을 올리려면 반드시 **봇을 채널에 초대해야 한다!!** 그렇지 않으면 계속해서 `not_in_channel` 에러가 뜨는데, 해결 방법을 몰라서 계속 헤매다가 스택오버플로우 글을 겨우 찾아서 해결했다..
 
 ![20210217-5-slack_channel_invite](/assets/20210217-5-slack_channel_invite.png)
