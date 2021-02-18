@@ -68,7 +68,7 @@ img.click()
 
 ```py
 html_objects = driver.find_element_by_xpath('//*[@id="Sva75c"]/div/div/div[3]/div[2]/c-wiz/div/div[1]/div[1]/div/div[2]/a/img')
-src = html_objects.get_attribute('src')p
+src = html_objects.get_attribute('src')
 ```
 
 추출한 링크를 이용하여 이미지를 다운받는다.
