@@ -159,7 +159,7 @@ except SlackApiError as e:
 
 ### 리눅스에서 실행하기
 
-리눅스 환경은 `Ubuntu`, `centos`, 클라우드 가상머신(GCP `VM 인스턴스`, Amazon `EC2`) 등 여러 가지가 있을 수 있다. 나는 Amazon EC2를 이용했기 때문에 이에 기반하여 적겠다.
+리눅스 환경은 `Ubuntu`, `centos`, 클라우드 가상머신(GCP `Compute Engine`, Amazon `EC2`) 등 여러 가지가 있을 수 있다. 나는 Amazon EC2를 이용했기 때문에 이에 기반하여 적겠다.
 
 기본적으로 리눅스에서는 headless 브라우저를 사용한다. display가 있지 않은 환경이기 때문이다. chromedriver를 이용하면 display 없이도 크롤러를 개발할 수 있다. 이를 위해 리눅스용 chrome 및 chromedriver를 설치한다.
 
@@ -174,6 +174,16 @@ google-chrome –version && which google-chrome
 ```
 
 `google-chrome –version` 명령을 통해 설치된 chrome 버전을 확인한다. 나는 `Google Chrome 88.0.4324.150`으로, 88.0 버전을 받았다. 이 버전과 일치하는 chromedriver를 설치해야 한다.
+
+참고로, GCP `Compute Engine` 및 Ubuntu에서 chrome을 설치하는 명령어는 다음과 같다. chromedriver 설치 방법은 동일하다.
+
+```sh
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+sudo apt-get update
+sudo apt-get install google-chrome-stable
+google-chrome –version
+```
 
 <br>
 
@@ -267,5 +277,6 @@ SLACK_BOT_TOKEN=xoxb-~~~~
 - [Google 검색 결과에서 원본 이미지 저장하기](https://hanryang1125.tistory.com/5)
 - [Slack App 만들기](https://twojobui.tistory.com/12)
 - [EC2에 Chrome 및 ChromeDriver 설치](https://understandingdata.com/install-google-chrome-selenium-ec2-aws/)
+- [Ubuntu 서버에 Selenium 설치하고 사용하기](https://somjang.tistory.com/entry/Ubuntu-Ubuntu-서버에-Selenium-설치하고-사용하기)
 - [Linux에서 ChromeDriver 삭제](https://stackoverflow.com/questions/57570005/delete-chromedriver-from-ubuntu)
 - [crontab 편집시 shell 환경변수](https://brainio.tistory.com/1)
