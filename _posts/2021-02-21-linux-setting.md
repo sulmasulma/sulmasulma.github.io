@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Linus 초기 세팅
+title: Linux 초기 세팅
 tags: [cloud, gcp]
 categories: [Cloud]
 excerpt_separator: <!--more-->
