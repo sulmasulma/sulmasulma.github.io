@@ -16,7 +16,7 @@ excerpt_separator: <!--more-->
 
 #### 로컬에서 VM 인스턴스로 파일 복사
 
-- `gcloud compute scp {file_name} --project={projec_id} --zone={region_name} {instance_name}:{VM 인스턴스 위치}`
+- `gcloud compute scp {file_name} --project={project_id} --zone={region_name} {instance_name}:{VM 인스턴스 상에서의 위치}`
 - `gcloud compute scp photo_bot_linux.py --project=fine-*** --zone=asia-northeast3-a instance-***:~/`
 
 VM 인스턴스에 접속했다면, 리눅스 사용에 필요한 패키지들을 설치해야 한다.
