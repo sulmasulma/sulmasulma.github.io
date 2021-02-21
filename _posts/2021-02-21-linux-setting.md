@@ -45,5 +45,3 @@ excerpt_separator: <!--more-->
 <br>
 
 ---
-#### 참고 문서
-- []()
