@@ -5,11 +5,11 @@ tags: [cloud, gcp]
 categories: [Cloud]
 excerpt_separator: <!--more-->
 ---
-<!--more-->앞으로 계속 AWS, GCP 등 클라우드 관련 포스팅을 많이 할 것 같아서 Cloud 테마를 별도로 생성했다. 이번 글에서는 리눅스(특히 GCP `Compute Engine`) 초기 세팅에 필요한 것들을 정리해 보았다.
-
-우선 터미널에서 GCP Compute Engine의 VM 인스턴스를 사용하는 방법이다.
+<!--more-->앞으로 계속 AWS, GCP 등 클라우드 관련 포스팅을 할 것 같아서 Cloud 테마를 별도로 생성했다. 이번 글에서는 리눅스(특히 GCP `Compute Engine`) 초기 세팅에 필요한 것들을 정리해 보았다.
 
 <br>
+
+우선 터미널에서 GCP Compute Engine의 VM 인스턴스를 사용하는 방법이다.
 
 #### VM 인스턴스 접속
 
@@ -22,6 +22,8 @@ excerpt_separator: <!--more-->
 - `gcloud compute scp photo_bot_linux.py --project=fine-*** --zone=asia-northeast3-a instance-***:~/`
 
 <br>
+
+VM 인스턴스에 접속했다면, 리눅스 사용에 필요한 패키지들을 설치해야 한다.
 
 #### 초기 설치
 
