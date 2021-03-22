@@ -17,7 +17,7 @@ excerpt_separator: <!--more-->
 - `레이디 가가`: 검색됨
 - `레이디가가`: 검색되지 않음
 
-이는 사용자 입장에서 매우 불편한 부분이다. 그래서 구글 번역기를 통해 **한국어 검색어를 영어로 변환** 한 뒤 사용하기로 했다. `googletrans`라는 라이브러리를 이용하면 된다. [Google 번역기](https://translate.google.com/)와 같은 서버를 사용한다. `pip install googletrans`로 설치 후 사용하면 된다.
+이는 사용자 입장에서 매우 불편한 부분이다. 그래서 구글 번역기를 통해 **한국어 검색어를 영어로 변환** 한 뒤 사용하기로 했다. `google_trans`라는 라이브러리를 이용하면 된다. [Google 번역기](https://translate.google.com/)와 같은 서버를 사용한다. `pip install googletrans`로 설치 후 사용하면 된다.
 
 ```py
 from googletrans import Translator
@@ -36,6 +36,22 @@ print(translator.translate('포스트말론', dest="en").text)
 포스트 말론의 결과인 **Post Marlon** 의 경우 정확한 아티스트 이름인 **Post Malone** 과 약간 차이가 있지만, Spotify Search API에서 Post Marlon으로 조회하면 Post Malone이 나온다.
 
 하루에 사용할 수 있는 횟수가 정해져 있지만, [Google Cloud Translation](https://cloud.google.com/translate/docs)을 사용하는 것보다 간편하다. 트래픽 이슈가 생길 경우 이 방법을 고려해 볼 것이다.
+
+- 참고로 2021년 3월 22일 현재 **위 라이브러리는 사용 불가능한 것으로 보인다.** 대신 [google_trans_new](https://github.com/lushan88a/google_trans_new) 라이브러리를 사용하여 구글 번역 결과를 얻을 수 있다.
+
+```py
+from google_trans_new import google_translator
+translator = google_translator()
+
+print(translator.translate("콜드플레이", lang_tgt="en"))
+# Cold Play
+print(translator.translate("퀸", lang_tgt="en"))
+# queen
+print(translator.translate("트래비스", lang_tgt="en"))
+# Travis
+print(translator.translate("포스트말론", lang_tgt="en"))
+# Post Malone
+```
 
 <br>
 
