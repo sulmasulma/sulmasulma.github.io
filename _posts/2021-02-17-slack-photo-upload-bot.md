@@ -167,13 +167,15 @@ except SlackApiError as e:
 
 #### 1. 리눅스용 chrome 설치하기
 
+Amazon `EC2`에서 설치하는 방법이다.
+
 ```sh
 sudo curl https://intoli.com/install-google-chrome.sh | bash
 sudo mv /usr/bin/google-chrome-stable /usr/bin/google-chrome
 google-chrome –version && which google-chrome
 ```
 
-`google-chrome –version` 명령을 통해 설치된 chrome 버전을 확인한다. 나는 `Google Chrome 88.0.4324.150`으로, 88.0 버전을 받았다. 이 버전과 일치하는 chromedriver를 설치해야 한다.
+`google-chrome –version` 명령을 통해 설치된 chrome 버전을 확인한다. 글을 쓰는 시점에서는 stable 버전인 88.0.4324.150 버전이 설치되었다. 이 버전과 일치하는 chromedriver를 설치해야 한다.
 
 참고로, GCP `Compute Engine` 및 Ubuntu에서 chrome을 설치하는 명령어는 다음과 같다. chromedriver 설치 방법은 동일하다.
 
@@ -196,6 +198,8 @@ sudo unzip chromedriver_linux64.zip
 sudo mv chromedriver /usr/bin/chromedriver
 chromedriver –version
 ```
+
+마지막 줄 `chromedriver –version` 명령을 실행해야 크롬 드라이버가 시작된다.
 
 참고로 버전명은 [http://chromedriver.storage.googleapis.com](http://chromedriver.storage.googleapis.com/)에서 확인할 수 있다. 나는 리눅스용 88.0 버전에 해당하는 `88.0.4324.27` chromedriver를 받았다.
 
