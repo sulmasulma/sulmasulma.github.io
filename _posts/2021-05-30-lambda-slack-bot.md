@@ -57,6 +57,39 @@ Layer를 만들기 위해, 함수 밖으로 나가 Lambda 메인 메뉴를 보�
 
 <br>
 
+#### lambda_function.py에 Lambda용 chrome, chromedriver 설정하기
+
+Lambda 환경에서는 `/opt/` 폴더에서 binary 파일을 찾아 실행한다. 따라서 파이썬 스크립트에서 아래와 같이 chrome 및 chromedriver 설정을 해 주어야 한다.
+
+```py
+from selenium.webdriver.chrome.options import Options
+
+# chrome for lambda layer
+chrome_options = Options()
+chrome_options.add_argument('--headless')
+chrome_options.add_argument('--no-sandbox')
+chrome_options.add_argument('--disable-gpu')
+chrome_options.add_argument('--window-size=1280x1696')
+chrome_options.add_argument('--user-data-dir=/tmp/user-data')
+chrome_options.add_argument('--hide-scrollbars')
+chrome_options.add_argument('--enable-logging')
+chrome_options.add_argument('--log-level=0')
+chrome_options.add_argument('--v=99')
+chrome_options.add_argument('--single-process')
+chrome_options.add_argument('--data-path=/tmp/data-path')
+chrome_options.add_argument('--ignore-certificate-errors')
+chrome_options.add_argument('--homedir=/tmp')
+chrome_options.add_argument('--disk-cache-dir=/tmp/cache-dir')
+chrome_options.add_argument('user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36')
+chrome_options.binary_location = "/opt/python/bin/headless-chromium"
+
+driver = webdriver.Chrome('/opt/python/bin/chromedriver', chrome_options=chrome_options)
+```
+
+전체 코드는 [GitHub](https://github.com/sulmasulma/forfun/blob/master/lambda/lambda_function.py)에 올려 놓았다.
+
+<br>
+
 #### 부가적인 설정
 
 Lambda에서 `selenium`을 위해 크롬과 크롬 드라이버를 정상적으로 실행하기 위해서는, 어느 정도의 메모리 용량과 실행 시간이 필요하다. 이를 위해 **구성** 탭의 **일반 구성** 에서 메모리는 1024MB 정도로, 실행 시간은 여유롭게 10분 정도로 잡아 준다.
