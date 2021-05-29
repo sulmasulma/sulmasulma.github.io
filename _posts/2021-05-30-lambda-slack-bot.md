@@ -1,6 +1,6 @@
 ---
 layout: post
-title: AWS Lambda로 Slack 봇 만들기
+title: AWS Lambda로 Slack 사진 업로드 봇 만들기
 tags: [crawling, cloud]
 categories: [Cloud]
 excerpt_separator: <!--more-->
