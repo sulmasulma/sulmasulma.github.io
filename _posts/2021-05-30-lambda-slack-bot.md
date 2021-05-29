@@ -75,9 +75,9 @@ Lambda에서 `selenium`을 위해 크롬과 크롬 드라이버를 정상적으�
 
 리눅스 서버는 디스크 저장공간을 포함하고 있기 때문에, 크롤링하여 얻은 이미지를 저장하여 슬랙에 올리는 방식을 사용했었다. 하지만 Lambda는 서버리스 환경으로, 상용 디스크 공간이 주어지지 않고 코드 실행을 위한 파일(스크립트, 패키지 등)만 저장할 수 있다.
 
-그래서 `S3`와 같은 외부 저장소에 이미지를 저장하고 이를 슬랙에 올리는 방법을 고민했었는데, 구글링 결과 **Lambda에서도 임시적으로 파일을 올릴 수 있다** 는 사실을 발견했다!
+그래서 `S3`와 같은 외부 저장소에 이미지를 저장하고 이를 슬랙에 올리는 방법을 고민했었는데, [JG Ahn님 블로그](https://ahnjg.tistory.com/14)를 통해 **Lambda에서도 임시적으로 파일을 올릴 수 있다** 는 사실을 발견했다!
 
-이미지를 재활용할 수는 없는 것 같지만, 슬랙에 이미지를 올리려면 스크립트를 실행할 때만 파일이 있으면 된다. Lambda에서는 `/tmp/` 폴더에 파일을 저장하여 사용할 수 있다. 그래서 아래와 같이 `/tmp/` 폴더에 저장하여 사진을 업로드했다. (실제 코드와는 다소 차이가 있다)
+이미지를 스크립트 실행 후 재활용 할 수는 없는 것 같지만, 슬랙에 이미지를 올리려면 스크립트를 실행할 때만 파일이 있으면 된다. Lambda에서는 `/tmp/` 폴더에 파일을 저장하여 사용할 수 있다. 그래서 아래와 같이 `/tmp/` 폴더에 저장하여 사진을 업로드했다. (실제 코드와는 다소 차이가 있다)
 
 ```py
 # 파일 저장
@@ -173,4 +173,5 @@ Lambda는 프리 티어 기간이 끝나도 월 100만 회 + 일정 컴퓨팅 �
 #### 참고 문서
 - [내맘대로 뉴스 요약 큐레이션 (2) - AWS Lambda 로 크롤링 자동화하기](https://inahjeon.github.io/devlog/side%20project/2020/05/24/news2.html)
 - [GitHub: inahjeon/AWS-LAMBDA-LAYER-Selenium](https://github.com/inahjeon/AWS-LAMBDA-LAYER-Selenium)
+- [AWS Lambda: errno 30 read-only file system](https://ahnjg.tistory.com/14)
 - [stackoverflow: webdrivererror-no-such-session-error-using-chromedriver-chrome-through-selenium](https://stackoverflow.com/questions/38065688/webdrivererror-no-such-session-error-using-chromedriver-chrome-through-selenium/40129123#40129123)
