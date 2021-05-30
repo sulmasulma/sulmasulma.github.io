@@ -149,7 +149,7 @@ Lambda 함수의 트리거를 설정하지 않아도, 스크립트를 실행해 
 
 ### EventBridge로 cron job 생성하기
 
-이제 이 명령을 자동화하기 위해, 리눅스 서버를 이용할 떄처럼 cron job을 이용해야 한다.
+이제 이 명령을 자동화하기 위해, 리눅스 서버를 이용할 때처럼 cron job을 이용해야 한다.
 
 이를 위해 Lambda 함수의 트리거 개념에 대해 알아보자. 트리거는 Lambda 함수 스크립트를 실행하도록 하는 역할을 한다. [카카오톡 챗봇](https://sulmasulma.github.io/data/2020/06/03/kakaotalk-chatbot.html)에서는 아래와 같이 `API Gateway`를 트리거로 이용했다. 사용자가 메시지를 입력하면 API Call을 보내 Lambda 함수가 작동하게 하는 방식이다.
 
