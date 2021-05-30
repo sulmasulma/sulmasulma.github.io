@@ -143,7 +143,7 @@ Lambda 함수의 트리거를 설정하지 않아도, 스크립트를 실행해 
 
 ---
 
-### EventBridge(CloudWatch Events)로 cron job 생성하기
+### EventBridge로 cron job 생성하기
 
 이제 이 명령을 자동화하기 위해, 리눅스 서버를 이용할 떄처럼 cron job을 이용해야 한다.
 
