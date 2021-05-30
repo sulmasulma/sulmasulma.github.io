@@ -8,8 +8,8 @@ excerpt_separator: <!--more-->
 AWS Lambda를 활용하여 Slack 사진 업로드 봇을 만들어 보았다.<!--more--> 목차는 아래와 같다.
 
 1. [Lambda Function에 Layer 올리기](#lambda-function에-layer-올리기)
-2. [Lambda에서 크롤링 테스트](lambda에서-크롤링-테스트)
-3. [EventBridge(CloudWatch Events)로 cron job 생성하기](EventBridge(CloudWatch-Events)로-cron-job-생성하기)
+2. [Lambda에서 크롤링 테스트](#lambda에서-크롤링-테스트)
+3. [EventBridge(CloudWatch Events)로 cron job 생성하기](#EventBridge(CloudWatch-Events)로-cron-job-생성하기)
 
 [지난 포스팅](https://sulmasulma.github.io/etc/2021/02/17/slack-photo-upload-bot.html)에서 물리적인 서버를 이용하여 리눅스 crontab으로 슬랙 봇을 만드는 과정을 소개했다. 하지만 클라우드 서버는 무료 체험 기간에만 무료로 사용할 수 있고, 그 이후에는 계속 요금이 부과된다. GCP에서 무료로 제공하는 서버가 있지만, 사양이 너무 좋지 않아 `selenium`이 제대로 작동되지 않았다.
 
