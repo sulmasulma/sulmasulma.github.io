@@ -77,6 +77,8 @@ sys.path.append('./libs')
 
 ```sh
 #!/bin/bash
+rm -r ./libs
+pip install -r requirements.txt -t ./libs/ # requirements.txt에 적은 라이브러리 설치
 
 rm kakao.zip
 zip kakao.zip -r *
