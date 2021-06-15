@@ -21,8 +21,7 @@ AWS Lambda를 활용하여 Slack 사진 업로드 봇을 만들어 보았다.<!-
 
 ### Lambda Function에 Layer 올리기
 
-Lambda 환경은 내가 필요한 python 패키지가 모두 설치되어 있지 않다. 그래서 필요한 패키지를 포함하여 코드와 함께 업로드해야 한다. (이에 대해서는 [AWS Lambda에서 외부 라이브러리 사용하기
-](https://sulmasulma.github.io/data/2020/06/24/aws-lambda-with-external-library.html)에 서술해 놓았다)
+Lambda 환경은 내가 필요한 python 패키지가 모두 설치되어 있지 않다. 그래서 필요한 패키지를 포함하여 코드와 함께 업로드해야 한다. (이에 대해서는 [AWS Lambda에서 외부 라이브러리 사용하기](https://sulmasulma.github.io/data/2020/06/24/aws-lambda-with-external-library.html)에 서술해 놓았다)
 
 하지만 `Layers`라는 기능이 추가되어, 필요한 패키지 파일을 따로 Layer에 넣어 스크립트 코드에서 Layer 에 있는 패키지를 import 할 수 있게 되었다. 이 부분에 대해서는 [inahjeon's devlog](https://inahjeon.github.io/devlog/side%20project/2020/05/24/news2.html) 글을 참고했다.
 
