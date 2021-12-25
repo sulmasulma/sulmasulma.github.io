@@ -176,7 +176,7 @@ for track in data['tracks']:
     )
 ```
 
-프로비전 용량을 초과하지 않고 정상적으로 모든 레코드를 삭제하려면 `batch_writer`를 이용해야 한다. batch_writer는 처리 속도가 빠르며, 서비스에 요청하는 횟수를 줄일 수 있다.
+프로비전 용량을 초과하지 않고 정상적으로 모든 레코드를 업데이트하려면 `batch_writer`를 이용해야 한다. batch_writer는 처리 속도가 빠르며, 서비스에 요청하는 횟수를 줄일 수 있다.
 
 ```py
 with table.batch_writer() as batch:
