@@ -17,20 +17,20 @@ excerpt_separator: <!--more-->
 - `레이디 가가`: 검색됨
 - `레이디가가`: 검색되지 않음
 
-이는 사용자 입장에서 매우 불편한 부분이다. 그래서 구글 번역기를 통해 **한국어 검색어를 영어로 변환** 한 뒤 사용하기로 했다. `google_trans`라는 라이브러리를 이용하면 된다. [Google 번역기](https://translate.google.com/)와 같은 서버를 사용한다. `pip install googletrans`로 설치 후 사용하면 된다.
+이는 사용자 입장에서 매우 불편한 부분이다. 그래서 구글 번역기를 통해 **한국어 검색어를 영어로 변환** 한 뒤 사용하기로 했다. `googletrans`라는 라이브러리를 이용하면 된다. [Google 번역기](https://translate.google.com/)와 같은 서버를 사용한다. `pip install googletrans==4.0.0rc1` (버전 주의)로 설치 후 사용하면 된다.
 
 ```py
 from googletrans import Translator
 translator = Translator()
 
 print(translator.translate('콜드플레이', dest="en").text)
-# Coldplay
+# Cold play
 print(translator.translate('퀸', dest="en").text)
 # queen
 print(translator.translate('트래비스', dest="en").text)
 # Travis
 print(translator.translate('포스트말론', dest="en").text)
-# Post Marlon
+# Post Malone
 ```
 
 포스트 말론의 결과인 **Post Marlon** 의 경우 정확한 아티스트 이름인 **Post Malone** 과 약간 차이가 있지만, Spotify Search API에서 Post Marlon으로 조회하면 Post Malone이 나온다.
