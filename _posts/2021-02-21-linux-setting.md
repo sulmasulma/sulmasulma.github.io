@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Linux 초기 세팅
-tags: [cloud, gcp]
+tags: [cloud, gcp, setting]
 categories: [Cloud]
 excerpt_separator: <!--more-->
 ---
