@@ -19,13 +19,13 @@ excerpt_separator: <!--more-->
 - 공유기 회사별로 설정 방법 다름
 - 난 머큐시스(Mercusys) 공유기
   1. mwlogin.net 접속하여 Advanced로 들어감
-  2. NAT Forwarding > Port Forwading에서 +Add 버튼 눌러 맥미니 설정하고, 포트번호 설정
+  2. NAT Forwarding > Port Forwading에서 +Add 버튼 눌러 맥미니 설정하고, 포트번호 설정 (맥은 기본적으로 22)
   3. Network > Status에서 내 IP Address 확인
 
 #### 포트 변경
 - [맥 SSH/SFTP 포트 변경 방법](https://circumeo.tistory.com/33) 참조
-- 포트번호는 맥의 경우 기본이 22로, 포트번호를 22로 설정할 경우 원격 접속시 `ssh username@hostname`로 포트번호 옵션 없이 원격 접속 가능
-- 나는 포트번호 변경하기 위해, 아래 사항들을 바꿀 포트번호로 변경해야 함
+- 위에서 맥 디폴트 포트번호인 22로 설정할 경우 원격 접속시 `ssh username@hostname`로 포트번호 옵션 없이 원격 접속 가능
+- 포트번호를 변경하려면 아래 옵션들 적용 필요
 - `sudo vi /etc/ssh/sshd_config`
   - **#Port 22** 찾아서 수정
 - `sudo vi /etc/services`
