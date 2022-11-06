@@ -18,7 +18,7 @@ excerpt_separator: <!--more-->
 - [맥 미니, 맥북, 우분투를 ssh 서버로 사용하기](https://dev-repository.tistory.com/m/96) 참조
 - 공유기 회사별로 설정 방법 다름
 - 난 머큐시스(Mercusys) 공유기
-  1. [mwlogin.net](mwlogin.net) 접속하여 Advanced로 들어감
+  1. [mwlogin.net](http://mwlogin.net/) 접속하여 Advanced로 들어감
   2. NAT Forwarding > Port Forwading에서 +Add 버튼 눌러 맥미니 설정하고, 포트번호 설정 (맥은 기본적으로 22)
   3. Network > Status에서 내 IP Address 확인
 
