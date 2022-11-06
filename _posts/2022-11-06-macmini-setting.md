@@ -66,7 +66,7 @@ excerpt_separator: <!--more-->
 
 ### 3. mysql 설치
 
-- [MySQL | Mac에 MySQL 설치하기 (M1칩)](https://velog.io/@haleyjun/MySQL-Mac%EC%97%90-MySQL-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0-M1%EC%B9%A9) 참조
+- [Mac에 MySQL 설치하기 (M1칩)](https://velog.io/@haleyjun/MySQL-Mac%EC%97%90-MySQL-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0-M1%EC%B9%A9) 참조
   - 요즘 확실히 `velog` 블로그가 대세인 것 같다. 사이트는 매우 좋으나 자유도가 떨어진다고 해서 그대로 github blog 사용 중
 - `brew install mysql`
 - 설치 완료 확인
@@ -101,4 +101,4 @@ excerpt_separator: <!--more-->
 출처
 - [맥 미니, 맥북, 우분투를 ssh 서버로 사용하기](https://dev-repository.tistory.com/m/96)
 - [맥 SSH/SFTP 포트 변경 방법](https://circumeo.tistory.com/33)
-- [MySQL | Mac에 MySQL 설치하기 (M1칩)](https://velog.io/@haleyjun/MySQL-Mac%EC%97%90-MySQL-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0-M1%EC%B9%A9)
+- [Mac에 MySQL 설치하기 (M1칩)](https://velog.io/@haleyjun/MySQL-Mac%EC%97%90-MySQL-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0-M1%EC%B9%A9)
