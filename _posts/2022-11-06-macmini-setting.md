@@ -6,7 +6,7 @@ categories: [Etc]
 excerpt_separator: <!--more-->
 ---
 매달 나가는 AWS 요금에 지쳐서 맥미니 서버를 샀다. <!--more--> 특히 DB 비용이 부담되기도 하고.. 앞으로 로컬 서버로 개인 프로젝트를 진행할 예정이다.
-클라우드를 아예 사용하지 않는 건 아니고, AWS `Lambda`, GCP `Cloud Function` 같은 Serverless 서비스는 장점이 많아 계속 사용할 것 같다.
+클라우드를 아예 사용하지 않는 건 아니고, AWS `Lambda`, GCP `Cloud Function` 같은 Serverless 서비스는 프리 티어 범위가 매우 넓어서 계속 사용할 것 같다.
 
 ---
 
