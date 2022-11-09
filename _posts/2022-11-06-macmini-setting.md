@@ -98,7 +98,7 @@ excerpt_separator: <!--more-->
 <br>
 
 ---
-출처
+#### 참고 문서
 - [맥 미니, 맥북, 우분투를 ssh 서버로 사용하기](https://dev-repository.tistory.com/m/96)
 - [맥 SSH/SFTP 포트 변경 방법](https://circumeo.tistory.com/33)
 - [Mac에 MySQL 설치하기 (M1칩)](https://velog.io/@haleyjun/MySQL-Mac%EC%97%90-MySQL-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0-M1%EC%B9%A9)
