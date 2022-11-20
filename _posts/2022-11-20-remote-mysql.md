@@ -64,7 +64,9 @@ excerpt_separator: <!--more-->
 ### python (pymysql)을 이용한 접속
 
 ```py
-data_mysql = {
+import pymysql, logging
+
+dbinfo = {
     'host': '111.222.123.123',
     'username': 'sulmasulma',
     'password': 'password',
