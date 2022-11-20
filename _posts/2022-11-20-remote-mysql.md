@@ -14,7 +14,7 @@ excerpt_separator: <!--more-->
 - 이 부분은 [How to install MySQL on Mac and Allow Remote Access](https://medium.com/@haydane/how-to-install-mysql-on-mac-and-allow-remote-access-b6c730aba09b) 참고
 
 - 원래 mysql이 설치되어 있는 환경에서 root 계정으로 접속
-  `mysql -u root -p`
+  - `mysql -u root -p`
 
 - remote 계정 생성
   ```sql
@@ -36,7 +36,7 @@ excerpt_separator: <!--more-->
   /etc/my.cnf /etc/mysql/my.cnf /opt/homebrew/etc/my.cnf ~/.my.cnf
   ```
 
-- `Homebrew`로 설치한 mysql의 경우 `/opt/homebrew/etc/my.cnf`에 해당함. 해당 파일을 열고 아래와 같이 수정
+- Homebrew로 설치한 mysql의 경우 `/opt/homebrew/etc/my.cnf`에 해당함. 해당 파일을 열고 아래와 같이 수정
   ```sh
   bind-address = 0.0.0.0
   ```
@@ -53,7 +53,7 @@ excerpt_separator: <!--more-->
 ### 3. 포트 포워딩 및 원격 접속
 
 - 포트 포워딩
-  - [지난 글](https://sulmasulma.github.io/etc/2022/11/06/macmini-setting.html)의 ssh 포트 포워딩과 유사하게, mysql 디폴트 포트 번호인 3306으로 포트 포워딩
+  - [지난 글](https://sulmasulma.github.io/etc/2022/11/06/macmini-setting.html)의 ssh 포트 포워딩과 같이, mysql 디폴트 포트 번호인 3306으로 포트 포워딩
 
 - 이제 mysql이 설치된 PC 말고, 원격 접속할 PC에서 mysql 접속
   ```sh
