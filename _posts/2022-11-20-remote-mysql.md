@@ -18,8 +18,8 @@ excerpt_separator: <!--more-->
 
 - remote 계정 생성
   ```sql
-  create user 'username'@'%' identified by 'password'; -- 계정 생성(%: 모든 ip에서 접속 가능)
-  grant all on *.* to 'matt'@'%'; -- 모든 db 접속 권한 부여
+  create user 'sulmasulma'@'%' identified by 'password'; -- 계정 생성(%: 모든 ip에서 접속 가능)
+  grant all on *.* to 'sulmasulma'@'%'; -- 모든 db 접속 권한 부여
   flush privileges; -- 권한 적용
   ```
 
