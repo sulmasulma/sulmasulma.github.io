@@ -11,7 +11,7 @@ excerpt_separator: <!--more-->
 
 ### 1. 원격 접속 사용자 생성
 
-- 이 부분은 [How to install MySQL on Mac and Allow Remote Access | by Hay Dane | Medium](https://medium.com/@haydane/how-to-install-mysql-on-mac-and-allow-remote-access-b6c730aba09b) 참고
+- 이 부분은 [How to install MySQL on Mac and Allow Remote Access](https://medium.com/@haydane/how-to-install-mysql-on-mac-and-allow-remote-access-b6c730aba09b) 참고
 
 - 원래 mysql이 설치되어 있는 환경에서 root 계정으로 접속
   `mysql -u root -p`
@@ -40,11 +40,11 @@ excerpt_separator: <!--more-->
   ```sh
   bind-address = 0.0.0.0
   ```
-  - 기본값은 127.0.0.1 -> localhost만 허용
-  - `0.0.0.0` -> 모든 IP 허용
+  - 기본값은 `127.0.0.1`: localhost만 허용
+  - `0.0.0.0`: 모든 IP 허용
 
 - 변경사항 적용 위해 서비스 재시작
-  `brew services restart mysql`
+  - `brew services restart mysql`
 
 <br>
 
@@ -102,5 +102,5 @@ except:
 
 ---
 #### 참고 문서
-- [How to install MySQL on Mac and Allow Remote Access | by Hay Dane | Medium](https://medium.com/@haydane/how-to-install-mysql-on-mac-and-allow-remote-access-b6c730aba09b)
+- [How to install MySQL on Mac and Allow Remote Access](https://medium.com/@haydane/how-to-install-mysql-on-mac-and-allow-remote-access-b6c730aba09b)
 - [mac brew에서 설치한 mysql my.cnf가 안먹을때 (tistory.com)](https://harrythegreat.tistory.com/entry/mac-brew%EC%97%90%EC%84%9C-%EC%84%A4%EC%B9%98%ED%95%9C-mysql-mycnf%EA%B0%80-%EC%95%88%EB%A8%B9%EC%9D%84%EB%95%8C)
