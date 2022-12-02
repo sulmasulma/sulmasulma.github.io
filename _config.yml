@@ -1,8 +1,8 @@
 # SITE CONFIGURATION
 baseurl: ""
 url: "https://sulmasulma.github.io"
-title: Matthew's Blog # site's title
-description: "Data Analysis" # used by search engines
+title: sulmasulma.io # site's title
+description: "Data Repository" # used by search engines
 # category_list: [ Data, Readings, Github Pages, Etc ]
 
 defaults:
