@@ -15,7 +15,7 @@ excerpt_separator: <!--more-->
 - 외부 기기에서 맥미니로 원격 접속을 위해 필요
 
 #### 포트 포워딩
-- [맥 미니, 맥북, 우분투를 ssh 서버로 사용하기](https://dev-repository.tistory.com/m/96) 참조
+- [맥 미니, 맥북, 우분투를 ssh 서버로 사용하기](https://dev-repository.tistory.com/96) 참조
 - 공유기 회사별로 설정 방법 다름
 - 난 머큐시스(Mercusys) 공유기
   1. [mwlogin.net](http://mwlogin.net/) 접속하여 Advanced로 들어감
@@ -99,6 +99,6 @@ excerpt_separator: <!--more-->
 
 ---
 #### 참고 문서
-- [맥 미니, 맥북, 우분투를 ssh 서버로 사용하기](https://dev-repository.tistory.com/m/96)
+- [맥 미니, 맥북, 우분투를 ssh 서버로 사용하기](https://dev-repository.tistory.com/96)
 - [맥 SSH/SFTP 포트 변경 방법](https://circumeo.tistory.com/33)
 - [Mac에 MySQL 설치하기 (M1칩)](https://velog.io/@haleyjun/MySQL-Mac%EC%97%90-MySQL-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0-M1%EC%B9%A9)
