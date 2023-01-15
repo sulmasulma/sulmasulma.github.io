@@ -98,6 +98,8 @@ def get_top_tracks_api(artist_id):
 - `album_name`: 해당 트랙 앨범명
 - `image_url`: 트랙 앨범 이미지(챗봇 표시용)
 
+<br>
+
 #### 2. Related Artists
 - [API 설명 문서](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-an-artists-related-artists)
 - 한 아티스트의 관련 아티스트들
