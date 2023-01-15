@@ -208,13 +208,18 @@ primary key(artist_id, related_id)
 - 새로 수집
 - artists 테이블에 없는 `related_id`에 해당하는 아티스트는 artists 테이블에도 동시에 적재한다.
 
+기존 아티스트의 정보를 위 3개 테이블에 넣었으며, 새로운 아티스트가 추가될 때에도 역시 3개 테이블에 적재된다.
+
 <br>
 
 ---
 
 ### 4. 기능 개선 사항
 
-기존에는 related_artists 데이터를 배치로 처리했다. 이럴 경우 다음 배치 주기까지 새로 추가된 아티스트의 연관 아티스트가 없게 되었다. 그래서 새로운 아티스트가 추가될 때마다 related_artists 데이터를 비동기로 추가했다. 이미 top_tracks 데이터를 새로 아티스트가 추가될 때마다 비동기로 추가하고 있었는데, 작업이 하나 더 생기게 된 것이다. AWS Lambda에서의 비동기 작업 방식에 대해서는 [카카오톡 챗봇 개선 과정](https://sulmasulma.github.io/data/2020/06/09/kakaotalk-chatbot-debug.html) 글에 적어 놓았다.
+기존에는 related_artists 데이터를 배치로 처리했다. 이럴 경우 다음 배치 주기까지 새로 추가된 아티스트의 연관 아티스트가 없게 되었다.
+그래서 새로운 아티스트가 추가될 때마다 related_artists 데이터를 비동기로 추가했다. 이미 top_tracks 데이터를 새로 아티스트가 추가될 때마다 비동기로 추가하고 있었는데, 작업이 하나 더 생기게 된 것이다.
+- AWS Lambda에서의 비동기 작업 방식에 대해서는 [카카오톡 챗봇 개선 과정](https://sulmasulma.github.io/data/2020/06/09/kakaotalk-chatbot-debug.html) 글에 적어 놓았다.
+- 챗봇 전체 코드는 [Github](https://github.com/sulmasulma/kakao-chatbot/blob/master/lambda/lambda_function.py)에 올려 놓았다.
 
 > 끝으로, 정말 별거 아니지만 취준때 만들어서 나름 애정이 가는 [아티스트봇](https://pf.kakao.com/_xgubvxb) 한번 사용해 보세요.
 
