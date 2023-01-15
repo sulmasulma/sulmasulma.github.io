@@ -14,9 +14,9 @@ excerpt_separator: <!--more-->
 
 목차는 다음과 같다.
 
-1. [DynamoDB 데이터 백업](#1-DynamoDB-데이터-백업)
-2. [Spotify API 데이터 수집](#2-Spotify-API-데이터-수집)
-3. [MySQL에 데이터 삽입](#3-MySQL에-데이터-삽입)
+1. [DynamoDB 데이터 백업](#1-dynamodb-데이터-백업)
+2. [Spotify API 데이터 수집](#2-spotify-api-데이터-수집)
+3. [MySQL에 데이터 삽입](#3-mysql에-데이터-삽입)
 4. [기능 개선 사항](#4-기능-개선-사항)
 
 ---
