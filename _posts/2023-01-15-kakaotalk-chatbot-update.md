@@ -14,10 +14,10 @@ excerpt_separator: <!--more-->
 
 목차는 다음과 같다.
 
-1. [DynamoDB 데이터 백업](#DynamoDB-데이터-백업)
-2. [Spotify API 데이터 수집](#Spotify-API-데이터-수집)
-3. [MySQL에 데이터 삽입](#MySQL에-데이터-삽입)
-4. [기능 개선 사항](#기능-개선-사항)
+1. [DynamoDB 데이터 백업](#1-DynamoDB-데이터-백업)
+2. [Spotify API 데이터 수집](#2-Spotify-API-데이터-수집)
+3. [MySQL에 데이터 삽입](#3-MySQL에-데이터-삽입)
+4. [기능 개선 사항](#4-기능-개선-사항)
 
 ---
 
@@ -59,7 +59,8 @@ artists['Items'] # 데이터 확인
 
 새로 수집할 Spotify API 데이터 목록은 다음과 같다.
 
-#### 1. [Top Tracks](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-an-artists-top-tracks)
+#### 1. Top Tracks
+- [API 설명 문서](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-an-artists-top-tracks)
 - 한 아티스트의 인기 트랙
 - key: artist id
 
@@ -97,7 +98,8 @@ def get_top_tracks_api(artist_id):
 - `album_name`: 해당 트랙 앨범명
 - `image_url`: 트랙 앨범 이미지(챗봇 표시용)
 
-#### 2. [Related Artists](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-an-artists-related-artists)
+#### 2. Related Artists
+- [API 설명 문서](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-an-artists-related-artists)
 - 한 아티스트의 관련 아티스트들
 - key: artist id
 
