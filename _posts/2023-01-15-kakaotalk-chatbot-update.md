@@ -9,6 +9,8 @@ excerpt_separator: <!--more-->
 
 맥미니 서버를 산 이유 중 하나이기도 한데, 내 로컬 서버에서 자유롭게 DB를 운영하고 챗봇 데이터도 이 DB를 이용하고자 했다. 그래서 이번 글에서는 로컬 MySQL을 사용한 부분과 소소한 챗봇 변경 사항에 대해서 다루고자 한다. 이제 서버는 클라우드, DB는 로컬을 이용하는 하이브리드 서비스가 되었다.
 
+![architecture](/assets/20230115-1-architecture.png)
+
 참고로 MySQL 세팅 방법은 [MySQL 원격 접속 허용하기
 ](https://sulmasulma.github.io/etc/2022/11/20/remote-mysql.html) 글에 적어 놓았다.
 
