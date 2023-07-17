@@ -49,13 +49,13 @@ excerpt_separator: <!--more-->
 - 설치 완료 후 나오는 추가 명령 실행
   ![logo](/assets/20221106-1-homebrew.png)
   ```sh
-  echo '# Set PATH, MANPATH, etc., for Homebrew.' >> /Users/matthew/.zprofile
-  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/matthew/.zprofile
+  echo '# Set PATH, MANPATH, etc., for Homebrew.' >> /Users/{username}/.zprofile
+  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/{username}/.zprofile
   eval "$(/opt/homebrew/bin/brew shellenv)"
   ```
 - 설치 확인
   ```
-  matthew@imataeui-Macmini ~ % brew -v
+  {username}@imataeui-Macmini ~ % brew -v
   Homebrew 3.6.8
   Homebrew/homebrew-core (git revision 9acf969c74a; last commit 2022-11-04)
   ```
