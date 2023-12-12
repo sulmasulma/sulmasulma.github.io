@@ -5,7 +5,7 @@ tags: [seminar]
 categories: [Etc]
 excerpt_separator: <!--more-->
 ---
-늦었지만 [데이터야놀자 2023](https://event-us.kr/datayanolja2020/event/71715)에서 들은 내용과 후기를 올려본다.<!--more-->
+늦었지만 10월 14일 [데이터야놀자 2023](https://event-us.kr/datayanolja2020/event/71715)에서 들은 내용과 후기를 올려본다.<!--more-->
 
 ![logo](https://eventusstorage.blob.core.windows.net/evs/Image/datayanolja2020/71715/ProjectInfo/Cover/67af97521a024d2185b992644d18c48d.png)
 
@@ -214,7 +214,8 @@ excerpt_separator: <!--more-->
 
 ### 후기
 
-
+올해 공부나 프로젝트에 굉장히 소홀한 상태였는데, 자극제가 되는 시간이었다. 데이터야놀자 후기 글도 당일날 메모해 놓고, 두 달이 지나서야 블로그 글을 썼다. 행사 당일만 자극됐지, 막상 두 달 간은 다시 일상으로 돌아갔다.
+프로젝트 마무리를 [맹그로브 고성](https://mangrove.city/locations/goseong/)에서 워케이션으로 할 계획이다. 변성윤님의 데이터야놀자 강의도 그렇고, [워케이션 글](https://zzsza.github.io/awesome-workaction/goseong/base.html)이 자극이 되었다. 내년 1월 말에 가려고 하는데, 그 때까지 프로젝트 과제들을 어느 정도 해 놓고, 워케이션 가서 집중적으로 마무리 하려고 한다. 입사 후에 이런저런 핑계로 운동 외에 별로 이룬 것이 없었는데, 이번 기회에 반드시 프로젝트를 끝내야겠다. 공부하는 습관도 다시 찾기를 바란다.
 
 <br>
 
